@@ -16,6 +16,7 @@ function Engine() {
     
     this.playerMoveIntervalId = null;
     
+    // Charge le fichier représentant la map
     this.loadMap = function(mapName) {
         $.ajax({
             type: "GET",
@@ -28,6 +29,7 @@ function Engine() {
         });
     }
     
+    // Initialise la partie
     this.initializeGame = function(jsonObject) {
         
         this.buildMapModel(jsonObject);  
@@ -54,6 +56,7 @@ function Engine() {
         this.render();
     }
     
+    // Exécute le rendu du jeu
     this.render = function() {
         
         this.canvasContext.clearRect(0, 0, 1000, 400);
@@ -65,16 +68,19 @@ function Engine() {
         this.canvasContext.drawImage(this.canvasBuffer, 0, 0);
     }
     
+    // Exécute le rendu de la vue de la map
     this.renderMap = function() {
         this.map.view.draw(this.canvasBufferContext);
     }
     
+    // Exécute le rendu de la vue des joueurs
     this.renderPlayers = function() {
         for(var i = 0; i < this.players.length; i++) {
             this.players[i].draw(this.canvasBufferContext);
         }        
     }
     
+    // Construit le modèle de la map grâce au JSON
     this.buildMapModel = function(map) {
         
         var planet;
@@ -114,11 +120,13 @@ function Map() {
     this.canvas = null;
     this.planets = new Array();
     
+    // Initialise la map
     this.initialize = function(planets) {
         
         this.planets = planets;       
     }
-
+    
+    // Dessine la vue de la map
     this.draw = function(canvasContext) {
         
         for(var i in this.planets) {
@@ -131,6 +139,7 @@ function Map() {
         }
     }
     
+    // Dessine les liens entre les planètes
     this.drawRelation = function(canvasContext, planetSource, planetDest) {
         canvasContext.beginPath();
         canvasContext.moveTo(planetSource.x + 15, planetSource.y + 7.5);
@@ -149,6 +158,7 @@ function Planet() {
     this.y = 0;
     this.boundPlanets = [];    
     
+    // Dessine la vue de la planète
     this.draw = function(canvasContext) {
         canvasContext.beginPath();
         canvasContext.fillStyle = this.getColorZone();
@@ -159,6 +169,7 @@ function Planet() {
         canvasContext.closePath();
     }
     
+    // Donne la couleur en fonction de la zone de la planète
     this.getColorZone = function() {
         switch(this.type) {
             case "threat-a" :
@@ -183,6 +194,7 @@ function Player() {
     this.y = 0;
     this.planet = null;
     
+    // Dessine la vue du joueur
     this.draw  = function(canvasContext) {
     
         canvasContext.beginPath();
@@ -191,19 +203,25 @@ function Player() {
         canvasContext.closePath();        
     }
     
+    // Déplace le joueur sur une aurte planète
     this.move = function(planetDest, playerMoveIntervalId) {
+        
+        // distance entre deux points
         var distance = Math.sqrt(Math.pow(planetDest.y - this.planet.y, 2) + Math.pow(planetDest.x - this.planet.x, 2));
 
-        var speed = 25 * distance / 1500; // in pixel / tick
+        // la vitesse à laquelle se déplace la vue du joueur
+        var speed = 25 * distance / 1500; // en pixel / tick
         
+        // le coefficient directeur de la droite
         var coeff = (planetDest.y - this.planet.y) / (planetDest.x - this.planet.x);
         if((planetDest.x - this.planet.x) == 0) {
             coeff = 1;
         }
         
+        // la variable d'ajustement de l'équation de la droite
         var adjust = this.y - this.x * coeff;
             
-        var direction;
+        var direction; // la direction du déplacement
         if(planetDest.x > this.planet.x || planetDest.y > this.planet.y) {
             direction = 1;
         }
@@ -211,6 +229,7 @@ function Player() {
             direction = -1;
         }
 
+        // si l'équation de la droite est du type y = A on ne fait varier que le paramètre y
         if(coeff != 1) {
             this.x = this.x + speed * direction;
             this.y = this.x * coeff + adjust;
@@ -231,6 +250,7 @@ function Player() {
         }
     }
     
+    // Affecte une nouvelle planète au joueur
     this.setPlanet = function(planetDest) {
         this.x = planetDest.x;
         this.y = planetDest.y;
