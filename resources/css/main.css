@@ -1,0 +1,19 @@
+#map {    
+    border: 1px solid #000;
+    margin: auto;
+    position: relative;
+}
+
+
+.planets {
+    height: 15px;
+    width: 15px;
+    
+    background-color: red;
+    position: absolute;
+}
+
+.threat-a { background-color: red; }
+.threat-b { background-color: blue; }
+.threat-c { background-color: yellow; }
+.threat-d { background-color: green; }
