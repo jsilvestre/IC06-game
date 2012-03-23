@@ -42,7 +42,7 @@
         {
             "id" : "p7",            
             "name" : "planet 7 name",
-            "zone " : "threat-c",
+            "zone" : "threat-c",
             "pos" : { "x" : 50, "y" : 150 }
         }
     ],
