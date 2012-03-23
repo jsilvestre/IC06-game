@@ -2,18 +2,17 @@
     border: 1px solid #000;
     margin: auto;
     position: relative;
+    float: left;
 }
 
-
-.planets {
-    height: 15px;
-    width: 15px;
-    
-    background-color: red;
-    position: absolute;
+#planet-info {
+    border: 1px solid #000;
+    width: 200px;
+    margin-left: 25px;
+    height: 250px;
+    float: left;
 }
 
-.threat-a { background-color: red; }
-.threat-b { background-color: blue; }
-.threat-c { background-color: yellow; }
-.threat-d { background-color: green; }
+.alternative-content {
+    display: none;
+}

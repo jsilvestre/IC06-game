@@ -59,7 +59,7 @@ function Engine() {
         var player = new Player();
         player.id = 0;
         player.name = "Joseph";
-        player.planet = this.map.planets[2];
+        player.planet = this.map.planets[4];
         player.x = player.planet.x;
         player.y = player.planet.y;
         this.players.push(player);
@@ -117,7 +117,12 @@ function Engine() {
     }
     
     this.movePlayer = function() {
-        this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, Config.moveInterval, this, this.map.planets["p1"]);
+        if(this.selectedPlanet != null) {
+            this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, 
+                                        Config.moveInterval, 
+                                        this, 
+                                        this.selectedPlanet);
+        }
     }
     
     this.executeMove = function(planetDest) {
@@ -155,5 +160,24 @@ function Engine() {
         }
         
         this.selectedPlanet = planetFound;
+        
+        this.updateCurrentPlanetInfo();
+    }
+    
+    this.updateCurrentPlanetInfo = function() {
+        
+        var div = $('#planet-info .alternative-content');
+        var p = this.selectedPlanet;
+        
+        if(this.selectedPlanet != null) {
+            $('.default-content').hide();
+            var html = '<p>Nom : ' + p.name + '</p><p>Zone : ' + p.zone + '</p>';
+            div.find('.info').html(html);
+            div.show();
+        }
+        else {
+            div.hide();
+            $('.default-content').show();
+        }
     }
 }

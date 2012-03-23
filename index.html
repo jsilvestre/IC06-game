@@ -24,6 +24,10 @@
             $('#map').click(function(event) { 
                 engine.selectPlanet(event);               
             });
+            
+            $('#move').click(function() {
+               engine.movePlayer(); 
+            });
         });
     </script>
 </head>
@@ -32,6 +36,19 @@
     <canvas id="map" width="1000" height="400">
         Canvas not supported.
     </canvas>
+    
+    <div id="planet-info">
+        <p class="default-content">Veuillez sélectionner une planète</p>
+        <div class="alternative-content">
+            <div class="info">
+                
+            </div>
+            <div class="action">
+                <a id="move" href="#">Se déplacer</a>
+            </div>          
+        </p>
+    </div>
+    
 </body>
 
 </html>
