@@ -96,7 +96,7 @@ function Engine() {
             planet = new Planet();
             planet.id = map.planets[i].id;
             planet.name = map.planets[i].name;
-            planet.type = map.planets[i].type;
+            planet.zone = map.planets[i].zone;
             planet.x = map.planets[i].pos.x;
             planet.y = map.planets[i].pos.y;
             
@@ -169,7 +169,7 @@ function Planet() {
     
     this.id = "";
     this.name = "";
-    this.type = "";
+    this.zone = "";
     this.x = 0;
     this.y = 0;
     this.boundPlanets = [];    
