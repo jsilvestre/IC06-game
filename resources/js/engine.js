@@ -5,6 +5,8 @@ var Config = {
     moveTime : 1500, // le temps qu'un déplacement doit durer en ms
     
     LIMIT_DRAW_VERTICAL : 50, // le nombre minimum entre deux planètes liés en px (pour la liaison classique)
+    
+    PLANET_HITBOX : 15
 };
 
 function Engine() {
@@ -13,6 +15,8 @@ function Engine() {
         "view" : null,
         "planets" : []
     };
+    
+    this.selectedPlanet = null;
     
     this.players = [];
     
@@ -59,7 +63,7 @@ function Engine() {
         player.x = player.planet.x;
         player.y = player.planet.y;
         this.players.push(player);
-
+    
         this.render();
     }
     
@@ -150,14 +154,38 @@ function Map() {
     this.drawRelation = function(canvasContext, planetSource, planetDest) {
         canvasContext.beginPath();
         
+        var additionner = [0, 0];
+        
         // si la distance entre les deux planètes est trop petite, on dessine le trait verticalement
         if(Math.abs(planetSource.x - planetDest.x) < Config.LIMIT_DRAW_VERTICAL) {
-            canvasContext.moveTo(planetSource.x + 7.5, planetSource.y + 15);
-            canvasContext.lineTo(planetDest.x + 7.5, planetDest.y);            
+            
+            // permet de supprimer la notion d'ordre dans les relations (JSON)
+            if(planetSource.y - planetDest.y <= 0) {
+                additionner[0] = Config.PLANET_HITBOX;
+                additionner[1] = 0;
+            }
+            else {
+                additionner[0] = 0;
+                additionner[1] = Config.PLANET_HITBOX;
+            }
+            
+            canvasContext.moveTo(planetSource.x + Config.PLANET_HITBOX / 2, planetSource.y + additionner[0]);
+            canvasContext.lineTo(planetDest.x + Config.PLANET_HITBOX / 2, planetDest.y + additionner[1]);
         }
         else {
-            canvasContext.moveTo(planetSource.x + 15, planetSource.y + 7.5);
-            canvasContext.lineTo(planetDest.x, planetDest.y + 7.5);
+
+            // permet de supprimer la notion d'ordre dans les relations (JSON)
+            if(planetSource.x - planetDest.x <= 0) {
+                additionner[0] = Config.PLANET_HITBOX;
+                additionner[1] = 0;
+            }
+            else {
+                additionner[0] = 0;
+                additionner[1] = Config.PLANET_HITBOX;
+            }            
+            
+            canvasContext.moveTo(planetSource.x + additionner[0], planetSource.y + Config.PLANET_HITBOX / 2);
+            canvasContext.lineTo(planetDest.x + additionner[1], planetDest.y + Config.PLANET_HITBOX / 2);
         }
 
         canvasContext.stroke();
@@ -172,13 +200,13 @@ function Planet() {
     this.zone = "";
     this.x = 0;
     this.y = 0;
-    this.boundPlanets = [];    
+    this.boundPlanets = [];
     
     // Dessine la vue de la planète
     this.draw = function(canvasContext) {
         canvasContext.beginPath();
         canvasContext.fillStyle = this.getColorZone();
-        canvasContext.fillRect(this.x, this.y, 15, 15);
+        canvasContext.fillRect(this.x, this.y, Config.PLANET_HITBOX, Config.PLANET_HITBOX);
         
         canvasContext.fillStyle = "#000";
         canvasContext.fillText(this.name, this.x - 15, this.y + 30);
