@@ -1,8 +1,10 @@
 var Config = {
     
     
-    moveInterval : 25,
-    moveTime : 1500, // le nombre de millisecondes qu'un déplacement doit durer
+    moveInterval : 25, // l'interval entre deux tick pour le déplacement en ms
+    moveTime : 1500, // le temps qu'un déplacement doit durer en ms
+    
+    LIMIT_DRAW_VERTICAL : 50, // le nombre minimum entre deux planètes liés en px (pour la liaison classique)
 };
 
 function Engine() {
@@ -109,7 +111,7 @@ function Engine() {
     }
     
     this.movePlayer = function() {
-        this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, Config.moveInterval, this, this.map.planets["p5"]);
+        this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, Config.moveInterval, this, this.map.planets["p1"]);
     }
     
     this.executeMove = function(planetDest) {
@@ -147,8 +149,17 @@ function Map() {
     // Dessine les liens entre les planètes
     this.drawRelation = function(canvasContext, planetSource, planetDest) {
         canvasContext.beginPath();
-        canvasContext.moveTo(planetSource.x + 15, planetSource.y + 7.5);
-        canvasContext.lineTo(planetDest.x, planetDest.y + 7.5);
+        
+        // si la distance entre les deux planètes est trop petite, on dessine le trait verticalement
+        if(Math.abs(planetSource.x - planetDest.x) < Config.LIMIT_DRAW_VERTICAL) {
+            canvasContext.moveTo(planetSource.x + 7.5, planetSource.y + 15);
+            canvasContext.lineTo(planetDest.x + 7.5, planetDest.y);            
+        }
+        else {
+            canvasContext.moveTo(planetSource.x + 15, planetSource.y + 7.5);
+            canvasContext.lineTo(planetDest.x, planetDest.y + 7.5);
+        }
+
         canvasContext.stroke();
         canvasContext.closePath();        
     }
