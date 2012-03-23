@@ -1,4 +1,9 @@
-var jsonMap = "{title : 'My test map'}";
+var Config = {
+    
+    
+    moveInterval : 25,
+    moveTime : 1500, // le nombre de millisecondes qu'un déplacement doit durer
+};
 
 function Engine() {
     
@@ -104,7 +109,7 @@ function Engine() {
     }
     
     this.movePlayer = function() {
-        this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, 25, this, this.map.planets["p5"]);
+        this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, Config.moveInterval, this, this.map.planets["p5"]);
     }
     
     this.executeMove = function(planetDest) {
@@ -171,7 +176,7 @@ function Planet() {
     
     // Donne la couleur en fonction de la zone de la planète
     this.getColorZone = function() {
-        switch(this.type) {
+        switch(this.zone) {
             case "threat-a" :
                 return "red";
             case "threat-b":
@@ -210,7 +215,7 @@ function Player() {
         var distance = Math.sqrt(Math.pow(planetDest.y - this.planet.y, 2) + Math.pow(planetDest.x - this.planet.x, 2));
 
         // la vitesse à laquelle se déplace la vue du joueur
-        var speed = 25 * distance / 1500; // en pixel / tick
+        var speed = Config.moveInterval * distance / Config.moveTime; // en pixel / tick
         
         // le coefficient directeur de la droite
         var coeff = (planetDest.y - this.planet.y) / (planetDest.x - this.planet.x);
