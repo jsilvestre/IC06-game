@@ -6,7 +6,7 @@ var Config = {
     
     LIMIT_DRAW_VERTICAL : 50, // le nombre minimum entre deux planètes liés en px (pour la liaison classique)
     
-    PLANET_HITBOX : 15
+    PLANET_HITBOX : 20
 };
 
 function Engine() {
@@ -124,6 +124,36 @@ function Engine() {
         
         this.render();
     }
+    
+    this.selectPlanet = function(event) {
+        
+        var x = event.pageX - event.target.offsetLeft | event.offsetX;
+        var y = event.pageY - event.target.offsetTop | event.offsetY;
+
+        var planetFound;
+        
+        planetFound = this.map.view.searchPlanet(x, y);
+        
+        if(planetFound != null) {
+            
+            if(this.selectedPlanet != null && this.selectedPlanet != planetFound) {
+                this.selectedPlanet.isSelected = false;
+            }
+
+            planetFound.isSelected = true;
+        }
+        else {
+            if(this.selectedPlanet != null) {
+                this.selectedPlanet.isSelected = false;
+            }
+        }
+        
+        if(this.selectedPlanet != null || planetFound != null) {
+            this.render();
+        }
+        
+        this.selectedPlanet = planetFound;
+    }
 }
 
 function Map() {
@@ -191,6 +221,17 @@ function Map() {
         canvasContext.stroke();
         canvasContext.closePath();        
     }
+    
+    this.searchPlanet = function(x, y) {
+        for(var i in this.planets) {
+            if(this.planets[i].x <= x && this.planets[i].x + Config.PLANET_HITBOX >= x &&
+               this.planets[i].y <= y && this.planets[i].y + Config.PLANET_HITBOX >= y) {
+                return this.planets[i];
+            }
+        }
+        
+        return null;
+    }
 }
 
 function Planet() {
@@ -205,6 +246,12 @@ function Planet() {
     // Dessine la vue de la planète
     this.draw = function(canvasContext) {
         canvasContext.beginPath();
+        
+        if(this.isSelected) {
+            canvasContext.fillStyle = "#000";
+            canvasContext.fillRect(this.x - 5, this.y - 5, Config.PLANET_HITBOX + 10, Config.PLANET_HITBOX + 10);
+        }
+        
         canvasContext.fillStyle = this.getColorZone();
         canvasContext.fillRect(this.x, this.y, Config.PLANET_HITBOX, Config.PLANET_HITBOX);
         
@@ -237,6 +284,7 @@ function Player() {
     this.x = 0;
     this.y = 0;
     this.planet = null;
+    this.isSelected = false;
     
     // Dessine la vue du joueur
     this.draw  = function(canvasContext) {
