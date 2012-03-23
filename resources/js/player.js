@@ -35,7 +35,7 @@ function Player() {
         var adjust = this.y - this.x * coeff;
             
         var direction; // la direction du déplacement
-        if(planetDest.x > this.planet.x || planetDest.y > this.planet.y) {
+        if(planetDest.x > this.planet.x || (planetDest.x == this.planet.x && planetDest.y > this.planet.y)) {
             direction = 1;
         }
         else {
