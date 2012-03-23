@@ -7,8 +7,11 @@
     
     <link rel="stylesheet" media="all" href="resources/css/main.css" />
     
-    <script type="text/javascript" src="resources/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="resources/js/jquery-1.7.1.min.js"></script>    
     <script type="text/javascript" src="resources/js/engine.js"></script>
+    <script type="text/javascript" src="resources/js/map.js"></script>
+    <script type="text/javascript" src="resources/js/planet.js"></script>
+    <script type="text/javascript" src="resources/js/player.js"></script>
     
     
     <script type="text/javascript">
@@ -18,9 +21,8 @@
 
             engine.loadMap("test");
             
-            $('#map').click(function() {           
-               engine.movePlayer();
-               
+            $('#map').click(function(event) { 
+                engine.selectPlanet(event);               
             });
         });
     </script>
