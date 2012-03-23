@@ -59,11 +59,10 @@ function Engine() {
         var player = new Player();
         player.id = 0;
         player.name = "Joseph";
-        player.planet = this.map.planets["p2"];
+        player.planet = this.map.planets[2];
         player.x = player.planet.x;
         player.y = player.planet.y;
         this.players.push(player);
-    
         this.render();
     }
     
@@ -108,10 +107,13 @@ function Engine() {
                 if(map.relations[j][0] == planet.id) {
                     planet.boundPlanets.push(map.relations[j][1]);
                 }
+                else if(map.relations[j][1] == planet.id) {
+                    planet.boundPlanets.push(map.relations[j][0]);
+                }
             }
 
             this.map.planets[planet.id] = planet;
-        }        
+        }
     }
     
     this.movePlayer = function() {
@@ -170,12 +172,18 @@ function Map() {
     // Dessine la vue de la map
     this.draw = function(canvasContext) {
         
+        var splitTmp1, splitTmp2;
+        
         for(var i in this.planets) {
-            this.planets[i].draw(canvasContext); // draw the planet
+            this.planets[i].draw(canvasContext); // dessine la planète
             
-            // draw the relationship between this planet and others
+            // dessines les relations entre cette planète et les autres
             for(var j = 0; j < this.planets[i].boundPlanets.length; j++) {
-                this.drawRelation(canvasContext, this.planets[i], this.planets[this.planets[i].boundPlanets[j]]);
+                
+                // évite de dessiner deux fois la relation. Seulement vrai si lors de la création du modèle on respecte l'ordre
+                if(this.planets[i].id <  this.planets[i].boundPlanets[j]) {
+                    this.drawRelation(canvasContext, this.planets[i], this.planets[this.planets[i].boundPlanets[j]]);
+                }
             }
         }
     }
