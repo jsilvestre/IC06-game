@@ -1,6 +1,6 @@
 var Config = {
     
-    TURN_DURATION : 30000,  // durée d'un tour en ms
+    TURN_DURATION : 10000,  // durée d'un tour en ms
     
     moveInterval : 25, // l'interval entre deux tick pour le déplacement en ms
     moveTime : 1500, // le temps qu'un déplacement doit durer en ms
@@ -20,6 +20,9 @@ function Engine() {
     this.selectedPlanet = null;
     
     this.players = [];
+    this.currentPlayer = 0;
+    
+    this.nbTurns = 0;
     
     this.canvas = null;
     this.canvasContext = null;
@@ -61,6 +64,12 @@ function Engine() {
         this.map.view = new Map();
         this.map.view.initialize(this.map.planets);
         
+        this.initializePlayers();       
+        
+        this.render();
+    }
+    
+    this.initializePlayers = function() {
         var player = new Player();
         player.id = 0;
         player.name = "Joseph";
@@ -68,7 +77,27 @@ function Engine() {
         player.x = player.planet.x;
         player.y = player.planet.y;
         this.players.push(player);
-        this.render();
+    
+        player = new Player();
+        player.id = 1;
+        player.name = "Player2";
+        player.planet = this.map.planets[2];
+        player.x = player.planet.x;
+        player.y = player.planet.y;
+        this.players.push(player);
+        
+        
+        player = new Player();
+        player.id = 2;
+        player.name = "Player3";
+        player.planet = this.map.planets[3];
+        player.x = player.planet.x;
+        player.y = player.planet.y;
+        this.players.push(player);
+        
+        this.currentPlayer = 0;
+        
+        this.updatePlayerList()
     }
     
     // Exécute le rendu du jeu
@@ -132,7 +161,7 @@ function Engine() {
     
     this.executeMove = function(planetDest) {
     
-        this.players[0].move(planetDest, this.playerMoveIntervalId);
+        this.players[this.currentPlayer].move(planetDest, this.playerMoveIntervalId);
         
         this.render();
     }
@@ -170,11 +199,28 @@ function Engine() {
     }
     
     this.startGame = function() {
-        this.newTurn();
+        this.currentPlayer = -1; // so the first player plays the first.
+        this.newPlayerTurn();
     }
     
-    this.newTurn = function() {
+    this.newPlayerTurn = function() {
         console.log('new turn');
+        
+        // the next player is selected
+        if(this.currentPlayer >= 0) {
+            this.players[this.currentPlayer].isPlaying = false;
+        }
+        
+        if(this.currentPlayer < this.players.length - 1) {
+            this.currentPlayer++;
+        }
+        else { // if the turn is over, we start it again
+            this.currentPlayer = 0;
+            this.nbTurn++;
+        }
+        this.players[this.currentPlayer].isPlaying = true;
+        
+        this.updatePlayerList();
         
         // start the timer
         clearInterval(this.timerIntervalid);
@@ -183,7 +229,7 @@ function Engine() {
         
         
         
-        this.gameTurnIntervalId = setTimeout(function(that) { that.newTurn(); }, Config.TURN_DURATION, this);
+        this.gameTurnIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.TURN_DURATION, this);
     }
     
     this.updateTimer = function() {
@@ -207,6 +253,24 @@ function Engine() {
         else {
             div.hide();
             $('.default-content').show();
+        }
+    }
+    
+    this.updatePlayerList = function() {
+        
+        var div = $('#playerList');
+        div.html('');
+        
+        var tmpAdded;
+        
+        for(var i = 0; i < this.players.length; i++) {
+            tmpAdded = $('<li>' + this.players[i].name + '</li>');
+            
+            if(this.players[i].isPlaying) {
+                tmpAdded.addClass('isPlaying');
+            }
+            
+            div.append(tmpAdded) ;
         }
     }
 }

@@ -5,7 +5,7 @@ function Player() {
     this.x = 0;
     this.y = 0;
     this.planet = null;
-    this.isSelected = false;
+    this.isPlaying = false;
     
     // Dessine la vue du joueur
     this.draw  = function(canvasContext) {

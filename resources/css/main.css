@@ -21,6 +21,10 @@
     float: left;
 }
 
+#playerList .isPlaying {
+    font-weight: bold;
+}
+
 .alternative-content {
     display: none;
 }
