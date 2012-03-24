@@ -28,6 +28,11 @@
             $('#move').click(function() {
                engine.movePlayer(); 
             });
+            
+            $('#startGame').click(function () {
+               engine.startGame(); 
+               $('#startGame').unbind('click');
+            });
         });
     </script>
 </head>
@@ -38,6 +43,7 @@
     </canvas>
     
     <div id="planet-info">
+        <p id="turnTimer">Tour suivant dans <span>X</span> secondes</p>
         <p class="default-content">Veuillez sélectionner une planète</p>
         <div class="alternative-content">
             <div class="info">
@@ -46,7 +52,13 @@
             <div class="action">
                 <a id="move" href="#">Se déplacer</a>
             </div>          
-        </p>
+        </div>
+    </div>
+    
+    <div id="off-menu">
+        <ul>
+            <li><a id="startGame" href="#">Démarrer le jeu</a></li>
+        </ul>
     </div>
     
 </body>

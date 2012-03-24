@@ -1,5 +1,6 @@
 var Config = {
     
+    TURN_DURATION : 30000,  // durée d'un tour en ms
     
     moveInterval : 25, // l'interval entre deux tick pour le déplacement en ms
     moveTime : 1500, // le temps qu'un déplacement doit durer en ms
@@ -26,6 +27,10 @@ function Engine() {
     this.canvasBufferContenxt = null;
     
     this.playerMoveIntervalId = null;
+    this.gameTurnIntervalId = null;
+    this.timerIntervalId = null;
+    
+    this.newTurnDate = null;
     
     // Charge le fichier représentant la map
     this.loadMap = function(mapName) {
@@ -162,6 +167,30 @@ function Engine() {
         this.selectedPlanet = planetFound;
         
         this.updateCurrentPlanetInfo();
+    }
+    
+    this.startGame = function() {
+        this.newTurn();
+    }
+    
+    this.newTurn = function() {
+        console.log('new turn');
+        
+        // start the timer
+        clearInterval(this.timerIntervalid);
+        this.newTurnDate = Math.round(new Date().getTime() / 1000);
+        this.timerIntervalId = setInterval(function(that) { that.updateTimer(); }, 1000, this);
+        
+        
+        
+        this.gameTurnIntervalId = setTimeout(function(that) { that.newTurn(); }, Config.TURN_DURATION, this);
+    }
+    
+    this.updateTimer = function() {
+        var currentTime = Math.round(new Date().getTime() / 1000);
+        var counter = Math.max(0, this.newTurnDate + (Config.TURN_DURATION / 1000) - currentTime);
+        
+        $('#turnTimer span').html(counter);
     }
     
     this.updateCurrentPlanetInfo = function() {
