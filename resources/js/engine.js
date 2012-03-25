@@ -1,6 +1,7 @@
 var Config = {
     
     TURN_DURATION : 10000,  // durée d'un tour en ms
+    TIME_BETWEEN_TURN : 5000, // durée entre deux tours
     
     moveInterval : 25, // l'interval entre deux tick pour le déplacement en ms
     moveTime : 1500, // le temps qu'un déplacement doit durer en ms
@@ -220,7 +221,7 @@ function Engine() {
     }
     
     this.newPlayerTurn = function() {
-    
+        
         // the next player is selected
         if(this.currentPlayer >= 0) {
             this.players[this.currentPlayer].isPlaying = false;
@@ -237,23 +238,45 @@ function Engine() {
         
         this.updatePlayerList();
         
+        // timer between two turns
+        this.updateTimerWrapper(this.players[this.currentPlayer].name + "'s turn will start in ");
+        this.startTimer(Math.round(new Date().getTime() / 1000), Config.TIME_BETWEEN_TURN / 1000);
+        // "sleep Config.TIME_BETWEEN_TURN / 1000 seconds"
+        
         this.log(this.players[this.currentPlayer].name + "'s turn has started.");
-        
-        // start the timer
-        clearInterval(this.timerIntervalid);
+
+        // start the timer for the turn
+        this.updateTimerWrapper("The turn will end in ");
         this.newTurnDate = Math.round(new Date().getTime() / 1000);
-        this.timerIntervalId = setInterval(function(that) { that.updateTimer(); }, 1000, this);
+        this.startTimer(this.newTurnDate, Config.TURN_DURATION / 1000);
         
-        
-        
-        this.gameTurnIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.TURN_DURATION, this);
+        if(this.gameIntervalId == null) {
+            this.gameTurnIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.TURN_DURATION, this);
+        }
     }
     
-    this.updateTimer = function() {
+    this.startTimer = function(startDate, duration) {
+        
+        this.updateTimer(startDate, duration);
+        
+        clearInterval(this.timerIntervalid);        
+        this.timerIntervalId = setInterval(function(that, dateStart, duration) { that.updateTimer(dateStart, duration); }, 1000, 
+                                            this, 
+                                            startDate,
+                                            duration);        
+    }
+    
+    this.updateTimer = function(dateStart, duration) {
         var currentTime = Math.round(new Date().getTime() / 1000);
-        var counter = Math.max(0, this.newTurnDate + (Config.TURN_DURATION / 1000) - currentTime);
+        var counter = Math.max(0, dateStart + duration - currentTime);
         
         $('#turnTimer span').html(counter);
+    }
+    
+    this.updateTimerWrapper = function(value) {
+        var currentTimeView = $('#turnTimer span');
+        
+        $('#turnTimer').html(value + '<span>' + currentTimeView.html() + '</span>');
     }
     
     this.updateCurrentPlanetInfo = function() {
