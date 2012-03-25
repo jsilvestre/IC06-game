@@ -35,6 +35,7 @@ function Engine() {
     this.playerMoveIntervalId = null;
     this.gameTurnIntervalId = null;
     this.timerIntervalId = null;
+    this.tempoPlayerTurnInterval = null;
     
     this.newTurnDate = null;
     
@@ -140,31 +141,6 @@ function Engine() {
         }        
     }
     
-    // Construit le modèle de la map grâce au JSON
-    this.buildMapModel = function(map) {
-        
-        var planet;
-        
-        for(var i = 0; i < map.planets.length; i++) {
-            planet = new Planet();
-            planet.id = map.planets[i].id;
-            planet.name = map.planets[i].name;
-            planet.zone = map.planets[i].zone;
-            planet.x = map.planets[i].pos.x;
-            planet.y = map.planets[i].pos.y;
-            
-            for(var j = 0; j < map.relations.length; j++) {
-                if(map.relations[j][0] == planet.id) {
-                    planet.boundPlanets.push(map.relations[j][1]);
-                }
-                else if(map.relations[j][1] == planet.id) {
-                    planet.boundPlanets.push(map.relations[j][0]);
-                }
-            }
-
-            this.map.planets[planet.id] = planet;
-        }
-    }
     
     this.movePlayer = function() {
         if(this.selectedPlanet != null) {
@@ -213,6 +189,32 @@ function Engine() {
         this.selectedPlanet = planetFound;
         
         this.updateCurrentPlanetInfo();
+    }    
+    
+    // Construit le modèle de la map grâce au JSON
+    this.buildMapModel = function(map) {
+        
+        var planet;
+        
+        for(var i = 0; i < map.planets.length; i++) {
+            planet = new Planet();
+            planet.id = map.planets[i].id;
+            planet.name = map.planets[i].name;
+            planet.zone = map.planets[i].zone;
+            planet.x = map.planets[i].pos.x;
+            planet.y = map.planets[i].pos.y;
+            
+            for(var j = 0; j < map.relations.length; j++) {
+                if(map.relations[j][0] == planet.id) {
+                    planet.boundPlanets.push(map.relations[j][1]);
+                }
+                else if(map.relations[j][1] == planet.id) {
+                    planet.boundPlanets.push(map.relations[j][0]);
+                }
+            }
+
+            this.map.planets[planet.id] = planet;
+        }
     }
     
     this.startGame = function() {
@@ -221,6 +223,8 @@ function Engine() {
     }
     
     this.newPlayerTurn = function() {
+        
+        clearInterval(this.gameTurnIntervalId);
         
         // the next player is selected
         if(this.currentPlayer >= 0) {
@@ -241,7 +245,11 @@ function Engine() {
         // timer between two turns
         this.updateTimerWrapper(this.players[this.currentPlayer].name + "'s turn will start in ");
         this.startTimer(Math.round(new Date().getTime() / 1000), Config.TIME_BETWEEN_TURN / 1000);
-        // "sleep Config.TIME_BETWEEN_TURN / 1000 seconds"
+        this.tempoPlayerTurnInterval = setTimeout(function(that) { that.runPlayerTurn(); }, Config.TIME_BETWEEN_TURN + 1000, this);
+    }
+    
+    this.runPlayerTurn = function() {
+        clearInterval(this.tempoPlayerInterval);
         
         this.log(this.players[this.currentPlayer].name + "'s turn has started.");
 
@@ -250,16 +258,14 @@ function Engine() {
         this.newTurnDate = Math.round(new Date().getTime() / 1000);
         this.startTimer(this.newTurnDate, Config.TURN_DURATION / 1000);
         
-        if(this.gameIntervalId == null) {
-            this.gameTurnIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.TURN_DURATION, this);
-        }
+        this.gameTurnIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.TURN_DURATION + 1000, this);
     }
     
     this.startTimer = function(startDate, duration) {
         
         this.updateTimer(startDate, duration);
         
-        clearInterval(this.timerIntervalid);        
+        clearInterval(this.timerIntervalId);        
         this.timerIntervalId = setInterval(function(that, dateStart, duration) { that.updateTimer(dateStart, duration); }, 1000, 
                                             this, 
                                             startDate,
@@ -269,7 +275,7 @@ function Engine() {
     this.updateTimer = function(dateStart, duration) {
         var currentTime = Math.round(new Date().getTime() / 1000);
         var counter = Math.max(0, dateStart + duration - currentTime);
-        
+
         $('#turnTimer span').html(counter);
     }
     
