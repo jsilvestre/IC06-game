@@ -1,8 +1,8 @@
 #map {    
     border: 1px solid #000;
     margin: auto;
-    position: relative;
     float: left;
+    position: relative;
 }
 
 #planet-info {
@@ -27,4 +27,17 @@
 
 .alternative-content {
     display: none;
+}
+
+#bot-menu {
+    clear: left;
+    border: 1px solid #000;
+    min-width: 300px;
+    margin-top: 15px;
+    float: left;
+}
+
+#bot-menu ul {
+    padding: 0;
+    margin: 10px 25px;
 }

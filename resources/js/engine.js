@@ -12,6 +12,8 @@ var Config = {
 
 function Engine() {
     
+    this.logger = null;
+    
     this.map = {
         "view" : null,
         "planets" : []
@@ -51,7 +53,12 @@ function Engine() {
     // Initialise la partie
     this.initializeGame = function(jsonObject) {
         
-        this.buildMapModel(jsonObject);  
+        this.logger = new Logger();
+        this.logger.view = $('#logger');
+        
+        this.buildMapModel(jsonObject);
+        
+        this.log("Map has been loaded.");
         
         this.canvas = $('#map');
         this.canvasContext = this.canvas[0].getContext('2d');
@@ -67,6 +74,12 @@ function Engine() {
         this.initializePlayers();       
         
         this.render();
+        
+        this.log("Game is ready.");
+    }
+    
+    this.log = function(string) {
+        this.logger.logAction(string);
     }
     
     this.initializePlayers = function() {
@@ -97,7 +110,9 @@ function Engine() {
         
         this.currentPlayer = 0;
         
-        this.updatePlayerList()
+        this.updatePlayerList();
+        
+        this.log("Players have been created.");
     }
     
     // Exécute le rendu du jeu
@@ -156,6 +171,7 @@ function Engine() {
                                         Config.moveInterval, 
                                         this, 
                                         this.selectedPlanet);
+            this.log(this.players[this.currentPlayer].name + " has moved to " + this.selectedPlanet.name);
         }
     }
     
@@ -204,8 +220,7 @@ function Engine() {
     }
     
     this.newPlayerTurn = function() {
-        console.log('new turn');
-        
+    
         // the next player is selected
         if(this.currentPlayer >= 0) {
             this.players[this.currentPlayer].isPlaying = false;
@@ -221,6 +236,8 @@ function Engine() {
         this.players[this.currentPlayer].isPlaying = true;
         
         this.updatePlayerList();
+        
+        this.log(this.players[this.currentPlayer].name + "'s turn has started.");
         
         // start the timer
         clearInterval(this.timerIntervalid);
