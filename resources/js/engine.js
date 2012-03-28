@@ -73,6 +73,8 @@ function Engine() {
         this.map.view = new Map();
         this.map.view.initialize(this.map.planets);
         
+        this.currentDestination = null; // utiliser pour les déplacements traversant plusieurs planètes
+        
         this.initializePlayers();       
         
         this.render();
@@ -141,20 +143,103 @@ function Engine() {
         }        
     }
     
-    
     this.movePlayer = function() {
         if(this.selectedPlanet != null) {
-            this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, 
-                                        Config.moveInterval, 
-                                        this, 
-                                        this.selectedPlanet);
+            
+            if(this.players[this.currentPlayer].planet.isBoundTo(this.selectedPlanet)) {            
+                this.startMoveTo(this.players[this.currentPlayer], this.selectedPlanet);
+            }
+            else {   
+                // look if the user can go recursively to the planet
+                var result = this.determinePathRecursivelyTo(this.players[this.currentPlayer].planet, this.selectedPlanet, new Array());
+                this.startMoveTo(this.players[this.currentPlayer], result);
+            }
+            
             this.log(this.players[this.currentPlayer].name + " has moved to " + this.selectedPlanet.name);
         }
     }
     
+    this.startMoveTo = function(player, planet) {
+        this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, 
+                                    Config.moveInterval, 
+                                    this, 
+                                    planet);
+    }
+    
+    this.determinePathRecursivelyTo = function(planet, targetPlanet, visitedPlanets) {
+
+        if(visitedPlanets.indexOf(planet.id) == -1) {
+            
+            var currentPlanetArray = [];
+            
+            if(planet.id == targetPlanet.id) {
+                currentPlanetArray.push(planet.id);
+                return currentPlanetArray;
+            }
+            else {
+                
+                visitedPlanets.push(planet.id);
+                var tmpVisitedPlanets = visitedPlanets.slice(0);
+                var tmp = new Array();
+                for(var i in planet.boundPlanets) {
+                    tmp.push(this.determinePathRecursivelyTo(this.map.planets[planet.boundPlanets[i]], targetPlanet, tmpVisitedPlanets));
+                }
+                
+                var shortestPath = null;
+                for(var j = 0; j < tmp.length; j++) {
+                    
+                    if(tmp[j] != null) {                    
+                        if(shortestPath == null) {
+                            shortestPath = tmp[j];
+                        }
+                        else {
+                            if(shortestPath.length > tmp[j].length) {
+                                shortestPath = tmp[j];
+                            }
+                        }
+                    }
+                }
+                
+                currentPlanetArray.push(planet.id);
+                if(shortestPath == null) {
+                    return null;
+                }
+                else {
+                    currentPlanetArray = currentPlanetArray.concat(shortestPath);
+                }
+                
+                return currentPlanetArray;
+            }
+        }
+        else {
+            return null;
+        }
+        
+    }
+    
     this.executeMove = function(planetDest) {
     
-        this.players[this.currentPlayer].move(planetDest, this.playerMoveIntervalId);
+        if(planetDest instanceof Array) {
+            if(this.currentDestination == null) {
+                this.currentDestination = this.map.planets[planetDest[1]];
+            }
+        }
+        else {
+            this.currentDestination = planetDest;
+        }
+        
+        var isPlayerAtDestination = this.players[this.currentPlayer].move(this.currentDestination, this.playerMoveIntervalId);
+        
+        if(isPlayerAtDestination instanceof Planet) {
+            
+            if(planetDest instanceof Array && planetDest.indexOf(isPlayerAtDestination.id) + 1 < planetDest.length) {
+                this.currentDestination = this.map.planets[planetDest[planetDest.indexOf(isPlayerAtDestination.id) + 1]];
+            }
+            else {
+                this.currentDestination = null;
+                clearInterval(this.playerMoveIntervalId);
+            }            
+        }
         
         this.render();
     }

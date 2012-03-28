@@ -59,8 +59,10 @@ function Player() {
             (!(planetDest.y > this.planet.y) && (this.x < planetDest.x || this.y < planetDest.y)))) ) {
                 
                 this.setPlanet(planetDest);
-                clearInterval(playerMoveIntervalId);
+                return planetDest;
         }
+        
+        return false;
     }
     
     // Affecte une nouvelle planète au joueur
