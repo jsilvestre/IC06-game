@@ -24,6 +24,16 @@ function Planet() {
         canvasContext.closePath();
     }
     
+    this.isBoundTo = function(planet) {
+        for(var i = 0; i < this.boundPlanets.length; i++) {
+            if(this.boundPlanets[i] == planet.id) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     // Donne la couleur en fonction de la zone de la planète
     this.getColorZone = function() {
         switch(this.zone) {
