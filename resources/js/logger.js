@@ -8,7 +8,6 @@ function Logger() {
         var logAction = { 'date' : new Date(), 'content' : string };
         
         this.logs.push(logAction);
-        
         this.addToView(logAction);
     }
     
