@@ -38,13 +38,18 @@
     </script>
 </head>
 
-<body>    
+<body>
+<div id="container">
+    <div id="header">
+        <ul id="playerList"></ul>
+        <div id="turnTimer">Timer zone<span></span></div>
+    </div>
+    
     <canvas id="map" width="1000" height="400">
         Canvas not supported.
     </canvas>
     
     <div id="planet-info">
-        <p id="turnTimer">Timer zone<span></span></p>
         <p class="default-content">Veuillez sélectionner une planète</p>
         <div class="alternative-content">
             <div class="info">
@@ -60,13 +65,12 @@
         <ul>
             <li><a id="startGame" href="#">Démarrer le jeu</a></li>
         </ul>
-        
-        <ul id="playerList"></ul>
     </div>
     
     <div id="bot-menu">
         <ul id="logger"></ul>
-    </div>    
+    </div>
+</div>
 </body>
 
 </html>

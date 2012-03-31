@@ -2,7 +2,6 @@
     border: 1px solid #000;
     margin: auto;
     float: left;
-    position: relative;
 }
 
 #planet-info {
@@ -21,10 +20,6 @@
     float: left;
 }
 
-#playerList .isPlaying {
-    font-weight: bold;
-}
-
 .alternative-content {
     display: none;
 }
@@ -39,5 +34,44 @@
 
 ul {
     padding: 0;
-    margin: 10px 25px;
+    margin: 0;
+    list-style-type: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    overflow: auto;
+}
+
+
+/* HEADER */
+#header {
+    border-bottom: 1px solid #000;
+    margin-bottom: 15px;
+
+    ul#playerList {
+        
+        display: inline-block;
+
+        li {
+            display: inline-block;
+            /*margin-left: 10px;*/
+            padding: 0 5px;
+            border-right: 1px solid #000;
+            
+            &.isPlaying {
+                background: #444;
+                color: #EEE;
+            }
+        }
+    }
+    
+    #turnTimer {
+        float: right;
+        display: inline-block;
+    }
 }
