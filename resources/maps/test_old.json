@@ -1,0 +1,59 @@
+{
+    "title" : "My test map",
+    "description" : "description of test map",
+    
+    "planets" : [
+        {
+            "id" : 1,
+            "name" : "planet 1",
+            "zone" : "threat-d",
+            "pos" : { "x" : 100, "y" : 10 }
+        },
+        {
+            "id" : 2,
+            "name" : "planet 2",
+            "zone" : "threat-a",            
+            "pos" : { "x" : 250, "y" : 50 }
+        },
+        {
+            "id" : 3,
+            "name" : "planet 3",
+            "zone" : "threat-b",            
+            "pos" : { "x" : 890, "y" : 340 }
+        },
+        {
+            "id" : 4,         
+            "name" : "planet 4",
+            "zone" : "threat-b",
+            "pos" : { "x" : 610, "y" : 200 }
+        },
+        {
+            "id" : 5,         
+            "name" : "planet 5",
+            "zone" : "threat-c",
+            "pos" : { "x" : 50, "y" : 50 }
+        },
+        {
+            "id" : 6,            
+            "name" : "planet 6",
+            "zone" : "threat-a",
+            "pos" : { "x" : 420, "y" : 230 }
+        },
+        {
+            "id" : 7,            
+            "name" : "planet 7",
+            "zone" : "threat-c",
+            "pos" : { "x" : 50, "y" : 150 }
+        }
+    ],
+        
+    "relations" : [
+        [ 1, 2 ],
+        [ 6, 4 ],
+        [ 2, 4 ],
+        [ 4, 3 ],
+        [ 5, 1 ],
+        [ 5, 2 ],
+        [ 7, 5 ]
+    ]
+}
