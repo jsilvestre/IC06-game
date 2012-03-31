@@ -328,7 +328,7 @@ function Engine() {
         this.updatePlayerList();
         
         // timer between two turns
-        this.updateTimerWrapper(this.players[this.currentPlayer].name + "'s turn will start in ");
+        this.updateTimerWrapper("Début du tour dans");
         this.startTimer(Math.round(new Date().getTime() / 1000), Config.TIME_BETWEEN_TURN / 1000);
         this.tempoPlayerTurnInterval = setTimeout(function(that) { that.runPlayerTurn(); }, Config.TIME_BETWEEN_TURN + 1000, this);
     }
@@ -339,7 +339,7 @@ function Engine() {
         this.log(this.players[this.currentPlayer].name + "'s turn has started.");
 
         // start the timer for the turn
-        this.updateTimerWrapper("The turn will end in ");
+        this.updateTimerWrapper("Fin du tour dans");
         this.newTurnDate = Math.round(new Date().getTime() / 1000);
         this.startTimer(this.newTurnDate, Config.TURN_DURATION / 1000);
         
@@ -361,13 +361,13 @@ function Engine() {
         var currentTime = Math.round(new Date().getTime() / 1000);
         var counter = Math.max(0, dateStart + duration - currentTime);
 
-        $('#turnTimer span').html(counter);
+        $('#timer span').html(counter);
     }
     
     this.updateTimerWrapper = function(value) {
-        var currentTimeView = $('#turnTimer span');
+        var currentTimeView = $('#timer span');
         
-        $('#turnTimer').html(value + '<span>' + currentTimeView.html() + '</span>');
+        $('#timer').html(value + ' <span>' + currentTimeView.html() + '</span>s');
     }
     
     this.updateCurrentPlanetInfo = function() {
