@@ -1,29 +1,3 @@
-#map {
-    margin: auto;
-    display: block;
-}
-
-#off-menu {
-    border: 1px solid #000;
-    width: 200px;
-    margin-left: 25px;
-    margin-top: 15px;
-    float: left;
-}
-
-.alternative-content {
-    display: none;
-}
-
-#bot-menu {
-    clear: left;
-    border: 1px solid #000;
-    min-width: 300px;
-    margin-top: 15px;
-    float: left;
-}
-
-
 /* GENERIC STYLES */
 body {
     margin: 0;
@@ -46,6 +20,10 @@ p {
     overflow: none;
 }
 
+canvas#map {
+    margin: auto;
+    display: block;
+}
 
 /* HEADER */
 
@@ -111,6 +89,10 @@ p {
             margin: 0 5px;
         }
         
+        .alternative-content {
+            display: none;
+        }
+        
         .info, .action {
             display: inline-block;
         }
@@ -130,3 +112,20 @@ p {
     height: @px;
     line-height: @px;
 }
+
+/* DEPRECATED STYLES */
+/*#off-menu {
+    border: 1px solid #000;
+    width: 200px;
+    margin-left: 25px;
+    margin-top: 15px;
+    float: left;
+}
+
+#bot-menu {
+    clear: left;
+    border: 1px solid #000;
+    min-width: 300px;
+    margin-top: 15px;
+    float: left;
+}*/
