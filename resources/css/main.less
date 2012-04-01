@@ -45,10 +45,37 @@ canvas#map {
             padding: 0 5px;
             border-right: 1px solid #000;
             text-align: center;
+            position: relative;
             
             &.isPlaying {
+                span {
+                    background: #444;
+                    color: #EEE;
+                }
+            }
+            
+            .inventory {
+                display: block;
+                width: 300px;
+                position: absolute;
                 background: #444;
                 color: #EEE;
+                left: -1px;
+                
+                border: 1px solid #000;
+                
+                ul > li {
+                    display: block;
+                    border: 0;
+                    width: auto;
+                    text-align: left;
+                }
+            }
+            
+            &:hover {
+                .inventory {
+                    display: block;
+                }
             }
         }
     }
@@ -97,7 +124,7 @@ canvas#map {
             display: inline-block;
         }
     
-        ul li {
+        ul > li {
             display: inline-block;
         }
     }
