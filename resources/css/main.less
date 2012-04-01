@@ -55,7 +55,7 @@ canvas#map {
             }
             
             .inventory {
-                display: block;
+                display: none;
                 width: 300px;
                 position: absolute;
                 background: #444;
@@ -113,7 +113,9 @@ canvas#map {
     #planet-info {
         
         p {
-            margin: 0 5px;
+            padding: 0 5px;
+            margin: 0;
+            border-right: 1px solid #000;
         }
         
         .alternative-content {
@@ -122,6 +124,15 @@ canvas#map {
         
         .info, .action {
             display: inline-block;
+        }
+        
+        .info {
+                        
+            p {
+                padding: 0 5px;
+                margin: 0;
+                border-right: 1px solid #000;
+            }
         }
     
         ul > li {
