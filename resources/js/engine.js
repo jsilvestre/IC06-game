@@ -66,8 +66,8 @@ function Engine() {
         this.canvasContext = this.canvas[0].getContext('2d');
         
         this.canvasBuffer = document.createElement('canvas');
-        this.canvasBuffer.width = 1000;
-        this.canvasBuffer.height = 400;
+        this.canvasBuffer.width = this.canvas.width();
+        this.canvasBuffer.height = this.canvas.height();
         this.canvasBufferContext = this.canvasBuffer.getContext('2d');
         
         this.map.view = new Map();
@@ -122,8 +122,8 @@ function Engine() {
     // Exécute le rendu du jeu
     this.render = function() {
         
-        this.canvasContext.clearRect(0, 0, 1000, 400);
-        this.canvasBufferContext.clearRect(0, 0, 1000, 400);
+        this.canvasContext.clearRect(0, 0, this.canvas.width(), this.canvas.height());
+        this.canvasBufferContext.clearRect(0, 0, this.canvas.width(), this.canvas.height());
         
         this.renderMap();
         this.renderPlayers();
