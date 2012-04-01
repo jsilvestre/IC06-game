@@ -1,15 +1,6 @@
-#map {    
-    border: 1px solid #000;
+#map {
     margin: auto;
-    float: left;
-}
-
-#planet-info {
-    border: 1px solid #000;
-    width: 200px;
-    margin-left: 25px;
-    height: 250px;
-    float: left;
+    display: block;
 }
 
 #off-menu {
@@ -32,36 +23,50 @@
     float: left;
 }
 
+
+/* GENERIC STYLES */
+body {
+    margin: 0;
+    padding: 0;
+}
+
 ul {
     padding: 0;
     margin: 0;
     list-style-type: none;
 }
 
-body {
+p {
     margin: 0;
     padding: 0;
 }
 
+
 #container {
-    overflow: auto;
+    overflow: none;
 }
 
 
 /* HEADER */
+
+@headerHeight : 35px;
+
 #header {
+    height: @headerHeight;
     border-bottom: 1px solid #000;
-    margin-bottom: 15px;
 
     ul#playerList {
-        
+        height: @headerHeight;
         display: inline-block;
 
         li {
+            .align-vertically(@headerHeight);
+            
+            width: 80px;
             display: inline-block;
-            /*margin-left: 10px;*/
             padding: 0 5px;
             border-right: 1px solid #000;
+            text-align: center;
             
             &.isPlaying {
                 background: #444;
@@ -71,7 +76,51 @@ body {
     }
     
     #timer {
+        .align-vertically(@headerHeight);
+        
+        width: 150px;
         float: right;
         display: inline-block;
+        margin-right: 15px;
+        text-align: center;
     }
+}
+
+/* FOOTER */
+@footerHeight : 35px;
+
+#footer {    
+    height: @footerHeight;
+    border-top: 1px solid #000;
+    
+    p {
+        .align-vertically(@footerHeight);
+        
+        display: inline-block;
+    }
+    
+    #planet-info {
+        
+        p {
+            margin: 0 5px;
+        }
+        
+        .info, .action {
+            display: inline-block;
+        }
+    
+        ul li {
+            display: inline-block;
+        }
+    }
+    
+}
+
+
+/* MIXINS */
+
+
+.align-vertically(@px) {
+    height: @px;
+    line-height: @px;
 }

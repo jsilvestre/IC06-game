@@ -40,16 +40,37 @@
 
 <body>
 <div id="container">
+    
     <div id="header">
         <ul id="playerList"></ul>
         <div id="timer">Timer zone<span></span></div>
     </div>
     
-    <canvas id="map" width="1000" height="400">
+    <canvas id="map" width="1250" height="575">
         Canvas not supported.
     </canvas>
     
-    <div id="planet-info">
+    <div id="footer">
+        <div id="planet-info">
+            <p class="default-content">Veuillez sélectionner une planète</p>
+            <div class="alternative-content">
+                <div class="info"></div>
+                <p>Actions spéciales :</p>
+                <ul class="action">
+                    <li><a id="move" href="#">Déplacement classique</a></li>
+                    <!---<li><a id="move" href="#">Déplacement hyper-espace</a></li>
+                    <li><a id="move" href="#">Déplacement subspatial</a></li>
+                    <li><a id="move" href="#">Déplacement secret</a></li>
+                    <li><a id="move" href="#">Combattre</a></li>
+                    <li><a id="move" href="#">Construire un laboratoire secret</a></li>
+                    <li><a id="move" href="#">Assembler une arme</a></li>
+                    <li><a id="move" href="#">Echanger une information</a></li>--->
+                </ul>
+            </div> 
+        </div>       
+    </div>
+    
+    <!--<div id="planet-info">
         <p class="default-content">Veuillez sélectionner une planète</p>
         <div class="alternative-content">
             <div class="info">
@@ -57,7 +78,7 @@
             </div>
             <div class="action">
                 <a id="move" href="#">Se déplacer</a>
-            </div>          
+            </div>     
         </div>
     </div>
     
@@ -69,7 +90,7 @@
     
     <div id="bot-menu">
         <ul id="logger"></ul>
-    </div>
+    </div>-->
 </div>
 </body>
 
