@@ -152,7 +152,9 @@ function Engine() {
             else {   
                 // look if the user can go recursively to the planet
                 var result = this.determinePathRecursivelyTo(this.players[this.currentPlayer].planet, this.selectedPlanet, new Array());
-                this.startMoveTo(this.players[this.currentPlayer], result);
+                if(result != null) {
+                    this.startMoveTo(this.players[this.currentPlayer], result);
+                }
             }
             
             this.log(this.players[this.currentPlayer].name + " has moved to " + this.selectedPlanet.name);
