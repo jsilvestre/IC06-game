@@ -53,8 +53,12 @@
                 </div>
             </li>            
         </ul>
-        <p><a id="startGame" href="#">Démarrer le jeu</a></p>
         <div id="timer">Timer zone<span></span></div>
+        <p id="paCounter"><span class="currentValue">4</span> / <span>4</span> Actions</p>
+        <p id="forcedColonisation">Colonisation Forcée : <span>4</span> / <span>10</span></p>
+        <p id="invasionSpeed">Vitesse d'invasion : <span>4</span></p>
+        <p id="recentEvents">Evénements</p>
+        <p><a id="startGame" href="#">Démarrer le jeu</a></p>
     </div>
     
     <canvas id="map" width="1250" height="575">
@@ -66,7 +70,7 @@
             <p class="default-content">Veuillez sélectionner une planète</p>
             <div class="alternative-content">
                 <div class="info"></div>
-                <p>Niveau de menace : 3</p>
+                <p id="threatLvl">Niveau de menace : <span>3</span></p>
                 <ul class="action">
                     <li><a id="move" href="#">Déplacement classique</a></li>
                     <li><a id="fightAction" href="#">Engager le combat</a></li>

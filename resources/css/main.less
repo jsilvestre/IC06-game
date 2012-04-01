@@ -84,16 +84,22 @@ canvas#map {
         .align-vertically(@footerHeight);
         
         display: inline-block;
+        
+        .align-vertically(35px);
+    
+        display: inline-block;
+        padding: 0 5px;
+        border-right: 1px solid #000;        
     }
     
     #timer {
         .align-vertically(@headerHeight);
+        .remove-previous-blank-space;
         
         width: 150px;
-        float: right;
         display: inline-block;
-        margin-right: 15px;
         text-align: center;
+        border-right: 1px solid #000;
     }
 }
 
@@ -114,29 +120,37 @@ canvas#map {
         
         p {
             padding: 0 5px;
-            margin: 0;
             border-right: 1px solid #000;
+            
+            &#threatLvl {
+                .remove-previous-blank-space;
+            }
         }
         
         .alternative-content {
             display: none;
         }
         
-        .info, .action {
-            display: inline-block;
-        }
-        
         .info {
+            
+            display: inline-block;
                         
             p {
                 padding: 0 5px;
-                margin: 0;
                 border-right: 1px solid #000;
             }
         }
-    
-        ul > li {
+        
+        .action {
             display: inline-block;
+
+            li {
+                .align-vertically(@footerHeight);
+            
+                display: inline-block;
+                padding: 0 5px;
+                border-right: 1px solid #000;
+            }
         }
     }
     
@@ -149,6 +163,10 @@ canvas#map {
 .align-vertically(@px) {
     height: @px;
     line-height: @px;
+}
+
+.remove-previous-blank-space {
+    margin-left: -4px;
 }
 
 /* DEPRECATED STYLES */
