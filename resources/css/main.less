@@ -105,7 +105,9 @@ p {
     }
     
     p {
-        .align-vertically(@headerHeight);    
+        .align-vertically(@headerHeight);
+        .remove-previous-blank-space;
+    
         display: inline-block;
         padding: 0 5px;
         border-right: 1px solid #000;        
