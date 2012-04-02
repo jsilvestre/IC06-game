@@ -56,6 +56,7 @@ p {
 
         li {
             .align-vertically(@headerHeight);
+            .remove-previous-blank-space;
             
             width: 80px;
             display: inline-block;
@@ -63,12 +64,14 @@ p {
             text-align: center;
             position: relative;
             
+            span {
+                display: block;
+                height: 100%;
+                width: 100%;
+            }
+            
             &.isPlaying {
                 span {
-                    display: block;
-                    height: 100%;
-                    width: 100%;
-                    padding: 0 5px;
                     background: #444;
                     color: #EEE;
                 }
@@ -87,6 +90,7 @@ p {
                 ul > li {
                     display: block;
                     border: 0;
+                    margin-left: 5px;
                     width: auto;
                     text-align: left;
                 }
@@ -101,12 +105,7 @@ p {
     }
     
     p {
-        .align-vertically(@footerHeight);
-        
-        display: inline-block;
-        
-        .align-vertically(35px);
-    
+        .align-vertically(@headerHeight);    
         display: inline-block;
         padding: 0 5px;
         border-right: 1px solid #000;        
