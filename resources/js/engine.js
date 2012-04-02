@@ -114,7 +114,7 @@ function Engine() {
         
         this.currentPlayer = 0;
         
-        this.updatePlayerList();
+        //this.updatePlayerList();
         
         this.log("Players have been created.");
     }
@@ -397,7 +397,7 @@ function Engine() {
         var tmpAdded;
         
         for(var i = 0; i < this.players.length; i++) {
-            tmpAdded = $('<li>' + this.players[i].name + '</li>');
+            tmpAdded = $('<li><span>' + this.players[i].name + '</span></li>');
             
             if(this.players[i].isPlaying) {
                 tmpAdded.addClass('isPlaying');
