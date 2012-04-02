@@ -1,4 +1,10 @@
 /* GENERIC STYLES */
+
+@widthGame: 1250px;
+@heightGame: 800px;
+@widthGameMax: 1280px;
+@heightGameMax: 800px;
+
 body {
     margin: 0;
     padding: 0;
@@ -20,9 +26,16 @@ p {
     overflow: none;
 }
 
-canvas#map {
+#map-container {
+    max-width: @widthGameMax;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
     margin: auto;
-    display: block;
+    
+    canvas {
+        display: block;
+        margin: auto;
+    }
 }
 
 /* HEADER */
@@ -31,7 +44,11 @@ canvas#map {
 
 #header {
     height: @headerHeight;
+    max-width: @widthGameMax;
+    margin: auto;
     border-bottom: 1px solid #000;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
 
     ul#playerList {
         height: @headerHeight;
@@ -107,11 +124,13 @@ canvas#map {
 }
 
 /* FOOTER */
-@footerHeight : 35px;
+@footerHeight : 39px;
 
-#footer {    
+#footer {
+    max-width: @widthGameMax;
     height: @footerHeight;
-    border-top: 1px solid #000;
+    margin: auto;
+    border: 1px solid #000;
     
     p {
         .align-vertically(@footerHeight);
@@ -171,20 +190,3 @@ canvas#map {
 .remove-previous-blank-space {
     margin-left: -4px;
 }
-
-/* DEPRECATED STYLES */
-/*#off-menu {
-    border: 1px solid #000;
-    width: 200px;
-    margin-left: 25px;
-    margin-top: 15px;
-    float: left;
-}
-
-#bot-menu {
-    clear: left;
-    border: 1px solid #000;
-    min-width: 300px;
-    margin-top: 15px;
-    float: left;
-}*/
