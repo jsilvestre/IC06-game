@@ -8,7 +8,11 @@ var Config = {
     
     LIMIT_DRAW_VERTICAL : 50, // le nombre minimum entre deux planètes liés en px (pour la liaison classique)
     
-    PLANET_HITBOX : 20
+    PLANET_HITBOX : 40,
+    
+    CARD_TYPE_PLANET : "planet",
+    CARD_TYPE_SPECIAL_EVENT : "specialevent",
+    CARD_TYPE_MASSIVE_INVASION : "massiveincasion",
 };
 
 function Engine() {
@@ -38,6 +42,11 @@ function Engine() {
     this.tempoPlayerTurnInterval = null;
     
     this.newTurnDate = null;
+    
+    this.decks = {
+        "information" : new Deck(),
+        "invaders" : new Deck(),
+    };
     
     // Charge le fichier représentant la map
     this.loadMap = function(mapName) {
@@ -302,6 +311,22 @@ function Engine() {
 
             this.map.planets[planet.id] = planet;
         }
+        
+        this.buildDecks();
+    }
+    
+    this.buildDecks = function() {
+        var cardId = 0;
+                
+        for(var i in this.map.planets) {
+            this.decks.information.addCard({"id" : cardId, "type" : Config.CARD_TYPE_PLANET, "value" : i});
+            this.decks.invaders.addCard({"id" : cardId, "value" : i});
+
+            cardId++;
+        }
+        
+        this.decks.information.initializeOriginalCards();
+        this.decks.invaders.initializeOriginalCards();
     }
     
     this.startGame = function() {
