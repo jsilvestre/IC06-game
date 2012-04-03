@@ -20,7 +20,8 @@ function Planet() {
         canvasContext.fillRect(this.x, this.y, Config.PLANET_HITBOX, Config.PLANET_HITBOX);
         
         canvasContext.fillStyle = "#000";
-        canvasContext.fillText(this.name, this.x - 15, this.y + 30);
+        canvasContext.textAlign = "center";
+        canvasContext.fillText(this.name, this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX + 15);
         canvasContext.closePath();
     }
     
