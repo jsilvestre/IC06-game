@@ -8,7 +8,7 @@ var Config = {
     
     LIMIT_DRAW_VERTICAL : 50, // le nombre minimum entre deux planètes liés en px (pour la liaison classique)
     
-    PLANET_HITBOX : 40,
+    PLANET_HITBOX : 30,
     
     CARD_TYPE_PLANET : "planet",
     CARD_TYPE_SPECIAL_EVENT : "specialevent",
@@ -327,6 +327,9 @@ function Engine() {
         
         this.decks.information.initializeOriginalCards();
         this.decks.invaders.initializeOriginalCards();
+        
+        this.decks.information.shuffle(10);
+        this.decks.invaders.shuffle(10);
     }
     
     this.startGame = function() {

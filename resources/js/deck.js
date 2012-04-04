@@ -2,8 +2,7 @@ function Deck() {
 
     this.cards = [];
     this.originalCards = [];
-    
-    
+        
     // this does not actually copy the cards themselves but allow us to keep a record of the card object
     this.initializeOriginalCards = function() {
         for(var i = 0; i < this.cards.length; i++) {
@@ -46,7 +45,38 @@ function Deck() {
         return null;
     }
     
-    this.shuffle = function() {
+    this.shuffle = function(nbShuffle) {
+        for(var i = 0; i < nbShuffle; i++) {
+            this.internalShuffle();
+        }
+    }
+    
+    this.internalShuffle = function() {
         
+        var valArr = [],
+            k = '',
+            i = 0,
+            strictForIn = true,
+            populateArr = [];
+
+        for (k in this.cards) { // Get key and value arrays
+            if (this.cards.hasOwnProperty(k)) {
+                valArr.push(this.cards[k]);
+                if (strictForIn) {
+                    delete this.cards[k];
+                }
+            }
+        }
+        
+        valArr.sort(function () {
+            return 0.5 - Math.random();
+        });
+
+        populateArr = strictForIn ? this.cards : populateArr; 
+        for (i = 0; i < valArr.length; i++) { // Repopulate the old array
+            populateArr[i] = valArr[i];
+        }
+         
+        this.cards = populateArr;
     }
 }
