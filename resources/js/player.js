@@ -6,6 +6,7 @@ function Player() {
     this.y = 0;
     this.planet = null;
     this.isPlaying = false;
+    this.inventory = new Deck();
     
     // Dessine la vue du joueur
     this.draw  = function(canvasContext) {
