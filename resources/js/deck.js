@@ -15,13 +15,13 @@ function Deck() {
     }
     
     this.removeCard = function(cardId) {
-        var tmp = [];
+        var tmp = [], tmpNew = [];
         var cardToReturn;
         for(var i = 0; i < this.cards.length; i++) {
-            if(this.cards[i].id == cardId) {
+            if(this.cards[i].id == cardId || (i == 0 && cardId == "first")) {
                 cardToReturn = this.cards[i];
                 tmp = this.cards.slice(0, i);
-                this.cards = this.cards.concat(tmp, this.cards.slice(i+1, this.cards.length));
+                this.cards = tmp.concat(tmp, this.cards.slice(i+1, this.cards.length));
                 return cardToReturn;
             }
         }
