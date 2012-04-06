@@ -447,6 +447,8 @@ function Engine() {
     
     this.updatePlayerList = function() {
         
+        $('#playerList .inventory li').unbind('hover');
+        
         var div = $('#playerList');
         div.html('');
         
