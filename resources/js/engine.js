@@ -303,13 +303,10 @@ function Engine() {
         this.updateCurrentPlanetInfo();
     }
     
-    this.hoverPlanet = function(planetName, isHovering) {
-        for(var i in this.map.planets) {
-            if(this.map.planets[i].name == planetName) {
-                this.map.planets[i].isHovering = isHovering;
-                this.render();
-                return;
-            }
+    this.hoverPlanet = function(planetId, isHovering) {
+        if(this.map.planets[planetId] != null) {
+            this.map.planets[planetId].isHovering = isHovering;
+            this.render();
         }
     }  
     
@@ -476,7 +473,7 @@ function Engine() {
         var card;
         for(var i = 0; i < player.inventory.cards.length; i++) {
             card = player.inventory.cards[i];
-            listView.append($('<li>Guide touristique de <span>' + this.map.planets[card.value].name + '</span></li>'));
+            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span></li>'));
         }
         
         view.append(listView);        
