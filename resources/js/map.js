@@ -34,6 +34,8 @@ function Map() {
         
         var additionner = [0, 0];
         
+        canvasContext.strokeStyle = "#000";
+        
         // si la distance entre les deux planètes est trop petite, on dessine le trait verticalement
         if(Math.abs(planetSource.x - planetDest.x) < Config.LIMIT_DRAW_VERTICAL) {
             
