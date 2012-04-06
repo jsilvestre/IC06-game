@@ -14,15 +14,19 @@ function Deck() {
         this.cards.push(card);
     }
     
-    this.removeCard = function(card) {
+    this.removeCard = function(cardId) {
         var tmp = [];
+        var cardToReturn;
         for(var i = 0; i < this.cards.length; i++) {
             if(this.cards[i].id == cardId) {
+                cardToReturn = this.cards[i];
                 tmp = this.cards.slice(0, i);
                 this.cards = this.cards.concat(tmp, this.cards.slice(i+1, this.cards.length));
-                return;
+                return cardToReturn;
             }
-        }        
+        }
+        
+        return false;
     }
     
     this.hasCard = function(card) {

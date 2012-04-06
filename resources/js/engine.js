@@ -102,10 +102,10 @@ function Engine() {
         player.planet = this.map.planets[4];
         player.x = player.planet.x;
         player.y = player.planet.y;
-        player.inventory.addCard(this.decks.information.getCard(0));
-        player.inventory.addCard(this.decks.information.getCard(1));
-        player.inventory.addCard(this.decks.information.getCard(2));
-        player.inventory.addCard(this.decks.information.getCard(3));                        
+        player.inventory.addCard(this.decks.information.removeCard(0));
+        player.inventory.addCard(this.decks.information.removeCard(1));
+        player.inventory.addCard(this.decks.information.removeCard(2));
+        player.inventory.addCard(this.decks.information.removeCard(3));                        
         this.players.push(player);
     
         player = new Player();
@@ -114,7 +114,7 @@ function Engine() {
         player.planet = this.map.planets[2];
         player.x = player.planet.x;
         player.y = player.planet.y;
-        player.inventory.addCard(this.decks.information.getCard(4));
+        player.inventory.addCard(this.decks.information.removeCard(4));
         this.players.push(player);
         
         
@@ -442,8 +442,6 @@ function Engine() {
             
             div.append(tmpAdded) ;
         }
-        
-        console.debug(this.decks.information);
     }
     
     this.getPlayerInventoryView = function(player) {
