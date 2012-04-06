@@ -407,7 +407,7 @@ function Engine() {
                 this.players[this.currentPlayer].inventory.addCard(giftCard);
             }
             else {
-                console.debug('GAME OVER'); // game over, you loser
+                this.triggerGameOver(); // game over, you loser
             }
         }        
         
@@ -444,9 +444,9 @@ function Engine() {
         var attackedPlanetId, attackedPlanet;
         // increase the threat lvl
         for(var i = 0; i < Config.INVASION_SPEED_METER[this.currentInvasionSpeedIndex]; i++) {
+
             attackedPlanetId = this.decks.invaders.removeCard("first").value;
             attackedPlanet = this.map.planets[attackedPlanetId];
-            console.debug(attackedPlanet.name + ' -  ' + attackedPlanet.threatLvl);
             if(attackedPlanet.threatLvl == 3) {
                 // trigger a forced colonization
             }
