@@ -6,16 +6,29 @@ function Planet() {
     this.x = 0;
     this.y = 0;
     this.boundPlanets = [];
+    this.isSelected = false;
+    this.isHovering = false;
     
     // Dessine la vue de la planète
     this.draw = function(canvasContext) {
-        canvasContext.beginPath();
         
         if(this.isSelected) {
+            canvasContext.beginPath();
             canvasContext.fillStyle = "#000";
             canvasContext.fillRect(this.x - 5, this.y - 5, Config.PLANET_HITBOX + 10, Config.PLANET_HITBOX + 10);
+            canvasContext.closePath();
         }
         
+        if(this.isHovering) {
+            canvasContext.beginPath();
+            canvasContext.strokeStyle = "#0088FF";
+            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
+                              Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
+            canvasContext.stroke();
+            canvasContext.closePath();
+        }
+        
+        canvasContext.beginPath();
         canvasContext.fillStyle = this.getColorZone();
         canvasContext.fillRect(this.x, this.y, Config.PLANET_HITBOX, Config.PLANET_HITBOX);
         

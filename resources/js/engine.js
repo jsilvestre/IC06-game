@@ -302,7 +302,17 @@ function Engine() {
         
         this.updateCurrentPlanetInfo();
     }
-
+    
+    this.hoverPlanet = function(planetName, isHovering) {
+        for(var i in this.map.planets) {
+            if(this.map.planets[i].name == planetName) {
+                this.map.planets[i].isHovering = isHovering;
+                this.render();
+                return;
+            }
+        }
+    }  
+    
     // Construit le modèle de la map grâce au JSON
     this.buildMapModel = function(map) {
         
@@ -449,6 +459,14 @@ function Engine() {
             
             div.append(tmpAdded) ;
         }
+        
+        var engine = this;
+        
+        $('#playerList .inventory li').hover(function() {
+            engine.hoverPlanet($(this).children('span').html(), true);
+        }, function() {
+            engine.hoverPlanet($(this).children('span').html(), false);
+        });
     }
     
     this.getPlayerInventoryView = function(player) {
