@@ -13,6 +13,8 @@ var Config = {
     CARD_TYPE_PLANET : "planet",
     CARD_TYPE_SPECIAL_EVENT : "specialevent",
     CARD_TYPE_MASSIVE_INVASION : "massiveincasion",
+    
+    NUM_ZONES : 4, // nombre de zones de jeu
 };
 
 function Engine() {
@@ -68,6 +70,7 @@ function Engine() {
         this.logger.view = $('#logger');
         
         this.buildMapModel(jsonObject);
+        this.buildDecks();
         
         this.log("Map has been loaded.");
         
@@ -84,7 +87,9 @@ function Engine() {
         
         this.currentDestination = null; // utiliser pour les déplacements traversant plusieurs planètes
         
-        this.initializePlayers();       
+        this.initializePlayers();
+        this.initializeInventories();
+        this.updatePlayerList();
         
         this.render();
         
@@ -101,11 +106,7 @@ function Engine() {
         player.name = "Joseph";
         player.planet = this.map.planets[4];
         player.x = player.planet.x;
-        player.y = player.planet.y;
-        player.inventory.addCard(this.decks.information.removeCard(0));
-        player.inventory.addCard(this.decks.information.removeCard(1));
-        player.inventory.addCard(this.decks.information.removeCard(2));
-        player.inventory.addCard(this.decks.information.removeCard(3));                        
+        player.y = player.planet.y;                       
         this.players.push(player);
     
         player = new Player();
@@ -114,7 +115,6 @@ function Engine() {
         player.planet = this.map.planets[2];
         player.x = player.planet.x;
         player.y = player.planet.y;
-        player.inventory.addCard(this.decks.information.removeCard(4));
         this.players.push(player);
         
         
@@ -124,15 +124,24 @@ function Engine() {
         player.planet = this.map.planets[3];
         player.x = player.planet.x;
         player.y = player.planet.y;
-        player.inventory.addCard(this.decks.information.getCard(5));
-        player.inventory.addCard(this.decks.information.getCard(6));
         this.players.push(player);
         
         this.currentPlayer = 0;
         
-        this.updatePlayerList();
-        
         this.log("Players have been created.");
+    }
+    
+    this.initializeInventories = function() {
+        // 4 cards, one of each color
+        var i, j;
+        
+        for(i = 0; i < this.players.length; i++) {
+            for(j = 0; j < Config.NUM_ZONES; j++) {
+                this.players[i].inventory.addCard(this.decks.information.removeCard("first"));
+            }
+        }
+        
+        this.log("Cards have been distributed.");
     }
     
     // Exécute le rendu du jeu
@@ -292,8 +301,8 @@ function Engine() {
         this.selectedPlanet = planetFound;
         
         this.updateCurrentPlanetInfo();
-    }    
-    
+    }
+
     // Construit le modèle de la map grâce au JSON
     this.buildMapModel = function(map) {
         
@@ -318,8 +327,6 @@ function Engine() {
 
             this.map.planets[planet.id] = planet;
         }
-        
-        this.buildDecks();
     }
     
     this.buildDecks = function() {
@@ -451,7 +458,7 @@ function Engine() {
         var card;
         for(var i = 0; i < player.inventory.cards.length; i++) {
             card = player.inventory.cards[i];
-            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '</li>'));
+            listView.append($('<li>Guide touristique de <span>' + this.map.planets[card.value].name + '</span></li>'));
         }
         
         view.append(listView);        
