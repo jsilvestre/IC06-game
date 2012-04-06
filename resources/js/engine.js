@@ -400,8 +400,15 @@ function Engine() {
         this.players[this.currentPlayer].isPlaying = true;
         
         // Give some cards to the player
+        var giftCard;
         for(j = 0; j < Config.NUM_CARD_BY_TURN; j++) {
-            this.players[this.currentPlayer].inventory.addCard(this.decks.information.removeCard("first"));
+            giftCard = this.decks.information.removeCard("first");
+            if(giftCard != null) {
+                this.players[this.currentPlayer].inventory.addCard(giftCard);
+            }
+            else {
+                console.debug('GAME OVER'); // game over, you loser
+            }
         }        
         
         this.updatePlayerList();
@@ -499,6 +506,17 @@ function Engine() {
         }
     }
     
+    this.triggerGameOver = function() {
+        clearInterval(this.timerIntervalId);
+        clearInterval(this.playerMoveIntervalId);
+        clearInterval(this.playerTurnInterval);
+        clearInterval(this.timerIntervalId);
+        clearInterval(this.tempoPlayerTurnInterval);
+        clearInterval(this.tempoInvasionPhaseInterval);
+        
+        $('#game-over').show();
+    }
+    
     this.updatePlayerList = function() {
         
         $('#playerList .inventory li').unbind('hover');
@@ -530,7 +548,7 @@ function Engine() {
     }
     
     this.getPlayerInventoryView = function(player) {
-        
+
         var view = $('<div class="inventory"></div');
         var listView = $('<ul></ul>');
         var card;
