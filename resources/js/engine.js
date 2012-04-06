@@ -1,7 +1,8 @@
 var Config = {
     
-    TURN_DURATION : 10000,  // durée d'un tour en ms
+    TURN_DURATION : 5000,  // durée d'un tour en ms
     TIME_BETWEEN_TURN : 5000, // durée entre deux tours
+    INVASION_PHASE_DURATION : 5000, // durée de la phase d'invasion    
     
     moveInterval : 25, // l'interval entre deux tick pour le déplacement en ms
     moveTime : 1500, // le temps qu'un déplacement doit durer en ms
@@ -18,18 +19,16 @@ var Config = {
     
     NUM_CARD_BY_TURN : 2, // nombre de cartes données par tour à un joueur
     
-
     NUM_PLANET_INITIAL_INVASION : 3, // nombre de planète envahi à chaque round d'invasion au début de la partie
+    
+    INVASION_SPEED_METER : [2, 2, 3, 3, 4, 4], // jauge de vitesse d'invasion
 };
 
 function Engine() {
     
     this.logger = null;
     
-    this.map = {
-        "view" : null,
-        "planets" : []
-    };
+    this.map = null;
     
     this.selectedPlanet = null;
     
@@ -44,12 +43,15 @@ function Engine() {
     this.canvasBufferContenxt = null;
     
     this.playerMoveIntervalId = null;
-    this.gameTurnIntervalId = null;
+    this.playerTurnInterval = null;
     this.timerIntervalId = null;
     this.tempoPlayerTurnInterval = null;
+    this.tempoInvasionPhaseInterval = null;
     
     this.newTurnDate = null;
     
+    this.currentInvasionSpeedIndex = 0;
+        
     this.decks = {
         "information" : new Deck(),
         "invaders" : new Deck(),
@@ -73,7 +75,7 @@ function Engine() {
         
         this.logger = new Logger();
         this.logger.view = $('#logger');
-        
+            
         this.buildMapModel(jsonObject);
         this.buildDecks();
         
@@ -86,9 +88,6 @@ function Engine() {
         this.canvasBuffer.width = this.canvas.width();
         this.canvasBuffer.height = this.canvas.height();
         this.canvasBufferContext = this.canvasBuffer.getContext('2d');
-        
-        this.map.view = new Map();
-        this.map.view.initialize(this.map.planets);
         
         this.currentDestination = null; // utiliser pour les déplacements traversant plusieurs planètes
         
@@ -153,12 +152,12 @@ function Engine() {
     
     this.initializeInvasion = function() {
         
-        var attackedPlanet;
+        var attackedPlanetId;
         
         for(var i = 3; i > 0; i--) {
             for(var j = 0; j < Config.NUM_PLANET_INITIAL_INVASION; j++) {
-                attackedPlanet = this.decks.invaders.removeCard("first");
-                this.map.planets[attackedPlanet.value].threatLvl = i;
+                attackedPlanetId = this.decks.invaders.removeCard("first").value;
+                this.map.planets[attackedPlanetId].threatLvl = i;
             }
         }
     }
@@ -177,7 +176,7 @@ function Engine() {
     
     // Exécute le rendu de la vue de la map
     this.renderMap = function() {
-        this.map.view.draw(this.canvasBufferContext);
+        this.map.draw(this.canvasBufferContext);
     }
     
     // Exécute le rendu de la vue des joueurs
@@ -297,7 +296,7 @@ function Engine() {
 
         var planetFound;
         
-        planetFound = this.map.view.searchPlanet(x, y);
+        planetFound = this.map.searchPlanet(x, y);
         
         if(planetFound != null) {
             
@@ -331,6 +330,8 @@ function Engine() {
     
     // Construit le modèle de la map grâce au JSON
     this.buildMapModel = function(map) {
+        
+        this.map = new Map();
         
         var planet;
         
@@ -379,7 +380,10 @@ function Engine() {
     
     this.newPlayerTurn = function() {
         
-        clearInterval(this.gameTurnIntervalId);
+        clearInterval(this.tempoInvasionPhaseInterval);
+        
+        this.map.unHoverPlanets();
+        this.render();
         
         // the next player is selected
         if(this.currentPlayer >= 0) {
@@ -418,31 +422,64 @@ function Engine() {
         this.newTurnDate = Math.round(new Date().getTime() / 1000);
         this.startTimer(this.newTurnDate, Config.TURN_DURATION / 1000);
         
-        this.gameTurnIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.TURN_DURATION + 1000, this);
+        this.playerTurnInterval = setTimeout(function(that) { that.runInvasionPhase(); }, Config.TURN_DURATION + 1000, this);
+    }
+    
+    this.runInvasionPhase = function() {
+        clearInterval(this.playerTurnInterval);
+        
+        this.stopTimer();
+        this.updateTimerWrapper("PHASE D'INVASION");
+        $('#timer span').html("");        
+        //this.newTurnDate = Math.round(new Date().getTime() / 1000);
+        //this.startTimer(this.newTurnDate, Config.INVASION_PHASE_DURATION / 1000);        
+
+        var attackedPlanetId, attackedPlanet;
+        // increase the threat lvl
+        for(var i = 0; i < Config.INVASION_SPEED_METER[this.currentInvasionSpeedIndex]; i++) {
+            attackedPlanetId = this.decks.invaders.removeCard("first").value;
+            attackedPlanet = this.map.planets[attackedPlanetId];
+            console.debug(attackedPlanet.name + ' -  ' + attackedPlanet.threatLvl);
+            if(attackedPlanet.threatLvl == 3) {
+                // trigger a forced colonization
+            }
+            else {
+                attackedPlanet.threatLvl = attackedPlanet.threatLvl + 1;
+                attackedPlanet.isHovering = true;
+            }
+        }
+        
+        this.render();
+        
+        this.tempoInvasionPhaseIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.INVASION_PHASE_DURATION + 1000, this);
     }
     
     this.startTimer = function(startDate, duration) {
         
         this.updateTimer(startDate, duration);
         
-        clearInterval(this.timerIntervalId);        
+        clearInterval(this.timerIntervalId);     
         this.timerIntervalId = setInterval(function(that, dateStart, duration) { that.updateTimer(dateStart, duration); }, 1000, 
                                             this, 
                                             startDate,
                                             duration);        
     }
     
+    this.stopTimer = function() {
+        clearInterval(this.timerIntervalId);
+    }
+    
     this.updateTimer = function(dateStart, duration) {
         var currentTime = Math.round(new Date().getTime() / 1000);
         var counter = Math.max(0, dateStart + duration - currentTime);
 
-        $('#timer span').html(counter);
+        $('#timer span').html(counter+ '    s');
     }
     
     this.updateTimerWrapper = function(value) {
         var currentTimeView = $('#timer span');
         
-        $('#timer').html(value + ' <span>' + currentTimeView.html() + '</span>s');
+        $('#timer').html(value + ' <span>' + currentTimeView.html() + '</span>');
     }
     
     this.updateCurrentPlanetInfo = function() {

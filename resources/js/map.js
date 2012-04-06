@@ -3,12 +3,6 @@ function Map() {
     this.canvas = null;
     this.planets = new Array();
     
-    // Initialise la map
-    this.initialize = function(planets) {
-        
-        this.planets = planets;       
-    }
-    
     // Dessine la vue de la map
     this.draw = function(canvasContext) {
         
@@ -81,5 +75,11 @@ function Map() {
         }
         
         return null;
+    }
+    
+    this.unHoverPlanets = function() {
+        for(var i in this.planets) {
+            this.planets[i].isHovering = false;
+        }
     }
 }
