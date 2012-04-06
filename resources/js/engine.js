@@ -17,6 +17,9 @@ var Config = {
     NUM_ZONES : 4, // nombre de zones de jeu
     
     NUM_CARD_BY_TURN : 2, // nombre de cartes données par tour à un joueur
+    
+
+    NUM_PLANET_INITIAL_INVASION : 3, // nombre de planète envahi à chaque round d'invasion au début de la partie
 };
 
 function Engine() {
@@ -93,6 +96,8 @@ function Engine() {
         this.initializeInventories();
         this.updatePlayerList();
         
+        this.initializeInvasion();
+        
         this.render();
         
         this.log("Game is ready.");
@@ -144,6 +149,18 @@ function Engine() {
         }
         
         this.log("Cards have been distributed.");
+    }
+    
+    this.initializeInvasion = function() {
+        
+        var attackedPlanet;
+        
+        for(var i = 3; i > 0; i--) {
+            for(var j = 0; j < Config.NUM_PLANET_INITIAL_INVASION; j++) {
+                attackedPlanet = this.decks.invaders.removeCard("first");
+                this.map.planets[attackedPlanet.value].threatLvl = i;
+            }
+        }
     }
     
     // Exécute le rendu du jeu

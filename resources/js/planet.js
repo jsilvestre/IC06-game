@@ -8,6 +8,7 @@ function Planet() {
     this.boundPlanets = [];
     this.isSelected = false;
     this.isHovering = false;
+    this.threatLvl = 0;
     
     // Dessine la vue de la planète
     this.draw = function(canvasContext) {
@@ -35,6 +36,7 @@ function Planet() {
         canvasContext.fillStyle = "#000";
         canvasContext.textAlign = "center";
         canvasContext.fillText(this.name, this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX + 15);
+        canvasContext.fillText(this.threatLvl, this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2);        
         canvasContext.closePath();
     }
     
