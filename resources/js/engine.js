@@ -15,6 +15,8 @@ var Config = {
     CARD_TYPE_MASSIVE_INVASION : "massiveincasion",
     
     NUM_ZONES : 4, // nombre de zones de jeu
+    
+    NUM_CARD_BY_TURN : 2, // nombre de cartes données par tour à un joueur
 };
 
 function Engine() {
@@ -375,6 +377,11 @@ function Engine() {
             this.nbTurn++;
         }
         this.players[this.currentPlayer].isPlaying = true;
+        
+        // Give some cards to the player
+        for(j = 0; j < Config.NUM_CARD_BY_TURN; j++) {
+            this.players[this.currentPlayer].inventory.addCard(this.decks.information.removeCard("first"));
+        }        
         
         this.updatePlayerList();
         
