@@ -102,6 +102,10 @@ function Engine() {
         player.planet = this.map.planets[4];
         player.x = player.planet.x;
         player.y = player.planet.y;
+        player.inventory.addCard(this.decks.information.getCard(0));
+        player.inventory.addCard(this.decks.information.getCard(1));
+        player.inventory.addCard(this.decks.information.getCard(2));
+        player.inventory.addCard(this.decks.information.getCard(3));                        
         this.players.push(player);
     
         player = new Player();
@@ -110,6 +114,7 @@ function Engine() {
         player.planet = this.map.planets[2];
         player.x = player.planet.x;
         player.y = player.planet.y;
+        player.inventory.addCard(this.decks.information.getCard(4));
         this.players.push(player);
         
         
@@ -119,11 +124,13 @@ function Engine() {
         player.planet = this.map.planets[3];
         player.x = player.planet.x;
         player.y = player.planet.y;
+        player.inventory.addCard(this.decks.information.getCard(5));
+        player.inventory.addCard(this.decks.information.getCard(6));
         this.players.push(player);
         
         this.currentPlayer = 0;
         
-        //this.updatePlayerList();
+        this.updatePlayerList();
         
         this.log("Players have been created.");
     }
@@ -431,7 +438,26 @@ function Engine() {
                 tmpAdded.addClass('isPlaying');
             }
             
+            tmpAdded.append(this.getPlayerInventoryView(this.players[i]));
+            
             div.append(tmpAdded) ;
         }
+        
+        console.debug(this.decks.information);
+    }
+    
+    this.getPlayerInventoryView = function(player) {
+        
+        var view = $('<div class="inventory"></div');
+        var listView = $('<ul></ul>');
+        var card;
+        for(var i = 0; i < player.inventory.cards.length; i++) {
+            card = player.inventory.cards[i];
+            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '</li>'));
+        }
+        
+        view.append(listView);        
+
+        return view;
     }
 }
