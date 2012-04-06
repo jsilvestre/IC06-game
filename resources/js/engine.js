@@ -6,7 +6,7 @@ var Config = {
     moveInterval : 25, // l'interval entre deux tick pour le déplacement en ms
     moveTime : 1500, // le temps qu'un déplacement doit durer en ms
     
-    LIMIT_DRAW_VERTICAL : 50, // le nombre minimum entre deux planètes liés en px (pour la liaison classique)
+    LIMIT_DRAW_VERTICAL : 50, // le nombre de px minimum entre deux planètes liées (pour la liaison classique)
     
     PLANET_HITBOX : 30,
     
