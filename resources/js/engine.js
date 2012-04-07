@@ -408,12 +408,13 @@ function Engine() {
         var giftCard;
         for(j = 0; j < Config.NUM_CARD_BY_TURN; j++) {
             giftCard = this.decks.information.removeCard("first");
-            if(giftCard != null) {
+
+            if(giftCard != false) {
                 this.players[this.currentPlayer].inventory.addCard(giftCard);
             }
             else {
-                console.debug('game over');
                 this.triggerGameOver(); // game over, you loser
+                return;
             }
         }        
         
@@ -530,6 +531,7 @@ function Engine() {
         clearInterval(this.timerIntervalId);
         clearInterval(this.tempoPlayerTurnInterval);
         clearInterval(this.tempoInvasionPhaseInterval);
+        clearInterval(this.tempoFlashInvadedPlanets);
         
         $('#game-over').show();
     }
