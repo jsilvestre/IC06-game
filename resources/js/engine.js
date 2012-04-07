@@ -47,6 +47,7 @@ function Engine() {
     this.timerIntervalId = null;
     this.tempoPlayerTurnInterval = null;
     this.tempoInvasionPhaseInterval = null;
+    this.tempoFlashInvadedPlanets = null;
     
     this.newTurnDate = null;
     
@@ -383,6 +384,7 @@ function Engine() {
     
     this.newPlayerTurn = function() {
         
+        clearInterval(this.tempoFlashInvadedPlanets);
         clearInterval(this.tempoInvasionPhaseInterval);
         
         this.map.unHoverPlanets();
@@ -410,6 +412,7 @@ function Engine() {
                 this.players[this.currentPlayer].inventory.addCard(giftCard);
             }
             else {
+                console.debug('game over');
                 this.triggerGameOver(); // game over, you loser
             }
         }        
@@ -440,11 +443,10 @@ function Engine() {
         
         this.stopTimer();
         this.updateTimerWrapper("PHASE D'INVASION");
-        $('#timer span').html("");        
-        //this.newTurnDate = Math.round(new Date().getTime() / 1000);
-        //this.startTimer(this.newTurnDate, Config.INVASION_PHASE_DURATION / 1000);        
+        $('#timer span').html("");
 
         var attackedPlanetId, attackedPlanet;
+        var attackedPlanets =  [];
         // increase the threat lvl
         for(var i = 0; i < Config.INVASION_SPEED_METER[this.currentInvasionSpeedIndex]; i++) {
 
@@ -456,12 +458,24 @@ function Engine() {
             else {
                 attackedPlanet.threatLvl = attackedPlanet.threatLvl + 1;
                 attackedPlanet.isHovering = true;
+                attackedPlanets.push(attackedPlanetId);
             }
+        }
+
+        this.makePlanetsFlash(attackedPlanets);
+        
+        this.tempoInvasionPhaseIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.INVASION_PHASE_DURATION + 1000, this);
+    }
+    
+    this.makePlanetsFlash = function(planets) {
+        for(var i = 0; i < planets.length; i++) {
+            this.map.planets[planets[i]].isHovering = !this.map.planets[planets[i]].isHovering;
         }
         
         this.render();
         
-        this.tempoInvasionPhaseIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.INVASION_PHASE_DURATION + 1000, this);
+        this.tempoFlashInvadedPlanets = setTimeout(function(that, planets) { that.makePlanetsFlash(planets); }, 250,
+                                                    this, planets);
     }
     
     this.startTimer = function(startDate, duration) {
