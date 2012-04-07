@@ -107,13 +107,40 @@ p {
         }
     }
     
-    p {
+    p, #invasionSpeed {
         .align-vertically(@headerHeight);
         .remove-previous-blank-space;
     
         display: inline-block;
         padding: 0 5px;
-        border-right: 1px solid #000;        
+        border-right: 1px solid #000;
+
+        position: relative;
+
+        #invasionSpeedMeter {
+            display: none;
+            position: absolute;
+            height: 35px;
+            top: 35px;
+            color: #FFF;
+            
+            p {
+                background: #444;
+                opacity: 0.8;
+                width: 100px;
+                text-align: center;
+                
+                &.isSelected {
+                    background: #AAA;
+                }
+            }
+        }
+        
+        &:hover {
+            #invasionSpeedMeter {
+                display: block;
+            }
+        }
     }
     
     #timer {

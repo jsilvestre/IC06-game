@@ -97,6 +97,9 @@ function Engine() {
         
         this.initializeInvasion();
         
+        this.initializeInvasionSpeedMeterView();
+        this.updateInvasionSpeedMeterView();
+        
         this.render();
         
         this.log("Game is ready.");
@@ -560,5 +563,22 @@ function Engine() {
         view.append(listView);        
 
         return view;
+    }
+    
+    this.initializeInvasionSpeedMeterView = function() {
+        
+        var view = $('#invasionSpeedMeter');
+        
+        for(var i = 0; i < Config.INVASION_SPEED_METER.length; i++) {
+            view.append('<p>' + Config.INVASION_SPEED_METER[i] +'</p>')
+        }
+    }
+    
+    this.updateInvasionSpeedMeterView = function() {
+        
+        $('#invasionSpeed span').html(Config.INVASION_SPEED_METER[this.currentInvasionSpeedIndex]);
+        
+        $('#invasionSpeedMeter p').removeClass('isSelected');
+        $('#invasionSpeedMeter p').eq(this.currentInvasionSpeedIndex).addClass('isSelected');
     }
 }
