@@ -8,8 +8,6 @@ Todo
 ====
 * Tons of stuff I haven't time to list :D Like the rules :p
 
-* Need to find a general way to make stuff flashes
-* Make the "hovering" blue circle flashes => would be fking awesome
 * Prevent players from doing action they can't do (due to a lack of resources or wrong timing)
 
 Reminder
