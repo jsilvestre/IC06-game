@@ -41,6 +41,7 @@ function Engine() {
     this.currentPlayer = 0;
     
     this.nbTurns = 0;
+    this.currentNumLaboratory = 0;
     
     this.canvas = null;
     this.canvasContext = null;
@@ -477,15 +478,26 @@ function Engine() {
     }
     
     this.playerFight = function() {
-        this.players[this.currentPlayer].fight(this.selectedPlanet);
-        this.updatePaView();
-        this.render();
+        var player = this.players[this.currentPlayer];
+        
+        if(player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0) {        
+            player.fight(this.selectedPlanet);
+            this.updatePaView();
+            this.render();
+        }
     }
     
     this.playerBuild = function() {
-        this.players[this.currentPlayer].buildLaboratory(this.selectedPlanet);
-        this.updatePaView();
-        this.render()
+        var player = this.players[this.currentPlayer];
+        
+        if(player.planet.id == this.selectedPlanet.id && player.pa > 0 && !this.selectedPlanet.hasLaboratory 
+            && this.currentNumLaboratory < Config.NUM_MAX_LABORATORY) {
+
+            player.buildLaboratory(this.selectedPlanet);
+            this.currentNumLaboratory++;
+            this.updatePaView();
+            this.render();
+        }
     }
     
     this.makePlanetsFlash = function(planets) {

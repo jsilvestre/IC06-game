@@ -7,7 +7,7 @@ function Player() {
     this.planet = null;
     this.isPlaying = false;
     this.inventory = new Deck();
-    this.pa = 4;
+    this.pa = 100;
     
     // Dessine la vue du joueur
     this.draw  = function(canvasContext) {
@@ -75,17 +75,12 @@ function Player() {
     }
     
     this.fight = function(planet) {
-
-        if(this.planet.id == planet.id && this.pa > 0 && planet.threatLvl > 0) {
-            planet.threatLvl = planet.threatLvl - 1;
-            this.pa = this.pa - 1;
-        }
+        planet.threatLvl = planet.threatLvl - 1;
+        this.pa = this.pa - 1;
     }
     
     this.buildLaboratory = function(planet) {
-        if(this.planet.id == planet.id && this.pa > 0 && !planet.hasLaboratory) {
-            planet.hasLaboratory = true;
-            this.pa = this.pa - 1;
-        }
+        planet.hasLaboratory = true;
+        this.pa = this.pa - 1;
     }
 }
