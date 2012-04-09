@@ -31,6 +31,10 @@
                engine.movePlayer(); 
             });
             
+            $('#fightAction').click(function() {
+                engine.playerFight();
+            });
+            
             $('#startGame').click(function () {
                engine.startGame(); 
                $('#startGame').unbind('click');

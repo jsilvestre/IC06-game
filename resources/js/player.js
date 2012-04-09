@@ -7,6 +7,7 @@ function Player() {
     this.planet = null;
     this.isPlaying = false;
     this.inventory = new Deck();
+    this.pa = 4;
     
     // Dessine la vue du joueur
     this.draw  = function(canvasContext) {
@@ -71,5 +72,13 @@ function Player() {
         this.x = planetDest.x;
         this.y = planetDest.y;
         this.planet = planetDest;        
+    }
+    
+    this.fight = function(planet) {
+
+        if(this.planet.id == planet.id && this.pa > 0 && planet.threatLvl > 0) {
+            planet.threatLvl = planet.threatLvl - 1;
+            this.pa = this.pa - 1;
+        }
     }
 }

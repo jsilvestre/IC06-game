@@ -17,7 +17,10 @@ var Config = {
     
     NUM_ZONES : 4, // nombre de zones de jeu
     
+    NUM_CARD_START : 3,
     NUM_CARD_BY_TURN : 2, // nombre de cartes données par tour à un joueur
+    
+    NUM_PA_TURN : 4, // nombre de PA par tour
     
     NUM_PLANET_INITIAL_INVASION : 3, // nombre de planète envahi à chaque round d'invasion au début de la partie
     
@@ -146,7 +149,7 @@ function Engine() {
         var i, j;
         
         for(i = 0; i < this.players.length; i++) {
-            for(j = 0; j < Config.NUM_ZONES; j++) {
+            for(j = 0; j < Config.NUM_CARD_START; j++) {
                 this.players[i].inventory.addCard(this.decks.information.removeCard("first"));
             }
         }
@@ -416,9 +419,12 @@ function Engine() {
                 this.triggerGameOver(); // game over, you loser
                 return;
             }
-        }        
+        }
+        
+        this.players[this.currentPlayer].pa = Config.NUM_PA_TURN;
         
         this.updatePlayerList();
+        this.updatePaView();
         
         // timer between two turns
         this.updateTimerWrapper("Début du tour dans");
@@ -466,6 +472,12 @@ function Engine() {
         this.makePlanetsFlash(attackedPlanets);
         
         this.tempoInvasionPhaseIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.INVASION_PHASE_DURATION + 1000, this);
+    }
+    
+    this.playerFight = function() {
+        this.players[this.currentPlayer].fight(this.selectedPlanet);
+        this.updatePaView();
+        this.render();
     }
     
     this.makePlanetsFlash = function(planets) {
@@ -588,6 +600,10 @@ function Engine() {
         for(var i = 0; i < Config.INVASION_SPEED_METER.length; i++) {
             view.append('<p>' + Config.INVASION_SPEED_METER[i] +'</p>')
         }
+    }
+    
+    this.updatePaView = function() {
+        $('#paCounter span.currentValue').html(this.players[this.currentPlayer].pa);
     }
     
     this.updateInvasionSpeedMeterView = function() {
