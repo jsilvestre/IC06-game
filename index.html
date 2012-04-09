@@ -35,6 +35,10 @@
                 engine.playerFight();
             });
             
+            $('#buildAction').click(function() {
+                engine.playerBuild();
+            });
+            
             $('#startGame').click(function () {
                engine.startGame(); 
                $('#startGame').unbind('click');

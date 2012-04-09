@@ -9,6 +9,7 @@ function Planet() {
     this.isSelected = false;
     this.isHovering = false;
     this.threatLvl = 0;
+    this.hasLaboratory = false;
     
     // Dessine la vue de la planète
     this.draw = function(canvasContext) {
@@ -25,6 +26,15 @@ function Planet() {
             canvasContext.strokeStyle = "#0088FF";
             canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
                               Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
+            canvasContext.stroke();
+            canvasContext.closePath();
+        }
+        
+        if(this.hasLaboratory) {
+            canvasContext.beginPath();
+            canvasContext.strokeStyle = "#FF0088";
+            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2,
+                              Config.PLANET_HITBOX / 1.7, 0, Math.PI*2, true);
             canvasContext.stroke();
             canvasContext.closePath();
         }

@@ -81,4 +81,11 @@ function Player() {
             this.pa = this.pa - 1;
         }
     }
+    
+    this.buildLaboratory = function(planet) {
+        if(this.planet.id == planet.id && this.pa > 0 && !planet.hasLaboratory) {
+            planet.hasLaboratory = true;
+            this.pa = this.pa - 1;
+        }
+    }
 }

@@ -25,6 +25,8 @@ var Config = {
     NUM_PLANET_INITIAL_INVASION : 3, // nombre de planète envahi à chaque round d'invasion au début de la partie
     
     INVASION_SPEED_METER : [2, 2, 3, 3, 4, 4], // jauge de vitesse d'invasion
+    
+    NUM_MAX_LABORATORY : 5, // nombre max de laboratoire dans une partie
 };
 
 function Engine() {
@@ -478,6 +480,12 @@ function Engine() {
         this.players[this.currentPlayer].fight(this.selectedPlanet);
         this.updatePaView();
         this.render();
+    }
+    
+    this.playerBuild = function() {
+        this.players[this.currentPlayer].buildLaboratory(this.selectedPlanet);
+        this.updatePaView();
+        this.render()
     }
     
     this.makePlanetsFlash = function(planets) {
