@@ -479,23 +479,30 @@ function Engine() {
     
     this.playerFight = function() {
         var player = this.players[this.currentPlayer];
+        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
-        if(player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0) {        
+        if(player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0
+            && card != null) {        
             player.fight(this.selectedPlanet);
+            player.inventory.removeCard(card.id);
             this.updatePaView();
+            this.updatePlayerList();
             this.render();
         }
     }
     
     this.playerBuild = function() {
         var player = this.players[this.currentPlayer];
+        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
         if(player.planet.id == this.selectedPlanet.id && player.pa > 0 && !this.selectedPlanet.hasLaboratory 
-            && this.currentNumLaboratory < Config.NUM_MAX_LABORATORY) {
+            && this.currentNumLaboratory < Config.NUM_MAX_LABORATORY && card != null) {
 
             player.buildLaboratory(this.selectedPlanet);
+            player.inventory.removeCard(card.id);
             this.currentNumLaboratory++;
             this.updatePaView();
+            this.updatePlayerList();
             this.render();
         }
     }
