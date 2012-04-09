@@ -21,7 +21,7 @@ function Deck() {
             if(this.cards[i].id == cardId || (i == 0 && cardId == "first")) {
                 cardToReturn = this.cards[i];
                 tmp = this.cards.slice(0, i);
-                this.cards = tmp.concat(tmp, this.cards.slice(i+1, this.cards.length));
+                this.cards = tmp.concat(this.cards.slice(i+1, this.cards.length - i + 1));
                 return cardToReturn;
             }
         }
