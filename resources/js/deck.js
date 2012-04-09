@@ -36,7 +36,7 @@ function Deck() {
             }
         }
         
-        return false;        
+        return false;
     }
     
     this.getCard = function(cardId) {
@@ -48,6 +48,16 @@ function Deck() {
         
         return null;
     }
+    
+    this.getCardByValue = function(value) {
+        for(var i = 0; i < this.cards.length; i++) {
+            if(this.cards[i].value == value) {
+                return this.cards[i];
+            }
+        }
+        
+        return null;
+    }    
     
     this.shuffle = function(nbShuffle) {
         for(var i = 0; i < nbShuffle; i++) {
