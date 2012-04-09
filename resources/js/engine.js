@@ -197,7 +197,7 @@ function Engine() {
     }
     
     this.movePlayer = function() {
-        if(this.selectedPlanet != null) {
+        if(this.selectedPlanet != null && this.selectedPlanet != this.players[this.currentPlayer].planet) {
             
             if(this.players[this.currentPlayer].planet.isBoundTo(this.selectedPlanet)) {            
                 this.startMoveTo(this.players[this.currentPlayer], this.selectedPlanet);
