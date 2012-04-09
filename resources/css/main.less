@@ -112,7 +112,7 @@ p {
         }
     }
     
-    p, #invasionSpeed {
+    p, #invasionSpeed, #recent-events {
         .align-vertically(@headerHeight);
         .remove-previous-blank-space;
     
@@ -121,20 +121,32 @@ p {
         border-right: 1px solid #000;
 
         position: relative;
-
+    }
+    
+    #timer {
+        .align-vertically(@headerHeight);
+        .remove-previous-blank-space;
+        
+        width: 150px;
+        display: inline-block;
+        text-align: center;
+        border-right: 1px solid #000;
+    }
+    
+    #invasionSpeed {
         #invasionSpeedMeter {
             display: none;
             position: absolute;
             height: 35px;
             top: 35px;
             color: #FFF;
-            
+        
             p {
                 background: #444;
                 opacity: 0.8;
                 width: 100px;
                 text-align: center;
-                
+            
                 &.isSelected {
                     background: #AAA;
                 }
@@ -147,15 +159,35 @@ p {
             }
         }
     }
-    
-    #timer {
-        .align-vertically(@headerHeight);
-        .remove-previous-blank-space;
+
+    #recent-events {
+        position: relative;
+
+        #chat-log {
+            display: none;
+            position: absolute;
+            left: -1px;
+                        
+            width: 450px;
+            max-height: 580px;
+            overflow: auto;
+
+            background: #444;
+            color: #FFF;
+            opacity: 0.8;
+
+            ul > li {
+          
+                p {
+                    display: inline;
+                    border: 0;
+                }
+            }
+        }
         
-        width: 150px;
-        display: inline-block;
-        text-align: center;
-        border-right: 1px solid #000;
+        &:hover {
+            #chat-log { display: block; }
+        }
     }
 }
 
