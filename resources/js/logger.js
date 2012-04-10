@@ -2,22 +2,37 @@ function Logger() {
     
     this.view = null;
     this.logs = new Array();
+    this.engine = null;
     
-    this.logAction = function(string) {
+    this.logAction = function(string, actorName) {
         
-        var logAction = { 'date' : new Date(), 'content' : string };
+        if(actorName == null) {
+            
+            var actor = this.engine.getCurrentPlayer();
+            
+            if(actor == null) {
+                actorName = "Système";
+            }
+            else {
+                actorName = actor.name;
+            }
+        }
         
-        this.logs.push(logAction);
-        this.addToView(logAction);
+        var loggedAction = { 'date' : new Date(), 'content' : string, 'author' : actorName };
+        
+        this.logs.push(loggedAction);
+        this.addToView(loggedAction);
     }
     
-    this.addToView = function(logAction) {
+    this.addToView = function(loggedAction) {
         
-        var h = logAction.date.getHours();
-        var m = logAction.date.getMinutes();
-        var s = logAction.date.getSeconds();
+        var h = loggedAction.date.getHours();
+        var m = loggedAction.date.getMinutes();
+        var s = loggedAction.date.getSeconds();
         
-        var renderedContent = '[' + h + ':' + m + ':' + s + '] ' + logAction.content;
-        this.view.html('<li>' + renderedContent + '</li>' + this.view.html());
+        var date = '<span class="date">[' + h + ':' + m + ':' + s + ']</span> ';        
+        var actor = '<span class="actor">' + loggedAction.author + '</span>';
+
+        this.view.html('<li>' + date + actor + ': ' + loggedAction.content + '</li>' + this.view.html());
     }    
 }

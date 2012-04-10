@@ -27,6 +27,8 @@ var Config = {
     INVASION_SPEED_METER : [2, 2, 3, 3, 4, 4], // jauge de vitesse d'invasion
     
     NUM_MAX_LABORATORY : 5, // nombre max de laboratoire dans une partie
+    
+    SYSTEM_NAME : "Système",
 };
 
 function Engine() {
@@ -81,7 +83,8 @@ function Engine() {
     this.initializeGame = function(jsonObject) {
         
         this.logger = new Logger();
-        this.logger.view = $('#logger');
+        this.logger.engine = this;
+        this.logger.view = $('#chat-log ul');
             
         this.buildMapModel(jsonObject);
         this.buildDecks();
@@ -109,11 +112,11 @@ function Engine() {
         
         this.render();
         
-        this.log("Game is ready.");
+        this.log("Game is ready.", Config.SYSTEM_NAME);
     }
     
-    this.log = function(string) {
-        this.logger.logAction(string);
+    this.log = function(string, actorName) {
+        this.logger.logAction(string, actorName);
     }
     
     this.initializePlayers = function() {
@@ -144,7 +147,7 @@ function Engine() {
         
         this.currentPlayer = 0;
         
-        this.log("Players have been created.");
+        this.log("Players have been created.", Config.SYSTEM_NAME);
     }
     
     this.initializeInventories = function() {
@@ -157,7 +160,7 @@ function Engine() {
             }
         }
         
-        this.log("Cards have been distributed.");
+        this.log("Cards have been distributed.", Config.SYSTEM_NAME);
     }
     
     this.initializeInvasion = function() {
@@ -210,7 +213,7 @@ function Engine() {
                 }
             }
             
-            this.log(this.players[this.currentPlayer].name + " has moved to " + this.selectedPlanet.name);
+            this.log("Déplacement vers " + this.selectedPlanet.name);
         }
     }
     
@@ -438,7 +441,7 @@ function Engine() {
     this.runPlayerTurn = function() {
         clearInterval(this.tempoPlayerInterval);
         
-        this.log(this.players[this.currentPlayer].name + "'s turn has started.");
+        this.log("Début du tour.");
 
         // start the timer for the turn
         this.updateTimerWrapper("Fin du tour dans");
@@ -639,5 +642,9 @@ function Engine() {
         
         $('#invasionSpeedMeter p').removeClass('isSelected');
         $('#invasionSpeedMeter p').eq(this.currentInvasionSpeedIndex).addClass('isSelected');
+    }
+    
+    this.getCurrentPlayer = function() {
+        return this.players[this.currentPlayer];
     }
 }
