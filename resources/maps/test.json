@@ -1,220 +1,546 @@
 ﻿{
     "title" : "My test map",
+
     "description" : "description of test map",
+
+    "config" : {
+        "TURN_DURATION" : 5000,
+        "TIME_BETWEEN_TURN" : 5000,
+        "INVASION_PHASE_DURATION" : 5000,
+        "NUM_CARD_START" : 3,
+        "NUM_CARD_BY_TURN" : 2,
+        "NUM_MAX_LABORATORY" : 5,
+        "NUM_PA_TURN" : 4,
+        "NUM_PLANET_INITIAL_INVASION" : 3
+    },
     
     "planets" : [
+
         {
+
             "id" : 1,
+
             "name" : "Stratonium",
-            "zone" : "threat-d",
-            "pos" : { "x" : 100, "y" : 10 }
+
+            "zone" : "threat-a",
+
+            "pos" : { "x" : 100, "y" : 40 }
+
         },
+
         {
+
             "id" : 2,
+
             "name" : "Cabatum",
-            "zone" : "threat-a",            
-            "pos" : { "x" : 250, "y" : 50 }
+
+            "zone" : "threat-a",
+            "pos" : { "x" : 65, "y" : 135 }
+
         },
+
         {
+
             "id" : 3,
+
             "name" : "Malium",
-            "zone" : "threat-b",            
-            "pos" : { "x" : 890, "y" : 340 }
+
+            "zone" : "threat-a",
+            "pos" : { "x" : 120, "y" : 250 }
+
         },
+
         {
-            "id" : 4,         
-            "name" : "Vitomium",
-            "zone" : "threat-b",
-            "pos" : { "x" : 610, "y" : 200 }
+
+            "id" : 4,
+         
+   "name" : "Vitomium",
+
+            "zone" : "threat-a",
+
+            "pos" : { "x" : 300, "y" : 60 }
+
         },
+
         {
-            "id" : 5,         
-            "name" : "Tardum",
-            "zone" : "threat-c",
-            "pos" : { "x" : 50, "y" : 50 }
+
+            "id" : 5,
+         
+   "name" : "Tardum",
+
+            "zone" : "threat-a",
+
+            "pos" : { "x" : 225, "y" : 130 }
+
         },
+
         {
-            "id" : 6,            
+
+            "id" : 6,
             "name" : "Mécratum",
+
             "zone" : "threat-a",
-            "pos" : { "x" : 420, "y" : 230 }
+
+            "pos" : { "x" : 300, "y" : 230 }
+
         },
+
         {
-            "id" : 7,            
-            "name" : "Mordum",
-            "zone" : "threat-c",
-            "pos" : { "x" : 50, "y" : 150 }
+
+            "id" : 7,
+            
+"name" : "Mordum",
+
+            "zone" : "threat-a",
+
+            "pos" : { "x" : 400, "y" : 190 }
+
         },
+
         {
+
             "id" : 8,
+
             "name" : "Cracatohum",
-            "zone" : "threat-d",
-            "pos" : { "x" : 700, "y" : 200 }
+
+            "zone" : "threat-a",
+
+            "pos" : { "x" : 500, "y" : 50 }
+
         },
+
         {
+
             "id" : 9,
+
             "name" : "Terrum",
-            "zone" : "threat-c",
-            "pos" : { "x" : 1250, "y" : 0 }
+
+            "zone" : "threat-a",
+
+            "pos" : { "x" : 550, "y" : 125 }
+
         },
+
         {
+
             "id" : 10,
+
             "name" : "Jeronium",
+
             "zone" : "threat-a",
-            "pos" : { "x" : 128, "y" : 54 }
+
+            "pos" : { "x" : 530, "y" : 240 }
+
         },
+
         {
+
             "id" : 11,
+
             "name" : "Ohum",
+
             "zone" : "threat-b",
-            "pos" : { "x" : 26, "y" : 412 }
+
+            "pos" : { "x" : 35, "y" : 500 }
+
         },
+
         {
+
             "id" : 12,
+
             "name" : "Doïtum",
-            "zone" : "threat-d",
-            "pos" : { "x" : 289, "y" : 131 }
+
+            "zone" : "threat-b",
+
+            "pos" : { "x" : 80, "y" : 370 }
+
         },
+
         {
+
             "id" : 13,
+
             "name" : "Ventum",
-            "zone" : "threat-a",
-            "pos" : { "x" : 10, "y" : 12 }
+
+            "zone" : "threat-b",
+
+            "pos" : { "x" : 50, "y" : 280 }
+
         },
+
         {
             "id" : 14,
+
             "name" : "Merdum",
+
             "zone" : "threat-b",
-            "pos" : { "x" : 500, "y" : 800 }
+
+            "pos" : { "x" : 200, "y" : 475 }
+
         },
+
         {
+
             "id" : 15,
+
             "name" : "Tredum",
-            "zone" : "threat-c",
-            "pos" : { "x" : 250, "y" : 775 }
+
+            "zone" : "threat-b",
+
+            "pos" : { "x" : 350, "y" : 420 }
+
         },
+
         {
+
             "id" : 16,
+
             "name" : "Viscosum",
-            "zone" : "threat-d",
-            "pos" : { "x" : 623, "y": 623 }
+
+            "zone" : "threat-b",
+
+            "pos" : { "x" : 250, "y": 325 }
+
         },
+
         {
+
             "id" : 17,
+
             "name" : "Biscotum",
-            "zone" : "threat-a",
-            "pos" : { "x" : 78, "y" : 81 }
+
+            "zone" : "threat-b",
+
+            "pos" : { "x" : 570, "y" : 330 }
+
         },
+
         {
+
             "id" : 18,
+
             "name" : "Marcellium",
+
             "zone" : "threat-b",
-            "pos" : { "x" : 956, "y" : 607 }
+
+            "pos" : { "x" : 420, "y" : 350 }
+
         },
+
         {
+
             "id" : 19,
+
             "name" : "Cornelium",
-            "zone" : "threat-c",
-            "pos" : { "x" : 587, "y" : 256 }
-        },
-        {
-            "id" : 20,
-            "name" : "Ursulum",
-            "zone" : "threat-d",
-            "pos" : { "x" : 435, "y" : 503 }
-        },
-        {
-            "id" : 21,
-            "name" : "Torusum",
-            "zone" : "threat-a",
-            "pos" : { "x" : 336, "y" : 10 }
-        },
-        {
-            "id" : 22,
-            "name" : "Satarium",
+
             "zone" : "threat-b",
-            "pos" : { "x" : 398, "y" : 147 }
+
+            "pos" : { "x" : 547, "y" : 456 }
+
         },
+
+        {
+
+            "id" : 20,
+
+            "name" : "Ursulum",
+
+            "zone" : "threat-b",
+
+            "pos" : { "x" : 435, "y" : 503 }
+
+        },
+
+        {
+
+            "id" : 21,
+
+            "name" : "Torusum",
+
+            "zone" : "threat-c",
+
+            "pos" : { "x" : 650, "y" : 30 }
+
+        },
+
+        {
+
+            "id" : 22,
+
+            "name" : "Satarium",
+
+            "zone" : "threat-c",
+
+            "pos" : { "x" : 750, "y" : 147 }
+
+        },
+
         {
             "id" : 23,
+
             "name" : "Notorium",
+
             "zone" : "threat-c",
-            "pos" : { "x" : 113, "y" : 138 }
+
+            "pos" : { "x" : 1200, "y" : 50 }
+
         },
+
         {
+
             "id" : 24,
+
             "name" : "Bonotum",
-            "zone" : "threat-d",
-            "pos" : { "x" : 562, "y" : 374 }
+
+            "zone" : "threat-c",
+
+            "pos" : { "x" : 1100, "y" : 130 }
+
         },
+
         {
+
             "id" : 25,
+
             "name" : "Solarium",
-            "zone" : "threat-a",
-            "pos" : { "x" : 731, "y" : 728 }
+
+            "zone" : "threat-c",
+
+            "pos" : { "x" : 950, "y" : 70 }
+
         },
+
         {
+
             "id" : 26,
+
             "name" : "Strauss-Kahnium",
-            "zone" : "threat-b",
-            "pos" : { "x" : 612, "y" : 312 }
+
+            "zone" : "threat-c",
+
+            "pos" : { "x" : 670, "y" : 220 }
+
         },
+
         {
+
             "id" : 27,
+
             "name" : "Diablum",
+
             "zone" : "threat-c",
-            "pos" : { "x" : 666, "y" : 666 }
+
+            "pos" : { "x" : 1000, "y" : 220 }
+
         },
+
         {
+
             "id" : 28,
+
             "name" : "Clavierum",
-            "zone" : "threat-d",
-            "pos" : { "x" : 965, "y" : 1080 }
-        },
-        {
-            "id" : 29,
-            "name" : "Vintagium",
-            "zone" : "threat-a",
-            "pos" : { "x" : 878, "y" : 777 }
-        },
-        {
-            "id" : 30,
-            "name" : "Abusium",
-            "zone" : "threat-b",
-            "pos" : { "x" : 380, "y" : 747 }
-        },
-        {
-            "id" : 31,
-            "name" : "Tututium",
+
             "zone" : "threat-c",
-            "pos" : { "x" : 650, "y" : 650 }
+
+            "pos" : { "x" : 800, "y" : 50 }
+
+        },
+
+        {
+
+            "id" : 29,
+
+            "name" : "Vintagium",
+
+            "zone" : "threat-c",
+
+            "pos" : { "x" : 878, "y" : 200 }
+
+        },
+
+        {
+
+            "id" : 30,
+
+            "name" : "Abusium",
+
+            "zone" : "threat-c",
+
+            "pos" : { "x" : 1150, "y" : 250 }
+
+        },
+
+        {
+
+            "id" : 31,
+
+            "name" : "Tututium",
+
+            "zone" : "threat-d",
+
+            "pos" : { "x" : 700, "y" : 300 }
+
+        },
+
+        {
+
+            "id" : 32,
+
+            "name" : "Vectorium",
+
+            "zone" : "threat-d",
+
+            "pos" : { "x" : 920 , "y" : 510 }
+
         },
         {
-            "id" : 32,
-            "name" : "Vectorium",
+
+            "id" : 33,
+
+            "name" : "Godzillum",
+
             "zone" : "threat-d",
-            "pos" : { "x" : 876 , "y" : 577 }
+
+            "pos" : { "x" : 1160 , "y" : 350 }
+
+        },
+        {
+
+            "id" : 34,
+
+            "name" : "Rhum",
+
+            "zone" : "threat-d",
+
+            "pos" : { "x" : 700 , "y" : 400 }
+
+        },
+	{
+
+            "id" : 35,
+
+            "name" : "Angstrum",
+
+            "zone" : "threat-d",
+
+            "pos" : { "x" : 830 , "y" : 430 }
+
+        },
+	{
+
+            "id" : 36,
+
+            "name" : "Pochetrum",
+
+            "zone" : "threat-d",
+
+            "pos" : { "x" : 1070 , "y" : 430 }
+
+        },
+	{
+
+            "id" : 37,
+
+            "name" : "Colzarium",
+
+            "zone" : "threat-d",
+
+            "pos" : { "x" : 1000 , "y" : 320 }
+
+        },
+	{
+
+            "id" : 38,
+
+            "name" : "Sternum",
+
+            "zone" : "threat-d",
+
+            "pos" : { "x" : 850 , "y" : 330 }
+
+        },
+	{
+
+            "id" : 39,
+
+            "name" : "Sebum",
+
+            "zone" : "threat-d",
+
+            "pos" : { "x" : 650 , "y" : 500 }
+
+        },
+	{
+
+            "id" : 40,
+
+            "name" : "Expelhuim",
+
+            "zone" : "threat-d",
+
+            "pos" : { "x" : 1200 , "y" : 500 }
+
         }
     ],
+
         
     "relations" : [
+
         [ 1, 2 ],
-        [ 6, 4 ],
-        [ 2, 4 ],
-        [ 4, 3 ],
-        [ 5, 1 ],
-        [ 5, 2 ],
-        [ 7, 5 ],
-        [ 13, 1 ],
-        [ 17, 5 ],
-        [ 17, 23 ],
-        [ 21, 2 ],
-        [ 12, 2 ],
-        [ 12, 22 ],
-        [ 22, 6 ],
-        [ 4, 8 ],
-        [ 8, 3 ],
-        [ 4, 19 ],
-        [ 19, 26 ]
+
+        [ 2, 3 ],
+        [ 4, 5 ],
+        [ 4, 6 ],
+        [ 3, 6 ],
+        [ 6, 7 ],
+        [ 7, 8 ],
+        [ 8, 9 ],
+        [ 9, 10 ],
+        [ 7, 10 ],
+        [ 12, 13 ],
+        [ 13, 16 ],
+        [ 16, 18 ],
+        [ 18, 17 ],
+        [ 17, 19 ],
+        [ 19, 20 ],
+        [ 20, 14 ],
+        [ 14, 11 ],
+        [ 11, 12 ],
+        [ 14, 15 ],
+        [ 15, 18 ],
+        [ 21, 26 ],
+        [ 21, 28 ],
+        [ 22, 28 ],
+        [ 22, 26 ],
+        [ 28, 29 ],
+        [ 25, 29 ],
+        [ 24, 27 ],
+        [ 23, 24 ],
+        [ 24, 27 ],
+        [ 27, 30 ],
+        [ 24, 25 ],
+        [ 23, 30 ],
+        [ 31, 34 ],
+        [ 34, 39 ],
+        [ 31, 38 ],
+        [ 35, 38 ],
+        [ 35, 39 ],
+        [ 35, 36 ],
+        [ 36, 40 ],
+        [ 32, 40 ],
+        [ 32, 39 ],
+        [ 33, 37 ],
+        [ 33, 36 ],
+        [ 36, 37 ],
+        [ 2, 13 ],
+        [ 8, 21 ],
+        [ 10, 31 ],
+        [ 19, 39 ],
+        [ 29, 38 ],
+        [ 6, 18 ],
+        [ 30, 33 ],
+	[ 1, 5 ]
     ]
+
 }

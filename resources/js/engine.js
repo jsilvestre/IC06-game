@@ -1,9 +1,5 @@
 var Config = {
     
-    TURN_DURATION : 5000,  // durée d'un tour en ms
-    TIME_BETWEEN_TURN : 5000, // durée entre deux tours
-    INVASION_PHASE_DURATION : 5000, // durée de la phase d'invasion    
-    
     moveInterval : 25, // l'interval entre deux tick pour le déplacement en ms
     moveTime : 1500, // le temps qu'un déplacement doit durer en ms
     
@@ -17,16 +13,7 @@ var Config = {
     
     NUM_ZONES : 4, // nombre de zones de jeu
     
-    NUM_CARD_START : 3,
-    NUM_CARD_BY_TURN : 2, // nombre de cartes données par tour à un joueur
-    
-    NUM_PA_TURN : 4, // nombre de PA par tour
-    
-    NUM_PLANET_INITIAL_INVASION : 3, // nombre de planète envahi à chaque round d'invasion au début de la partie
-    
     INVASION_SPEED_METER : [2, 2, 3, 3, 4, 4], // jauge de vitesse d'invasion
-    
-    NUM_MAX_LABORATORY : 5, // nombre max de laboratoire dans une partie
     
     SYSTEM_NAME : "Système",
 };
@@ -85,7 +72,8 @@ function Engine() {
         this.logger = new Logger();
         this.logger.engine = this;
         this.logger.view = $('#chat-log ul');
-            
+        
+        this.loadConfiguration(jsonObject);
         this.buildMapModel(jsonObject);
         this.buildDecks();
         
@@ -113,6 +101,13 @@ function Engine() {
         this.render();
         
         this.log("Game is ready.", Config.SYSTEM_NAME);
+    }
+    
+    this.loadConfiguration = function(jsonObject) {
+        
+        for(var key in jsonObject.config) {
+            Config[key] = jsonObject.config[key];
+        }
     }
     
     this.log = function(string, actorName) {
