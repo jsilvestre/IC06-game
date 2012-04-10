@@ -490,6 +490,7 @@ function Engine() {
             player.inventory.removeCard(card.id);
             this.updatePaView();
             this.updatePlayerList();
+            this.updateCurrentPlanetInfo();
             this.render();
         }
     }
@@ -556,7 +557,7 @@ function Engine() {
         
         if(this.selectedPlanet != null) {
             $('.default-content').hide();
-            var html = '<p>Nom : ' + p.name + '</p><p>Zone : ' + p.zone + '</p>';
+            var html = '<p>Nom : ' + p.name + '</p><p>Zone : ' + p.zone + '</p><p>Niveau de menace : ' + this.selectedPlanet.threatLvl + '</p>';
             div.find('.info').html(html);
             div.show();
         }
