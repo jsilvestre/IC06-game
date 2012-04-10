@@ -27,8 +27,20 @@
                 engine.selectPlanet(event);               
             });
             
-            $('#move').click(function() {
+            $('#moveClassic').click(function() {
                engine.movePlayer(); 
+            });
+            
+            $('#moveTarget').click(function() {
+               engine.movePlayerWithTargetResource(); 
+            });
+            
+            $('#moveCurrent').click(function() {
+               engine.movePlayerWithCurrentResource(); 
+            });
+            
+            $('#moveLabo').click(function() {
+               engine.movePlayerByLabo(); 
             });
             
             $('#fightAction').click(function() {
@@ -93,7 +105,7 @@
                             <a id="moveLabo" href="#">Déplacement par laboratoire secret</a>
                             <a id="moveCurrent" href="#">Déplacement subspatial</a>
                             <a id="moveTarget" href="#">Déplacement hyper-espace</a>
-                            <a id="move" href="#">Déplacement classique</a>
+                            <a id="moveClassic" href="#">Déplacement classique</a>
                         </div>
                     </li>
                     <li><a id="fightAction" href="#">Engager le combat</a></li>

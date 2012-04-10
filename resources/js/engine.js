@@ -217,6 +217,58 @@ function Engine() {
         }
     }
     
+    this.movePlayerWithTargetResource = function() {
+        
+        if(this.selectedPlanet == null) return;
+        
+        var player = this.players[this.currentPlayer];
+        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
+        
+        if(player.planet.id != this.selectedPlanet.id && player.pa > 0 && card != null) {
+
+            player.inventory.removeCard(card.id);
+            player.pa--;
+            this.updatePaView();
+            this.updatePlayerList();
+            
+            this.startMoveTo(this.getCurrentPlayer(), this.selectedPlanet);
+        }
+        
+    }
+    
+    this.movePlayerWithCurrentResource = function() {
+        
+        if(this.selectedPlanet == null) return;
+        
+        var player = this.players[this.currentPlayer];
+        var card = player.inventory.getCardByValue(player.planet.id);
+        
+        if(player.planet.id != this.selectedPlanet.id && player.pa > 0 && card != null) {
+            player.inventory.removeCard(card.id);
+            player.pa--;
+            this.updatePaView();
+            this.updatePlayerList();
+            
+            this.startMoveTo(this.getCurrentPlayer(), this.selectedPlanet);
+        }        
+    }
+    
+    this.movePlayerByLabo = function() {
+        
+        if(this.selectedPlanet == null) return;
+        
+        var player = this.players[this.currentPlayer];
+        
+        if(player.planet.id != this.selectedPlanet.id && player.pa > 0 
+            && player.planet.hasLaboratory && this.selectedPlanet.hasLaboratory) {
+            player.pa--;
+            this.updatePaView();
+            this.updatePlayerList();
+            
+            this.startMoveTo(this.getCurrentPlayer(), this.selectedPlanet);
+        }        
+    }
+    
     this.startMoveTo = function(player, planet) {
         this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, 
                                     Config.moveInterval, 
