@@ -112,7 +112,7 @@ p {
         }
     }
     
-    p, #invasionSpeed, #recent-events {
+    p, #weaponsCounter, #invasionSpeed, #recent-events {
         .align-vertically(@headerHeight);
         .remove-previous-blank-space;
     
@@ -131,6 +131,33 @@ p {
         display: inline-block;
         text-align: center;
         border-right: 1px solid #000;
+    }
+    
+    #weaponsCounter {
+        ul {
+            display: none;
+            position: absolute;
+            height: 35px;
+            top: 35px;
+            color: #FFF;
+        
+            li {
+                background: #444;
+                opacity: 0.8;
+                width: 75px;
+                text-align: center;
+            
+                &.isFound {
+                    background: green;
+                }
+            }
+        }
+        
+        &:hover {
+            ul {
+                display: block;
+            }
+        }
     }
     
     #invasionSpeed {

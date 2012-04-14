@@ -47,6 +47,8 @@ function Engine() {
     this.newTurnDate = null;
     
     this.currentInvasionSpeedIndex = 0;
+    
+    this.weaponsFound = [];
         
     this.decks = {
         "information" : new Deck(),
@@ -76,6 +78,11 @@ function Engine() {
         this.loadConfiguration(jsonObject);
         this.buildMapModel(jsonObject);
         this.buildDecks();
+        
+        this.weaponsFound["a"] = false;
+        this.weaponsFound["b"] = false;
+        this.weaponsFound["c"] = false;
+        this.weaponsFound["d"] = false;                    
         
         this.log("Map has been loaded.");
         
@@ -690,6 +697,14 @@ function Engine() {
         
         $('#invasionSpeedMeter p').removeClass('isSelected');
         $('#invasionSpeedMeter p').eq(this.currentInvasionSpeedIndex).addClass('isSelected');
+    }
+    
+    this.updateWeaponsList = function() {
+        for(var i in this.weaponsFound) {
+            if(this.weaponsFound[i] == true) {
+                $('#zone-'+i).addClass('isFound');
+            }
+        }
     }
     
     this.getCurrentPlayer = function() {
