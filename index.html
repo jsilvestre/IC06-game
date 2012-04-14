@@ -51,6 +51,10 @@
                 engine.playerBuild();
             });
             
+            $('#createAction').click(function() {
+               engine.playerCreateWeapon(); 
+            });
+            
             $('#startGame').click(function () {
                engine.startGame(); 
                $('#startGame').unbind('click');

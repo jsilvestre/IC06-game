@@ -83,4 +83,12 @@ function Player() {
         planet.hasLaboratory = true;
         this.pa = this.pa - 1;
     }
+    
+    this.createWeapon = function(selectedCards) {        
+        this.pa = this.pa - 1;
+        
+        for(i = 0; i < selectedCards.length; i++) {
+            this.inventory.removeCard(selectedCards[i].id);
+        }
+    }
 }

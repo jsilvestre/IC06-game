@@ -450,6 +450,8 @@ function Engine() {
         clearInterval(this.tempoFlashInvadedPlanets);
         clearInterval(this.tempoInvasionPhaseInterval);
         
+        $('#playerList .inventory li').removeClass('selected'); // clear the inventory selection
+        
         this.map.unHoverPlanets();
         this.render();
         
@@ -549,6 +551,40 @@ function Engine() {
         }
     }
     
+    this.playerCreateWeapon = function() {
+        
+        var selectedCards = [];
+        var engine = this;
+        $('#playerList .inventory li.selected').each(function() {
+            selectedCards.push(engine.getCurrentPlayer().inventory.getCardByValue($(this).find('span').html()));
+        });
+        
+        if(selectedCards.length == 5) {
+            
+            var planet;
+            
+            for(var i = 0; i < selectedCards.length; i++) {
+                planet = this.map.planets[selectedCards[i].value];
+                if(planet.zone != this.selectedPlanet.zone) {
+                    this.log('Action impossible.');
+                    return false;
+                }
+            }
+        
+            this.getCurrentPlayer().createWeapon(selectedCards);
+            this.weaponsFound[this.getCurrentPlayer().planet.zone] = true;
+            this.updateWeaponsListView();
+            this.updatePlayerList();
+            this.updatePaView();
+            
+            this.log("arme créée avec succès !");
+        }
+        else {
+            this.log("selectionner 5 GT de la même zone.");
+            return false;
+        }
+    }
+    
     this.playerBuild = function() {
         var player = this.players[this.currentPlayer];
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
@@ -635,7 +671,7 @@ function Engine() {
     
     this.updatePlayerList = function() {
         
-        $('#playerList .inventory li').unbind('hover');
+        $('#playerList .inventory li').unbind('hover').unbind('click');
         
         var div = $('#playerList');
         div.html('');
@@ -661,6 +697,14 @@ function Engine() {
         }, function() {
             engine.hoverPlanet($(this).children('span').html(), false);
         });
+        
+        $('#playerList .inventory li').click(function() {
+            
+            var playerName = $(this).parent().parent().parent().find('span').html();
+            if(playerName == engine.getCurrentPlayer().name) {
+                $(this).toggleClass('selected');
+            }
+        });        
     }
     
     this.getPlayerInventoryView = function(player) {
@@ -699,12 +743,22 @@ function Engine() {
         $('#invasionSpeedMeter p').eq(this.currentInvasionSpeedIndex).addClass('isSelected');
     }
     
-    this.updateWeaponsList = function() {
+    this.updateWeaponsListView = function() {
         for(var i in this.weaponsFound) {
             if(this.weaponsFound[i] == true) {
                 $('#zone-'+i).addClass('isFound');
             }
         }
+    }
+    
+    this.getPlayerByName = function(name) {
+        for(var i = 0; i < this.players.length; i++) {
+            if(this.players[i].name == name) {
+                return this.players[i];
+            }
+        }
+        
+        return false;
     }
     
     this.getCurrentPlayer = function() {
