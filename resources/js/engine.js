@@ -589,6 +589,7 @@ function Engine() {
             this.updateWeaponsListView();
             this.updatePlayerList();
             this.updatePaView();
+            this.checkForVictory();
             
             this.log("arme créée avec succès !");
         }
@@ -669,6 +670,24 @@ function Engine() {
         }
     }
     
+    this.triggerWin = function()  {
+        clearInterval(this.timerIntervalId);
+        clearInterval(this.playerMoveIntervalId);
+        clearInterval(this.playerTurnInterval);
+        clearInterval(this.timerIntervalId);
+        clearInterval(this.tempoPlayerTurnInterval);
+        clearInterval(this.tempoInvasionPhaseInterval);
+        clearInterval(this.tempoFlashInvadedPlanets);
+        
+        $('#win').show();
+    }
+    
+    this.checkForVictory = function() {
+        if(this.zones['a'] == true && this.zones['b'] == true && this.zones['c'] == true && this.zones['d'] == true) {
+            this.triggerWin();
+        }
+    }
+    
     this.triggerGameOver = function() {
         clearInterval(this.timerIntervalId);
         clearInterval(this.playerMoveIntervalId);
@@ -724,16 +743,10 @@ function Engine() {
         var view = $('<div class="inventory"></div');
         var listView = $('<ul></ul>');
         var card;
-        var selected;
         for(var i = 0; i < player.inventory.cards.length; i++) {
             card = player.inventory.cards[i];
-            if(player.id == 0) {
-                selected = ' class="selected"';
-            }
-            else {
-                selected ='';
-            }
-            listView.append($('<li'+selected+'>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span></li>'));
+
+            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span></li>'));
         }
         
         view.append(listView);        
