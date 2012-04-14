@@ -17,11 +17,13 @@ function Deck() {
     this.removeCard = function(cardId) {
         var tmp = [], tmpNew = [];
         var cardToReturn;
+
         for(var i = 0; i < this.cards.length; i++) {
             if(this.cards[i].id == cardId || (i == 0 && cardId == "first")) {
                 cardToReturn = this.cards[i];
                 tmp = this.cards.slice(0, i);
-                this.cards = tmp.concat(this.cards.slice(i+1, this.cards.length - i + 1));
+                
+                this.cards = tmp.concat(this.cards.slice(i+1, this.cards.length));
                 return cardToReturn;
             }
         }
