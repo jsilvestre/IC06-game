@@ -74,14 +74,18 @@ function Player() {
         this.planet = planetDest;        
     }
     
-    this.fight = function(planet) {
+    this.fight = function(planet, card) {
         planet.threatLvl = planet.threatLvl - 1;
         this.pa = this.pa - 1;
+        
+        this.inventory.removeCard(card.id);
     }
     
-    this.buildLaboratory = function(planet) {
+    this.buildLaboratory = function(planet, card) {
         planet.hasLaboratory = true;
         this.pa = this.pa - 1;
+        
+        this.inventory.removeCard(card.id);        
     }
     
     this.createWeapon = function(selectedCards) {        

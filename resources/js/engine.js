@@ -542,8 +542,7 @@ function Engine() {
         
         if(player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0
             && card != null) {        
-            player.fight(this.selectedPlanet);
-            player.inventory.removeCard(card.id);
+            player.fight(this.selectedPlanet, card);
             this.updatePaView();
             this.updatePlayerList();
             this.updateCurrentPlanetInfo();
@@ -592,8 +591,7 @@ function Engine() {
         if(player.planet.id == this.selectedPlanet.id && player.pa > 0 && !this.selectedPlanet.hasLaboratory 
             && this.currentNumLaboratory < Config.NUM_MAX_LABORATORY && card != null) {
 
-            player.buildLaboratory(this.selectedPlanet);
-            player.inventory.removeCard(card.id);
+            player.buildLaboratory(this.selectedPlanet, card);
             this.currentNumLaboratory++;
             this.updatePaView();
             this.updatePlayerList();
