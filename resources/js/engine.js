@@ -569,6 +569,20 @@ function Engine() {
                     return false;
                 }
             }
+            
+            var planet;
+            var cardsToRemove = [];
+            for(i = 0; i < this.decks.invaders.cards.length; i++) {
+                planet = this.map.planets[this.decks.invaders.cards[i].value];
+                
+                if(planet.zone == this.selectedPlanet.zone) {
+                    cardsToRemove.push(this.decks.invaders.cards[i].id);
+                }
+            }
+            
+            for(i = 0; i < cardsToRemove.length; i++) {
+                this.decks.invaders.removeCard(cardsToRemove[i], true);
+            }
         
             this.getCurrentPlayer().createWeapon(selectedCards);
             this.weaponsFound[this.getCurrentPlayer().planet.zone] = true;
@@ -710,9 +724,16 @@ function Engine() {
         var view = $('<div class="inventory"></div');
         var listView = $('<ul></ul>');
         var card;
+        var selected;
         for(var i = 0; i < player.inventory.cards.length; i++) {
             card = player.inventory.cards[i];
-            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span></li>'));
+            if(player.id == 0) {
+                selected = ' class="selected"';
+            }
+            else {
+                selected ='';
+            }
+            listView.append($('<li'+selected+'>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span></li>'));
         }
         
         view.append(listView);        
