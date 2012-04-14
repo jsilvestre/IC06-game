@@ -5,11 +5,11 @@
 
     "config" : {
         "TURN_DURATION" : 5000,
-        "TIME_BETWEEN_TURN" : 5000,
+        "TIME_bETWEEN_TURN" : 5000,
         "INVASION_PHASE_DURATION" : 5000,
         "NUM_CARD_START" : 3,
-        "NUM_CARD_BY_TURN" : 2,
-        "NUM_MAX_LABORATORY" : 5,
+        "NUM_CARD_bY_TURN" : 2,
+        "NUM_MAX_LAbORATORY" : 5,
         "NUM_PA_TURN" : 4,
         "NUM_PLANET_INITIAL_INVASION" : 3
     },
@@ -22,7 +22,7 @@
 
             "name" : "Stratonium",
 
-            "zone" : "threat-a",
+            "zone" : "a",
 
             "pos" : { "x" : 100, "y" : 40 }
 
@@ -34,7 +34,7 @@
 
             "name" : "Cabatum",
 
-            "zone" : "threat-a",
+            "zone" : "a",
             "pos" : { "x" : 65, "y" : 135 }
 
         },
@@ -45,7 +45,7 @@
 
             "name" : "Malium",
 
-            "zone" : "threat-a",
+            "zone" : "a",
             "pos" : { "x" : 120, "y" : 250 }
 
         },
@@ -56,7 +56,7 @@
          
    "name" : "Vitomium",
 
-            "zone" : "threat-a",
+            "zone" : "a",
 
             "pos" : { "x" : 300, "y" : 60 }
 
@@ -68,7 +68,7 @@
          
    "name" : "Tardum",
 
-            "zone" : "threat-a",
+            "zone" : "a",
 
             "pos" : { "x" : 225, "y" : 130 }
 
@@ -79,7 +79,7 @@
             "id" : 6,
             "name" : "Mécratum",
 
-            "zone" : "threat-a",
+            "zone" : "a",
 
             "pos" : { "x" : 300, "y" : 230 }
 
@@ -89,9 +89,9 @@
 
             "id" : 7,
             
-"name" : "Mordum",
+            "name" : "Mordum",
 
-            "zone" : "threat-a",
+            "zone" : "a",
 
             "pos" : { "x" : 400, "y" : 190 }
 
@@ -101,9 +101,9 @@
 
             "id" : 8,
 
-            "name" : "Cracatohum",
+            "name" : "Crcatohum",
 
-            "zone" : "threat-a",
+            "zone" : "a",
 
             "pos" : { "x" : 500, "y" : 50 }
 
@@ -115,7 +115,7 @@
 
             "name" : "Terrum",
 
-            "zone" : "threat-a",
+            "zone" : "a",
 
             "pos" : { "x" : 550, "y" : 125 }
 
@@ -127,7 +127,7 @@
 
             "name" : "Jeronium",
 
-            "zone" : "threat-a",
+            "zone" : "a",
 
             "pos" : { "x" : 530, "y" : 240 }
 
@@ -139,7 +139,7 @@
 
             "name" : "Ohum",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 35, "y" : 500 }
 
@@ -151,7 +151,7 @@
 
             "name" : "Doïtum",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 80, "y" : 370 }
 
@@ -163,7 +163,7 @@
 
             "name" : "Ventum",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 50, "y" : 280 }
 
@@ -174,7 +174,7 @@
 
             "name" : "Merdum",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 200, "y" : 475 }
 
@@ -186,7 +186,7 @@
 
             "name" : "Tredum",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 350, "y" : 420 }
 
@@ -198,7 +198,7 @@
 
             "name" : "Viscosum",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 250, "y": 325 }
 
@@ -208,9 +208,9 @@
 
             "id" : 17,
 
-            "name" : "Biscotum",
+            "name" : "biscotum",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 570, "y" : 330 }
 
@@ -222,7 +222,7 @@
 
             "name" : "Marcellium",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 420, "y" : 350 }
 
@@ -234,7 +234,7 @@
 
             "name" : "Cornelium",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 547, "y" : 456 }
 
@@ -246,7 +246,7 @@
 
             "name" : "Ursulum",
 
-            "zone" : "threat-b",
+            "zone" : "b",
 
             "pos" : { "x" : 435, "y" : 503 }
 
@@ -258,7 +258,7 @@
 
             "name" : "Torusum",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 650, "y" : 30 }
 
@@ -270,7 +270,7 @@
 
             "name" : "Satarium",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 750, "y" : 147 }
 
@@ -281,7 +281,7 @@
 
             "name" : "Notorium",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 1200, "y" : 50 }
 
@@ -291,9 +291,9 @@
 
             "id" : 24,
 
-            "name" : "Bonotum",
+            "name" : "bonotum",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 1100, "y" : 130 }
 
@@ -305,7 +305,7 @@
 
             "name" : "Solarium",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 950, "y" : 70 }
 
@@ -317,7 +317,7 @@
 
             "name" : "Strauss-Kahnium",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 670, "y" : 220 }
 
@@ -329,7 +329,7 @@
 
             "name" : "Diablum",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 1000, "y" : 220 }
 
@@ -341,7 +341,7 @@
 
             "name" : "Clavierum",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 800, "y" : 50 }
 
@@ -353,7 +353,7 @@
 
             "name" : "Vintagium",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 878, "y" : 200 }
 
@@ -365,7 +365,7 @@
 
             "name" : "Abusium",
 
-            "zone" : "threat-c",
+            "zone" : "c",
 
             "pos" : { "x" : 1150, "y" : 250 }
 
@@ -377,7 +377,7 @@
 
             "name" : "Tututium",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 700, "y" : 300 }
 
@@ -389,7 +389,7 @@
 
             "name" : "Vectorium",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 920 , "y" : 510 }
 
@@ -400,7 +400,7 @@
 
             "name" : "Godzillum",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 1160 , "y" : 350 }
 
@@ -411,7 +411,7 @@
 
             "name" : "Rhum",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 700 , "y" : 400 }
 
@@ -422,7 +422,7 @@
 
             "name" : "Angstrum",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 830 , "y" : 430 }
 
@@ -433,7 +433,7 @@
 
             "name" : "Pochetrum",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 1070 , "y" : 430 }
 
@@ -444,7 +444,7 @@
 
             "name" : "Colzarium",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 1000 , "y" : 320 }
 
@@ -455,7 +455,7 @@
 
             "name" : "Sternum",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 850 , "y" : 330 }
 
@@ -466,7 +466,7 @@
 
             "name" : "Sebum",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 650 , "y" : 500 }
 
@@ -477,7 +477,7 @@
 
             "name" : "Expelhuim",
 
-            "zone" : "threat-d",
+            "zone" : "d",
 
             "pos" : { "x" : 1200 , "y" : 500 }
 

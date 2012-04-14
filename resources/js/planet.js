@@ -63,13 +63,13 @@ function Planet() {
     // Donne la couleur en fonction de la zone de la planète
     this.getColorZone = function() {
         switch(this.zone) {
-            case "threat-a" :
+            case "a" :
                 return "red";
-            case "threat-b":
+            case "b":
                 return "blue";
-            case "threat-c":
+            case "c":
                 return "green";
-            case "threat-d":
+            case "d":
                 return "yellow";
             default:
                 return "black";
