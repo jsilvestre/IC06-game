@@ -6,9 +6,15 @@ We decided to make our own version of the physic game "Pandemic" where humanity 
 
 Todo
 ====
-* Tons of stuff I haven't time to list :D Like the rules :p
+* Tons of stuff I haven't time to list :D
 
-* Prevent players from doing action they can't do (due to a lack of resources or wrong timing)
+* Reworking card gift with drag'n'drop
+* Adding forced colonization concept
+* Adding the bonus/malus cards in the card pool
+* Adding roles concept and their features
+* Preventing players from doing action they can't do (due to a lack of resources or wrong timing)
+* Adding graphic elements
+* Adding the main menu
 
 Reminder
 ========
