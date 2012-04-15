@@ -96,6 +96,7 @@ function Engine() {
         
         this.currentDestination = null; // utiliser pour les déplacements traversant plusieurs planètes
         
+        this.enableAllActions();
         this.initializePlayers();
         this.initializeInventories();
         this.updatePlayerList();
@@ -394,7 +395,50 @@ function Engine() {
             this.map.planets[planetId].isHovering = isHovering;
             this.render();
         }
-    }  
+    }
+    
+    this.disableAllActions = function() {
+        $('#moveClassic').unbind('click');
+        $('#moveTarget').unbind('click');
+        $('#moveCurrent').unbind('click');
+        $('#moveLabo').unbind('click');
+        $('#fightAction').unbind('click');
+        $('#buildAction').unbind('click');
+        $('#createAction').unbind('click');
+    }
+    
+    this.enableAllActions = function() {
+        
+        var engine = this;
+        
+        $('#moveClassic').click(function() {
+           engine.movePlayer(); 
+        });
+        
+        $('#moveTarget').click(function() {
+           engine.movePlayerWithTargetResource(); 
+        });
+        
+        $('#moveCurrent').click(function() {
+           engine.movePlayerWithCurrentResource(); 
+        });
+        
+        $('#moveLabo').click(function() {
+           engine.movePlayerByLabo(); 
+        });
+        
+        $('#fightAction').click(function() {
+            engine.playerFight();
+        });
+        
+        $('#buildAction').click(function() {
+            engine.playerBuild();
+        });
+        
+        $('#createAction').click(function() {
+           engine.playerCreateWeapon(); 
+        });
+    }
     
     // Construit le modèle de la map grâce au JSON
     this.buildMapModel = function(map) {
@@ -456,6 +500,8 @@ function Engine() {
         this.map.unHoverPlanets();
         this.render();
         
+        this.disableAllActions();
+        
         // the next player is selected
         if(this.currentPlayer >= 0) {
             this.players[this.currentPlayer].isPlaying = false;
@@ -499,6 +545,7 @@ function Engine() {
         clearInterval(this.tempoPlayerInterval);
         
         this.log("Début du tour.");
+        this.enableAllActions();
 
         // start the timer for the turn
         this.updateTimerWrapper("Fin du tour dans");

@@ -27,34 +27,6 @@
                 engine.selectPlanet(event);               
             });
             
-            $('#moveClassic').click(function() {
-               engine.movePlayer(); 
-            });
-            
-            $('#moveTarget').click(function() {
-               engine.movePlayerWithTargetResource(); 
-            });
-            
-            $('#moveCurrent').click(function() {
-               engine.movePlayerWithCurrentResource(); 
-            });
-            
-            $('#moveLabo').click(function() {
-               engine.movePlayerByLabo(); 
-            });
-            
-            $('#fightAction').click(function() {
-                engine.playerFight();
-            });
-            
-            $('#buildAction').click(function() {
-                engine.playerBuild();
-            });
-            
-            $('#createAction').click(function() {
-               engine.playerCreateWeapon(); 
-            });
-            
             $('#startGame').click(function () {
                engine.startGame(); 
                $('#startGame').unbind('click');
