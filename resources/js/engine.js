@@ -208,6 +208,7 @@ function Engine() {
             
             if(this.players[this.currentPlayer].planet.isBoundTo(this.selectedPlanet)) {            
                 this.startMoveTo(this.players[this.currentPlayer], this.selectedPlanet);
+                this.getCurrentPlayer().pa--;                
             }
             else {   
                 // look if the user can go recursively to the planet
@@ -215,20 +216,20 @@ function Engine() {
                 if(result != null) {
                     this.startMoveTo(this.players[this.currentPlayer], result);
                 }
+                            this.getCurrentPlayer().pa = this.getCurrentPlayer().pa - (result.length - 1);
             }
-            
+
+            this.updatePaView();
             this.log("Déplacement vers " + this.selectedPlanet.name);
         }
     }
     
     this.movePlayerWithTargetResource = function() {
-        
-        if(this.selectedPlanet == null) return;
-        
-        var player = this.players[this.currentPlayer];
+
+        var player = this.getCurrentPlayer();
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
-        
-        if(player.planet.id != this.selectedPlanet.id && player.pa > 0 && card != null) {
+
+        if(this.checkTargetMove()) {
 
             player.inventory.removeCard(card.id);
             player.pa--;
@@ -241,13 +242,11 @@ function Engine() {
     }
     
     this.movePlayerWithCurrentResource = function() {
-        
-        if(this.selectedPlanet == null) return;
-        
-        var player = this.players[this.currentPlayer];
-        var card = player.inventory.getCardByValue(player.planet.id);
-        
-        if(player.planet.id != this.selectedPlanet.id && player.pa > 0 && card != null) {
+
+        var player = this.getCurrentPlayer();
+        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
+
+        if(this.checkCurrentMove()) {
             player.inventory.removeCard(card.id);
             player.pa--;
             this.updatePaView();
@@ -259,12 +258,10 @@ function Engine() {
     
     this.movePlayerByLabo = function() {
         
-        if(this.selectedPlanet == null) return;
+        var player = this.getCurrentPlayer();
+        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
-        var player = this.players[this.currentPlayer];
-        
-        if(player.planet.id != this.selectedPlanet.id && player.pa > 0 
-            && player.planet.hasLaboratory && this.selectedPlanet.hasLaboratory) {
+        if(this.checkLaboMove()) {
             player.pa--;
             this.updatePaView();
             this.updatePlayerList();
@@ -412,19 +409,19 @@ function Engine() {
         var engine = this;
         
         $('#moveClassic').click(function() {
-           engine.movePlayer(); 
+            engine.movePlayer();
         });
         
-        $('#moveTarget').click(function() {
-           engine.movePlayerWithTargetResource(); 
+        $('#moveTarget').click(function() {         
+            engine.movePlayerWithTargetResource();
         });
         
         $('#moveCurrent').click(function() {
-           engine.movePlayerWithCurrentResource(); 
+            engine.movePlayerWithCurrentResource();
         });
         
         $('#moveLabo').click(function() {
-           engine.movePlayerByLabo(); 
+            engine.movePlayerByLabo();
         });
         
         $('#fightAction').click(function() {
@@ -436,8 +433,85 @@ function Engine() {
         });
         
         $('#createAction').click(function() {
-           engine.playerCreateWeapon(); 
+            engine.playerCreateWeapon();
         });
+    }
+    
+    this.checkClassicMoveOk = function() {
+        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
+
+        var result = this.determinePathRecursivelyTo(this.getCurrentPlayer().planet, this.selectedPlanet, new Array());
+        
+        return this.getCurrentPlayer().pa >= result.length - 1;
+    }
+    
+    this.checkTargetMoveOk = function() {
+        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return;
+        
+        var player = this.getCurrentPlayer();
+        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
+        
+        return player.planet.id != this.selectedPlanet.id && player.pa > 0 && card != null;
+    }
+    
+    this.checkCurrentMoveOk = function() {
+        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return;
+
+        var player = this.getCurrentPlayer();
+        var card = player.inventory.getCardByValue(player.planet.id);
+
+        return player.planet.id != this.selectedPlanet.id && player.pa > 0 && card != null;
+    }
+    
+    this.checkLaboMoveOk = function() {
+        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return;
+
+        var player = this.getCurrentPlayer();
+
+        return player.planet.id != this.selectedPlanet.id && player.pa > 0 
+            && player.planet.hasLaboratory && this.selectedPlanet.hasLaboratory        
+    }
+    
+    this.checkFightActionOk = function() {
+        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
+        
+        var player = this.getCurrentPlayer();
+        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
+        
+        return player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0 && card != null;
+    }
+    
+    this.checkBuilActiondOk = function() {
+        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
+        
+        var player = this.getCurrentPlayer();
+        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
+        
+        return player.planet.id == this.selectedPlanet.id && player.pa > 0 && !this.selectedPlanet.hasLaboratory 
+            && this.currentNumLaboratory < Config.NUM_MAX_LABORATORY && card != null;
+    }
+    
+    this.checkCreateActionOk = function(selectedCards) {
+        
+        var planet;
+        
+        for(var i = 0; i < selectedCards.length; i++) {
+            planet = this.map.planets[selectedCards[i].value];
+            if(planet.zone != this.selectedPlanet.zone) {
+                return false;
+            }
+        }
+        
+        return selectedCards.length == 5 && this.getCurrentPlayer().pa > 0;
+    }
+    
+    this.checkGiveActiontOk = function(planetID) {
+        
+        if(this.getCurrentPlayer() == null || this.getCurrentPlayer().planet.id == planetID) return false;
+        
+        var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);
+        
+        return cardCurrentPlanet != false && this.getCurrentPlayer().pa > 0;
     }
     
     // Construit le modèle de la map grâce au JSON
@@ -585,11 +659,11 @@ function Engine() {
     }
     
     this.playerFight = function() {
+        
         var player = this.players[this.currentPlayer];
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
-        if(player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0
-            && card != null) {        
+        if(this.checkFightActionOk()) {
             player.fight(this.selectedPlanet, card);
             this.updatePaView();
             this.updatePlayerList();
@@ -606,18 +680,8 @@ function Engine() {
             selectedCards.push(engine.getCurrentPlayer().inventory.getCardByValue($(this).find('span').html()));
         });
         
-        if(selectedCards.length == 5) {
-            
-            var planet;
-            
-            for(var i = 0; i < selectedCards.length; i++) {
-                planet = this.map.planets[selectedCards[i].value];
-                if(planet.zone != this.selectedPlanet.zone) {
-                    this.log('Action impossible.');
-                    return false;
-                }
-            }
-            
+        if(this.checkCreateActionOk(selectedCards)) {
+
             var planet;
             var cardsToRemove = [];
             for(i = 0; i < this.decks.invaders.cards.length; i++) {
@@ -642,7 +706,7 @@ function Engine() {
             this.log("arme créée avec succès !");
         }
         else {
-            this.log("selectionner 5 GT de la même zone.");
+            this.log("Erreur - selectionner 5 GT de la même zone.");
             return false;
         }
     }
