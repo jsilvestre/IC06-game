@@ -125,7 +125,7 @@ function Engine() {
         var player = new Player();
         player.id = 0;
         player.name = "Joseph";
-        player.planet = this.map.planets[4];
+        player.planet = this.map.planets[1];
         player.x = player.planet.x;
         player.y = player.planet.y;                       
         this.players.push(player);
@@ -133,7 +133,7 @@ function Engine() {
         player = new Player();
         player.id = 1;
         player.name = "Player2";
-        player.planet = this.map.planets[2];
+        player.planet = this.map.planets[1];
         player.x = player.planet.x;
         player.y = player.planet.y;
         this.players.push(player);
@@ -613,6 +613,24 @@ function Engine() {
             this.render();
         }
     }
+
+    // rework : using drag'n'drop to perform the action will be better.
+    this.playerGiftAction = function(planetID) {
+
+        if(this.getCurrentPlayer().planet.id == planetID) return;
+        
+        var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);
+        
+        if(!cardCurrentPlanet) return;
+        
+        var cardGiven = this.getCurrentPlayer().inventory.getCardByValue(planetID);
+        
+        this.getCurrentPlayer().inventory.removeCard(cardGiven.id);
+        this.getCurrentPlayer().inventory.removeCard(cardCurrentPlanet.id);
+        this.getCurrentPlaner().pa--;
+        this.players[1].inventory.addCard(cardGiven);
+        this.updatePlayerList();
+    }
     
     this.makePlanetsFlash = function(planets) {
         for(var i = 0; i < planets.length; i++) {
@@ -703,6 +721,7 @@ function Engine() {
     this.updatePlayerList = function() {
         
         $('#playerList .inventory li').unbind('hover').unbind('click');
+        $('#playerList .inventory li a').unbind('click');
         
         var div = $('#playerList');
         div.html('');
@@ -735,7 +754,12 @@ function Engine() {
             if(playerName == engine.getCurrentPlayer().name) {
                 $(this).toggleClass('selected');
             }
-        });        
+        });   
+        
+            
+        $('.giftAction').click(function() {
+            engine.playerGiftAction($(this).parent().find('span').html());
+        });
     }
     
     this.getPlayerInventoryView = function(player) {
@@ -746,7 +770,7 @@ function Engine() {
         for(var i = 0; i < player.inventory.cards.length; i++) {
             card = player.inventory.cards[i];
 
-            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span></li>'));
+            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span><a class="giftAction" href="#">Donner</a></li>'));
         }
         
         view.append(listView);        
