@@ -104,6 +104,7 @@ function Engine() {
         
         this.initializeInvasionSpeedMeterView();
         this.updateInvasionSpeedMeterView();
+        this.updateWeaponsListView();
         
         this.render();
         
@@ -800,11 +801,16 @@ function Engine() {
     }
     
     this.updateWeaponsListView = function() {
+        
+        var counter = 0;
         for(var i in this.weaponsFound) {
             if(this.weaponsFound[i] == true) {
                 $('#zone-'+i).addClass('isFound');
+                counter++;
             }
         }
+        
+        $('#weaponsCounter span.currentValue').html(counter);
     }
     
     this.getPlayerByName = function(name) {
