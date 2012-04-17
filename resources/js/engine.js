@@ -142,7 +142,7 @@ function Engine() {
         player.planet = this.map.planets[1];
         player.x = player.planet.x;
         player.y = player.planet.y;
-        player.role = Config.ROLE_EXPERT;
+        player.role = Config.ROLE_SPY;
         this.players.push(player);
     
         player = new Player();
@@ -768,19 +768,24 @@ function Engine() {
     }
 
     // rework : using drag'n'drop to perform the action will be better.
-    this.playerGiftAction = function(playerTarget, planetID) {
+    this.playerGiftAction = function(playerTargetName, planetID) {
 
-        if(this.getCurrentPlayer().planet.id == planetID) return;
+        var playerTarget = this.getPlayerByName(playerTargetName);
 
-        var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);        
-        if(!cardCurrentPlanet) return;
+        if(this.getCurrentPlayer().planet.id == planetID || this.getCurrentPlayer().planet.id != playerTarget.planet.id) return;
+
+        if(!this.getCurrentPlayer().hasRole(Config.ROLE_SPY)) {
+            var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);        
+            if(!cardCurrentPlanet) return;
+            this.getCurrentPlayer().inventory.removeCard(cardCurrentPlanet.id);
+        }
         
         var cardGiven = this.getCurrentPlayer().inventory.getCardByValue(planetID);
         this.getCurrentPlayer().inventory.removeCard(cardGiven.id);
-        this.getCurrentPlayer().inventory.removeCard(cardCurrentPlanet.id);
         this.getCurrentPlayer().pa--;
-        this.getPlayerByName(playerTarget).inventory.addCard(cardGiven);
+        playerTarget.inventory.addCard(cardGiven);
         
+        this.updatePaView();
         setTimeout("SingletonEngine.engine.updatePlayerList()", 1); // mandatory to avoid bug
     }
     
