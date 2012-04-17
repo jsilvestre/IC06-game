@@ -8,11 +8,12 @@ Todo
 ====
 * Tons of stuff I haven't time to list :D
 
-* Reworking card gift with drag'n'drop
+* Reworking card gift with drag'n'drop [done]
 * Adding forced colonization concept
 * Adding the bonus/malus cards in the card pool
 * Adding roles concept and their features
-* Preventing players from doing action they can't do (due to a lack of resources or wrong timing)
+* Preventing players from doing action they can't do (due to a lack of resources or wrong timing) [done, must be tested more]
+* Adding the following rule: if a player starts on a planet with a threat lvl > 0, the duration for his turn is reduced
 * Adding graphic elements
 * Adding the main menu
 
