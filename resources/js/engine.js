@@ -949,6 +949,10 @@ function Engine() {
             listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span></li>'));
         }
         
+        if(player.inventory.cards.length == 0) {
+            view.append($("<p>Aucun guides touristique dans l'inventaire</p>"));
+        }
+        
         view.append(listView);        
 
         return view;
