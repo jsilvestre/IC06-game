@@ -8,6 +8,7 @@ function Player() {
     this.isPlaying = false;
     this.inventory = new Deck();
     this.pa = 100;
+    this.role = null;
     
     // Dessine la vue du joueur
     this.draw  = function(canvasContext) {
@@ -85,7 +86,9 @@ function Player() {
         planet.hasLaboratory = true;
         this.pa = this.pa - 1;
         
-        this.inventory.removeCard(card.id);        
+        if(!this.hasRole(Config.ROLE_ARCHITECT)) {
+            this.inventory.removeCard(card.id);
+        } 
     }
     
     this.createWeapon = function(selectedCards) {        
@@ -94,5 +97,9 @@ function Player() {
         for(i = 0; i < selectedCards.length; i++) {
             this.inventory.removeCard(selectedCards[i].id);
         }
+    }
+    
+    this.hasRole = function(roleName) {
+        return this.role == roleName;
     }
 }

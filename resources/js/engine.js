@@ -16,6 +16,14 @@ var Config = {
     INVASION_SPEED_METER : [2, 2, 3, 3, 4, 4], // jauge de vitesse d'invasion
     
     SYSTEM_NAME : "Système",
+    
+    ROLE_BRUTE : "role_brute",
+    ROLE_PIRATE : "role_pirate",
+    ROLE_ARCHITECT : "role_architecte",
+    ROLE_EXPERT : "role_expert",
+    ROLE_SPY : "role_informateur",
+    ROLE_EXPLORER : "role_explorateur",
+    ROLE_SHIELD : "role_bouclier",
 };
 
 var SingletonEngine = {
@@ -133,7 +141,8 @@ function Engine() {
         player.name = "Joseph";
         player.planet = this.map.planets[1];
         player.x = player.planet.x;
-        player.y = player.planet.y;                       
+        player.y = player.planet.y;
+        player.role = Config.ROLE_ARCHITECT;
         this.players.push(player);
     
         player = new Player();
@@ -520,7 +529,7 @@ function Engine() {
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
         return player.planet.id == this.selectedPlanet.id && player.pa > 0 && !this.selectedPlanet.hasLaboratory 
-            && this.currentNumLaboratory < Config.NUM_MAX_LABORATORY && card != null;
+            && this.currentNumLaboratory < Config.NUM_MAX_LABORATORY && (card != null || player.hasRole(Config.ROLE_ARCHITECT));
     }
     
     this.checkCreateActionOk = function(selectedCards) {
@@ -747,8 +756,7 @@ function Engine() {
         var player = this.players[this.currentPlayer];
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
-        if(player.planet.id == this.selectedPlanet.id && player.pa > 0 && !this.selectedPlanet.hasLaboratory 
-            && this.currentNumLaboratory < Config.NUM_MAX_LABORATORY && card != null) {
+        if(this.checkBuildActionOk()) {
 
             player.buildLaboratory(this.selectedPlanet, card);
             this.currentNumLaboratory++;
