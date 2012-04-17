@@ -689,9 +689,21 @@ function Engine() {
                 // trigger a forced colonization
             }
             else {
-                attackedPlanet.threatLvl = attackedPlanet.threatLvl + 1;
-                attackedPlanet.isHovering = true;
-                attackedPlanets.push(attackedPlanetId);
+                var isProtected = false;
+                for(var p in this.players && !isProtected) {
+                   if(this.players[p].hasRole(Config.ROLE_SHIELD)) {
+                       isProtected = true;
+                   }
+                }
+                
+                if(isProtected) {
+                    attackedPlanet.threatLvl = attackedPlanet.threatLvl + 1;
+                    attackedPlanet.isHovering = true;
+                    attackedPlanets.push(attackedPlanetId);
+                }
+                else {
+                    this.log('Planète attaquée mais protégée par le bouclier');
+                }
             }
         }
 
