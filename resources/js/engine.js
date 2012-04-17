@@ -18,6 +18,10 @@ var Config = {
     SYSTEM_NAME : "Système",
 };
 
+var SingletonEngine = {
+    engine : null,
+}
+
 function Engine() {
     
     this.logger = null;
@@ -215,8 +219,8 @@ function Engine() {
                 var result = this.determinePathRecursivelyTo(this.players[this.currentPlayer].planet, this.selectedPlanet, new Array());
                 if(result != null) {
                     this.startMoveTo(this.players[this.currentPlayer], result);
+                    this.getCurrentPlayer().pa = this.getCurrentPlayer().pa - (result.length - 1);
                 }
-                            this.getCurrentPlayer().pa = this.getCurrentPlayer().pa - (result.length - 1);
             }
 
             this.updatePaView();
@@ -229,7 +233,7 @@ function Engine() {
         var player = this.getCurrentPlayer();
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
 
-        if(this.checkTargetMove()) {
+        if(this.checkTargetMoveOk()) {
 
             player.inventory.removeCard(card.id);
             player.pa--;
@@ -244,9 +248,9 @@ function Engine() {
     this.movePlayerWithCurrentResource = function() {
 
         var player = this.getCurrentPlayer();
-        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
+        var card = player.inventory.getCardByValue(player.planet.id);
 
-        if(this.checkCurrentMove()) {
+        if(this.checkCurrentMoveOk()) {
             player.inventory.removeCard(card.id);
             player.pa--;
             this.updatePaView();
@@ -261,7 +265,7 @@ function Engine() {
         var player = this.getCurrentPlayer();
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
-        if(this.checkLaboMove()) {
+        if(this.checkLaboMoveOk()) {
             player.pa--;
             this.updatePaView();
             this.updatePlayerList();
@@ -349,6 +353,7 @@ function Engine() {
             else {
                 this.currentDestination = null;
                 clearInterval(this.playerMoveIntervalId);
+                this.updateCurrentPlanetInfo();
             }            
         }
         
@@ -395,54 +400,88 @@ function Engine() {
     }
     
     this.disableAllActions = function() {
-        $('#moveClassic').unbind('click');
-        $('#moveTarget').unbind('click');
-        $('#moveCurrent').unbind('click');
-        $('#moveLabo').unbind('click');
-        $('#fightAction').unbind('click');
-        $('#buildAction').unbind('click');
-        $('#createAction').unbind('click');
+
+        var actions = [
+            { 'idt' : '#moveClassic', 'eventType' : 'click' },
+            { 'idt' : '#moveTarget', 'eventType' : 'click' },
+            { 'idt' : '#moveCurrent', 'eventType' : 'click' },
+            { 'idt' : '#moveLabo', 'eventType' : 'click' },
+            { 'idt' : '#fightAction', 'eventType' : 'click' },
+            { 'idt' : '#buildAction', 'eventType' : 'click' },
+            { 'idt' : '#createAction', 'eventType' : 'click' }
+        ];
+
+        this.disableActions(actions);
     }
     
-    this.enableAllActions = function() {
-        
+    this.enableAllActions = function() {    
+        this.enableClassicMoveAction();
+        this.enableTargetMoveAction();
+        this.enableCurrentMoveAction();
+        this.enableLaboMoveAction();
+        this.enableFightAction();
+        this.enableBuildAction();
+        this.enableCreateAction();
+    }
+    
+    this.disableActions = function(actions) {
+        for(var i = 0; i < actions.length; i++) {
+            this.disableAction(actions[i].idt, actions[i].eventType);
+        }
+    }
+    
+    this.disableAction = function(idt, type) {
+        $(idt).unbind(type).addClass('disable');
+    }
+    
+    this.enableClassicMoveAction = function() {
         var engine = this;
-        
-        $('#moveClassic').click(function() {
-            engine.movePlayer();
-        });
-        
-        $('#moveTarget').click(function() {         
-            engine.movePlayerWithTargetResource();
-        });
-        
-        $('#moveCurrent').click(function() {
-            engine.movePlayerWithCurrentResource();
-        });
-        
-        $('#moveLabo').click(function() {
-            engine.movePlayerByLabo();
-        });
-        
-        $('#fightAction').click(function() {
-            engine.playerFight();
-        });
-        
-        $('#buildAction').click(function() {
-            engine.playerBuild();
-        });
-        
-        $('#createAction').click(function() {
-            engine.playerCreateWeapon();
-        });
+        $('#moveClassic').unbind('click').click(function() { engine.movePlayer(); });
+        $('#moveClassic').removeClass('disable');
     }
     
+    this.enableTargetMoveAction = function() {
+        var engine = this;
+        $('#moveTarget').unbind('click').click(function() { engine.movePlayerWithTargetResource(); });
+        $('#moveTarget').removeClass('disable');
+    }
+    
+    this.enableCurrentMoveAction = function() {
+        var engine = this;
+        $('#moveCurrent').unbind('click').click(function() { engine.movePlayerWithCurrentResource(); });
+        $('#moveCurrent').removeClass('disable');
+    }
+    
+    this.enableLaboMoveAction = function() {
+        var engine = this;
+        $('#moveLabo').unbind('click').click(function() { engine.movePlayerByLabo(); });
+        $('#moveLabo').removeClass('disable');
+    }
+    
+    this.enableFightAction = function() {
+        var engine = this;
+        $('#fightAction').unbind('click').click(function() { engine.playerFight(); });
+        $('#fightAction').removeClass('disable');
+    }
+    
+    this.enableBuildAction = function() {
+        var engine = this;
+        $('#buildAction').unbind('click').click(function() { engine.playerBuild(); });
+        $('#buildAction').removeClass('disable');
+    }
+    
+    this.enableCreateAction = function() {
+        var engine = this;
+        $('#createAction').unbind('click').click(function() { engine.playerCreateWeapon(); });
+        $('#createAction').removeClass('disable');
+    }
+
     this.checkClassicMoveOk = function() {
         if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
 
         var result = this.determinePathRecursivelyTo(this.getCurrentPlayer().planet, this.selectedPlanet, new Array());
-        
-        return this.getCurrentPlayer().pa >= result.length - 1;
+
+        return this.getCurrentPlayer().planet.id != this.selectedPlanet.id && this.getCurrentPlayer().pa >= result.length - 1;
     }
     
     this.checkTargetMoveOk = function() {
@@ -481,7 +520,7 @@ function Engine() {
         return player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0 && card != null;
     }
     
-    this.checkBuilActiondOk = function() {
+    this.checkBuildActionOk = function() {
         if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
         
         var player = this.getCurrentPlayer();
@@ -727,21 +766,20 @@ function Engine() {
     }
 
     // rework : using drag'n'drop to perform the action will be better.
-    this.playerGiftAction = function(planetID) {
+    this.playerGiftAction = function(playerTarget, planetID) {
 
         if(this.getCurrentPlayer().planet.id == planetID) return;
-        
-        var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);
-        
+
+        var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);        
         if(!cardCurrentPlanet) return;
         
         var cardGiven = this.getCurrentPlayer().inventory.getCardByValue(planetID);
-        
         this.getCurrentPlayer().inventory.removeCard(cardGiven.id);
         this.getCurrentPlayer().inventory.removeCard(cardCurrentPlanet.id);
-        this.getCurrentPlaner().pa--;
-        this.players[1].inventory.addCard(cardGiven);
-        this.updatePlayerList();
+        this.getCurrentPlayer().pa--;
+        this.getPlayerByName(playerTarget).inventory.addCard(cardGiven);
+        
+        setTimeout("SingletonEngine.engine.updatePlayerList()", 1); // mandatory to avoid bug
     }
     
     this.makePlanetsFlash = function(planets) {
@@ -789,6 +827,22 @@ function Engine() {
         var p = this.selectedPlanet;
         
         if(this.selectedPlanet != null) {
+            
+            this.checkClassicMoveOk() ? this.enableClassicMoveAction() : this.disableAction('#moveClassic', 'click');
+            this.checkTargetMoveOk() ? this.enableTargetMoveAction() : this.disableAction('#moveTarget', 'click');
+            this.checkCurrentMoveOk() ? this.enableCurrentMoveAction() : this.disableAction('#moveCurrent', 'click');
+            this.checkLaboMoveOk() ? this.enableLaboMoveAction() : this.disableAction('#moveLabo', 'click');
+            this.checkFightActionOk() ? this.enableFightAction() : this.disableAction('#fightAction', 'click');
+            this.checkBuildActionOk() ? this.enableBuildAction() : this.disableAction('#buildAction', 'click');
+            
+            var selectedCards = [];
+            var engine = this;
+            $('#playerList .inventory li.selected').each(function() {
+                selectedCards.push(engine.getCurrentPlayer().inventory.getCardByValue($(this).find('span').html()));
+            });
+            this.checkCreateActionOk(selectedCards) ? this.enableCreateAction() : this.disableAction('#createAction', 'click');
+            
+            
             $('.default-content').hide();
             var html = '<p>Nom : ' + p.name + '</p><p>Zone : ' + p.zone + '</p><p>Niveau de menace : ' + this.selectedPlanet.threatLvl + '</p>';
             div.find('.info').html(html);
@@ -832,8 +886,8 @@ function Engine() {
     
     this.updatePlayerList = function() {
         
-        $('#playerList .inventory li').unbind('hover').unbind('click');
-        $('#playerList .inventory li a').unbind('click');
+        $('#playerList .inventory li').unbind('hover').unbind('click').draggable('destroy');
+        $('#playerList li.player').droppable('destroy');
         
         var div = $('#playerList');
         div.html('');
@@ -841,7 +895,7 @@ function Engine() {
         var tmpAdded;
         
         for(var i = 0; i < this.players.length; i++) {
-            tmpAdded = $('<li><span>' + this.players[i].name + '</span></li>');
+            tmpAdded = $('<li class="player"><span>' + this.players[i].name + '</span></li>');
             
             if(this.players[i].isPlaying) {
                 tmpAdded.addClass('isPlaying');
@@ -861,17 +915,34 @@ function Engine() {
         });
         
         $('#playerList .inventory li').click(function() {
-            
+
             var playerName = $(this).parent().parent().parent().find('span').html();
             if(playerName == engine.getCurrentPlayer().name) {
                 $(this).toggleClass('selected');
             }
-        });   
-        
-            
-        $('.giftAction').click(function() {
-            engine.playerGiftAction($(this).parent().find('span').html());
         });
+
+        $('#playerList li.player').each(function() {
+           
+            if(engine.getPlayerByName($(this).children('span').html()) == engine.getCurrentPlayer()) {
+
+                $(this).find('.inventory li').draggable({
+                                    			appendTo: "body",
+                                                helper : "clone",
+                                                cursor: "move",
+                                                cursorAt: { top: -10, left: -20 },
+                		                    });
+            }
+        });
+
+        $('#playerList li.player').droppable({
+                                    tolerance: 'pointer',
+                        			drop: function(event, ui) {                  			    
+                        			    var playerTarget = $(this).children('span').html(); // player target
+                                        var planetID = ui.draggable.children('span').html(); // planet
+                                        SingletonEngine.engine.playerGiftAction(playerTarget, planetID);
+                        			}
+                            });
     }
     
     this.getPlayerInventoryView = function(player) {
@@ -882,7 +953,7 @@ function Engine() {
         for(var i = 0; i < player.inventory.cards.length; i++) {
             card = player.inventory.cards[i];
 
-            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span><a class="giftAction" href="#">Donner</a></li>'));
+            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span></li>'));
         }
         
         view.append(listView);        

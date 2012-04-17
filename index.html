@@ -9,6 +9,8 @@
     
     <script type="text/javascript" src="resources/js/librairies/less-1.3.0.min.js"></script>
     <script type="text/javascript" src="resources/js/librairies/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="resources/js/librairies/jquery-ui-1.8.18.custom.min.js"></script>
+
     <script type="text/javascript" src="resources/js/engine.js"></script>
     <script type="text/javascript" src="resources/js/map.js"></script>
     <script type="text/javascript" src="resources/js/planet.js"></script>
@@ -19,18 +21,18 @@
     <script type="text/javascript">    
         $(document).ready(function () {
             
-            var engine = new Engine();
+            SingletonEngine.engine = new Engine();
 
-            engine.loadMap("test");
+            SingletonEngine.engine.loadMap("test");
             
             $('#map').click(function(event) { 
-                engine.selectPlanet(event);               
+                SingletonEngine.engine.selectPlanet(event);               
             });
             
             $('#startGame').click(function () {
-               engine.startGame(); 
+               SingletonEngine.engine.startGame(); 
                $('#startGame').unbind('click');
-            });
+            });           
         });
     </script>
 </head>
@@ -40,7 +42,7 @@
     
     <div id="header">
         <ul id="playerList">
-            <li><span>Player1</span>
+            <li class="player"><span>Player1</span>
                 <div class="inventory">
                     <ul>
                         <li>Guide touristique de Mécratum</li>
@@ -49,8 +51,12 @@
                     </ul>                    
                 </div>
             </li>
-            <li><span>Player2</span></li>
-            <li><span>Player3</span></li>
+            <li class="player"><span>Player2</span>
+                <div class="inventory"><ul></ul></div>
+            </li>
+            <li class="player"><span>Player3</span>
+                <div class="inventory"><ul></ul></div>
+            </li>
         </ul>
         <div id="timer">Timer zone<span></span></div>
         <p id="paCounter"><span class="currentValue">4</span> / <span>4</span> Actions</p>
