@@ -435,45 +435,38 @@ function Engine() {
     }
     
     this.enableClassicMoveAction = function() {
-        var engine = this;
-        $('#moveClassic').unbind('click').click(function() { engine.movePlayer(); });
-        $('#moveClassic').removeClass('disable');
+        $('#moveClassic').unbind('click').click({engine : this}, function(event) { event.data.engine.movePlayer(); })
+                         .removeClass('disable');
     }
     
     this.enableTargetMoveAction = function() {
-        var engine = this;
-        $('#moveTarget').unbind('click').click(function() { engine.movePlayerWithTargetResource(); });
-        $('#moveTarget').removeClass('disable');
+        $('#moveTarget').unbind('click').click({engine : this}, function(event) { event.data.engine.movePlayerWithTargetResource(); })
+                        .removeClass('disable');
     }
     
     this.enableCurrentMoveAction = function() {
-        var engine = this;
-        $('#moveCurrent').unbind('click').click(function() { engine.movePlayerWithCurrentResource(); });
-        $('#moveCurrent').removeClass('disable');
+        $('#moveCurrent').unbind('click').click({engine : this}, function(event) { event.data.engine.movePlayerWithCurrentResource(); })
+                         .removeClass('disable');
     }
     
     this.enableLaboMoveAction = function() {
-        var engine = this;
-        $('#moveLabo').unbind('click').click(function() { engine.movePlayerByLabo(); });
-        $('#moveLabo').removeClass('disable');
+        $('#moveLabo').unbind('click').click({engine : this}, function(event) { event.data.engine.movePlayerByLabo(); })
+                      .removeClass('disable');
     }
     
     this.enableFightAction = function() {
-        var engine = this;
-        $('#fightAction').unbind('click').click(function() { engine.playerFight(); });
-        $('#fightAction').removeClass('disable');
+        $('#fightAction').unbind('click').click({engine : this}, function(event) { event.data.engine.playerFight(); })
+                         .removeClass('disable');
     }
-    
+
     this.enableBuildAction = function() {
-        var engine = this;
-        $('#buildAction').unbind('click').click(function() { engine.playerBuild(); });
-        $('#buildAction').removeClass('disable');
+        $('#buildAction').unbind('click').click({engine : this}, function(event) { event.data.engine.playerBuild(); })
+                         .removeClass('disable');
     }
     
     this.enableCreateAction = function() {
-        var engine = this;
-        $('#createAction').unbind('click').click(function() { engine.playerCreateWeapon(); });
-        $('#createAction').removeClass('disable');
+        $('#createAction').unbind('click').click({engine : this}, function(event) { event.data.engine.playerCreateWeapon(); })
+                          .removeClass('disable');
     }
 
     this.checkClassicMoveOk = function() {
