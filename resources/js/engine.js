@@ -142,7 +142,7 @@ function Engine() {
         player.planet = this.map.planets[1];
         player.x = player.planet.x;
         player.y = player.planet.y;
-        player.role = Config.ROLE_ARCHITECT;
+        player.role = Config.ROLE_EXPERT;
         this.players.push(player);
     
         player = new Player();
@@ -543,7 +543,8 @@ function Engine() {
             }
         }
         
-        return selectedCards.length == 5 && this.getCurrentPlayer().pa > 0;
+        return (selectedCards.length == 5 || (this.getCurrentPlayer().hasRole(Config.ROLE_EXPERT) && selectedCards.length == 4)) 
+                && this.getCurrentPlayer().pa > 0;
     }
     
     this.checkGiveActiontOk = function(planetID) {
