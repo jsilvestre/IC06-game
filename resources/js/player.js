@@ -79,7 +79,9 @@ function Player() {
         planet.threatLvl = planet.threatLvl - 1;
         this.pa = this.pa - 1;
         
-        this.inventory.removeCard(card.id);
+        if(!this.hasRole(Config.ROLE_BRUTE)) {
+            this.inventory.removeCard(card.id);
+        }
     }
     
     this.buildLaboratory = function(planet, card) {

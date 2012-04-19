@@ -12,7 +12,7 @@ Todo
 * Adding forced colonization concept
 * Adding the bonus/malus cards in the card pool
 * Adding roles concept and their features
-** "Brute" [easy]
+** "Brute" [done]
 ** "Pirate" : [hard]
 ** "Architect" [done]
 ** "Weapon Expert" [done]

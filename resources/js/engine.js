@@ -91,10 +91,10 @@ function Engine() {
         this.buildMapModel(jsonObject);
         this.buildDecks();
         
-        this.weaponsFound["a"] = false;
-        this.weaponsFound["b"] = false;
-        this.weaponsFound["c"] = false;
-        this.weaponsFound["d"] = false;                    
+        this.weaponsFound["a"] = true;
+        this.weaponsFound["b"] = true;
+        this.weaponsFound["c"] = true;
+        this.weaponsFound["d"] = true;                    
         
         this.log("Map has been loaded.");
         
@@ -142,7 +142,7 @@ function Engine() {
         player.planet = this.map.planets[1];
         player.x = player.planet.x;
         player.y = player.planet.y;
-        player.role = Config.ROLE_SPY;
+        player.role = Config.ROLE_BRUTE;
         this.players.push(player);
     
         player = new Player();
@@ -360,6 +360,13 @@ function Engine() {
                 this.currentDestination = this.map.planets[planetDest[planetDest.indexOf(isPlayerAtDestination.id) + 1]];
             }
             else {
+                
+                if(this.getCurrentPlayer().hasRole(Config.ROLE_BRUTE)) {
+                    if(this.weaponsFound[this.currentDestination.zone] && this.currentDestination.threatLvl > 0) {
+                        this.currentDestination.threatLvl = 0;
+                    }
+                }
+                
                 this.currentDestination = null;
                 clearInterval(this.playerMoveIntervalId);
                 this.updateCurrentPlanetInfo();
@@ -519,7 +526,8 @@ function Engine() {
         var player = this.getCurrentPlayer();
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
-        return player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0 && card != null;
+        return player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0 
+               && (card != null || player.hasRole(Config.ROLE_BRUTE));
     }
     
     this.checkBuildActionOk = function() {
