@@ -26,6 +26,52 @@ p {
     overflow: none;
 }
 
+
+/* MENU STYLES */
+
+#game-menu {
+    width: 800px;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    margin: auto;
+    
+    ul.menu {
+
+        li {
+            .remove-previous-blank-space;
+            .align-vertically(40px);
+            
+            display: inline-block;
+            width: 199px;
+            height: 40px;
+            border-left: 1px solid #000;
+            text-align: center;
+            border-bottom: 1px solid #000;
+            
+            &:first-child {
+                margin-left: 0;
+                border-left: 0;
+            }
+            
+            &.active {
+                border-bottom: 0;
+            }
+        }
+    }
+    
+    #menu-content-presentation, #menu-content-rules, #menu-content-play, #menu-content-credits {
+        /*border-left: 1px solid #000;
+        border-right: 1px solid #000;*/
+        border-bottom: 1px solid #000;
+        display: none;
+    }
+    
+}
+
+/* GAME STYLES */
+
+#game { display: none; }
+
 #map-container {
     max-width: @widthGameMax;
     border-left: 1px solid #000;

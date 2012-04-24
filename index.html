@@ -21,9 +21,9 @@
     <script type="text/javascript">    
         $(document).ready(function () {
             
-            SingletonEngine.engine = new Engine();
+            //SingletonEngine.engine = new Engine();
 
-            SingletonEngine.engine.loadMap("test");
+            //SingletonEngine.engine.loadMap("test");
             
             $('#map').click(function(event) { 
                 SingletonEngine.engine.selectPlanet(event);               
@@ -32,7 +32,32 @@
             $('#startGame').click(function () {
                SingletonEngine.engine.startGame(); 
                $('#startGame').unbind('click');
-            });           
+            }); 
+            
+            $('#menu-presentation').click(function() {
+                $('#game-menu ul li').removeClass('active');
+                $(this).addClass('active');
+                $('#game-menu-content div').hide();
+                $('#menu-content-presentation').show();
+            });
+            $('#menu-rules').click(function() {
+                $('#game-menu ul li').removeClass('active');
+                $(this).addClass('active');
+                $('#game-menu-content div').hide();
+                $('#menu-content-rules').show();
+            });
+            $('#menu-play').click(function() {
+                $('#game-menu ul li').removeClass('active');
+                $(this).addClass('active');
+                $('#game-menu-content div').hide();
+                $('#menu-content-play').show();
+            });
+            $('#menu-credits').click(function() {
+                $('#game-menu ul li').removeClass('active');
+                $(this).addClass('active');
+                $('#game-menu-content div').hide();
+                $('#menu-content-credits').show();
+            });
         });
     </script>
 </head>
@@ -40,77 +65,140 @@
 <body>
 <div id="container">
     
-    <div id="header">
-        <ul id="playerList">
-            <li class="player"><span>Player1</span>
-                <div class="inventory">
-                    <ul>
-                        <li>Guide touristique de Mécratum</li>
-                        <li>Guide touristique de Cornelium</li>
-                        <li>Guide touristique de Torusum</li>
-                    </ul>                    
-                </div>
-            </li>
-            <li class="player"><span>Player2</span>
-                <div class="inventory"><ul></ul></div>
-            </li>
-            <li class="player"><span>Player3</span>
-                <div class="inventory"><ul></ul></div>
-            </li>
+    <div id="game-menu">
+        
+        <ul class="menu">
+            <li id="menu-presentation">Invaders Must Die</li>
+            <li id="menu-rules">Les règles</li>
+            <li id="menu-play">Jouer !</li>
+            <li id="menu-credits">Crédits</li>
         </ul>
-        <div id="timer">Timer zone<span></span></div>
-        <p id="paCounter"><span class="currentValue">4</span> / <span>4</span> Actions</p>
-        <div id="weaponsCounter"><span class="currentValue">2</span> / <span>4</span> Armes
-            <ul id="weaponsList">
-                <li id="zone-a">A</li>
-                <li id="zone-b">B</li>
-                <li id="zone-c">C</li>
-                <li id="zone-d">D</li>
-            </ul>
-        </div>
-        <p id="forcedColonisation">Colonisation Forcée : <span>4</span> / <span>10</span></p>
-        <div id="invasionSpeed">Vitesse d'invasion : <span>4</span>
-            <div id="invasionSpeedMeter"></div>
-        </div>
-        <div id="recent-events">Evénements
-            <div id="chat-log"><ul></ul></div>
-        </div>
-        <p><a id="startGame" href="#">Démarrer le jeu</a></p>
-    </div>
-    
-    <div id="map-container">
-        <canvas id="map" width="1250" height="575">
-            Canvas not supported.
-        </canvas>
-    </div>
-    
-    <div id="footer">
-        <div id="planet-info">
-            <p class="default-content">Veuillez sélectionner une planète</p>
-            <div class="alternative-content">
-                <div class="info"></div>
-                <ul class="action">
-                    <li>Déplacements
-                        <div id="moveActions">
-                            <a id="moveLabo" href="#">Déplacement par laboratoire secret</a>
-                            <a id="moveCurrent" href="#">Déplacement subspatial</a>
-                            <a id="moveTarget" href="#">Déplacement hyper-espace</a>
-                            <a id="moveClassic" href="#">Déplacement classique</a>
-                        </div>
-                    </li>
-                    <li><a id="fightAction" href="#">Engager le combat</a></li>
-                    <li><a id="buildAction" href="#">Construire un laboratoire secret</a></li>
-                    <li><a id="createAction" href="#">Assembler une arme</a></li>
+        
+        <div id="game-menu-content">
+            
+            <div id="menu-content-presentation">
+                
+                <p>Invaders Must Die est un jeu multi-joueur coopératif.</p>
+                <p>Incarnez un super-héro et combattez les forces du terrible Docteur Nefarious.</p>
+                
+                <h1>Change log</h1>
+                <h2>21/04/2012</h2>
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
                 </ul>
-            </div> 
-        </div>       
+            </div>
+            <div id="menu-content-rules">
+                <h1>Principe de base</h1>
+                <p>Tour par tour, vous pourrez effectuer différentes actions. Chaque action coûte un point d'action (vous disposez de 4 points d'action non cumulables).</p>
+                <p>Le but est d'exterminer les envahisseurs qui attaquent à chaque tour des planètes aléatoirement</p>
+                
+                <h1>Les actions</h1>
+                <dl>
+                    <dt>Déplacement classique</dt>
+                    <dd>Un déplacement classique coûte un point d'action. Il n'est réalisable qu'entre des planètes reliées par un trait.</dd>
+                    <dt>Déplacement hyper-espace</dt>
+                    <dd></dd>
+                    <dt>Déplacement sub-spatial</dt>
+                    <dd></dd>
+                    <dt>Déplacement par laboratoire secret</dt>
+                    <dd></dd>
+                    <dt>Combat</dt>
+                    <dd></dd>
+                    <dt>Donner un guide touristique</dt>
+                    <dd></dd>
+                    <dt>Assembler une arme</dt>
+                    <dd></dd>
+                </dl>
+                
+                <h1>Victoire / défaite</h1>
+                <h2>Conditions de victoire</h2>
+                <p>Vous découvrez l'arme de chaque zone grâce à l'action "Assembler une arme"</p>
+
+                <h2>Conditions de défaite</h2>
+                <p>10 colonisations forcées ont lieu</p>
+            </div>
+            <div id="menu-content-play">play
+            </div>
+            <div id="menu-content-credits">credits
+            </div>
+        </div>
     </div>
     
-    <div id="game-over">
-        <p>You lose. Ah. Ah. Ah. And now your eyes cry blood because of the colors.</p>
-    </div>
-    <div id="win">
-        <p>VICTORY !</p>
+    <div id="game">
+        <div id="header">
+            <ul id="playerList">
+                <li class="player"><span>Player1</span>
+                    <div class="inventory">
+                        <ul>
+                            <li>Guide touristique de Mécratum</li>
+                            <li>Guide touristique de Cornelium</li>
+                            <li>Guide touristique de Torusum</li>
+                        </ul>                    
+                    </div>
+                </li>
+                <li class="player"><span>Player2</span>
+                    <div class="inventory"><ul></ul></div>
+                </li>
+                <li class="player"><span>Player3</span>
+                    <div class="inventory"><ul></ul></div>
+                </li>
+            </ul>
+            <div id="timer">Timer zone<span></span></div>
+            <p id="paCounter"><span class="currentValue">4</span> / <span>4</span> Actions</p>
+            <div id="weaponsCounter"><span class="currentValue">2</span> / <span>4</span> Armes
+                <ul id="weaponsList">
+                    <li id="zone-a">A</li>
+                    <li id="zone-b">B</li>
+                    <li id="zone-c">C</li>
+                    <li id="zone-d">D</li>
+                </ul>
+            </div>
+            <p id="forcedColonisation">Colonisation Forcée : <span>4</span> / <span>10</span></p>
+            <div id="invasionSpeed">Vitesse d'invasion : <span>4</span>
+                <div id="invasionSpeedMeter"></div>
+            </div>
+            <div id="recent-events">Evénements
+                <div id="chat-log"><ul></ul></div>
+            </div>
+            <p><a id="startGame" href="#">Démarrer le jeu</a></p>
+        </div>
+    
+        <div id="map-container">
+            <canvas id="map" width="1250" height="575">
+                Canvas not supported.
+            </canvas>
+        </div>
+    
+        <div id="footer">
+            <div id="planet-info">
+                <p class="default-content">Veuillez sélectionner une planète</p>
+                <div class="alternative-content">
+                    <div class="info"></div>
+                    <ul class="action">
+                        <li>Déplacements
+                            <div id="moveActions">
+                                <a id="moveLabo" href="#">Déplacement par laboratoire secret</a>
+                                <a id="moveCurrent" href="#">Déplacement subspatial</a>
+                                <a id="moveTarget" href="#">Déplacement hyper-espace</a>
+                                <a id="moveClassic" href="#">Déplacement classique</a>
+                            </div>
+                        </li>
+                        <li><a id="fightAction" href="#">Engager le combat</a></li>
+                        <li><a id="buildAction" href="#">Construire un laboratoire secret</a></li>
+                        <li><a id="createAction" href="#">Assembler une arme</a></li>
+                    </ul>
+                </div> 
+            </div>       
+        </div>
+    
+        <div id="game-over">
+            <p>You lose. Ah. Ah. Ah. And now your eyes cry blood because of the colors.</p>
+        </div>
+        <div id="win">
+            <p>VICTORY !</p>
+        </div>
     </div>
 </div>
 </body>
