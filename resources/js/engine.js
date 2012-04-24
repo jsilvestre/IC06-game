@@ -90,7 +90,7 @@ function Engine() {
         this.render();
         
         this.log("Game is ready.", Config.SYSTEM_NAME);
-        
+
         
         // start all the game mechanics
         SingletonEngine.engine.startGame();
@@ -604,6 +604,8 @@ function Engine() {
     
     this.newPlayerTurn = function() {
         
+        console.debug(this.tempoInvasionPhaseInterval);
+        
         clearInterval(this.tempoFlashInvadedPlanets);
         clearInterval(this.tempoInvasionPhaseInterval);
         
@@ -704,8 +706,8 @@ function Engine() {
         }
 
         this.makePlanetsFlash(attackedPlanets);
-        
-        this.tempoInvasionPhaseIntervalId = setTimeout(function(that) { that.newPlayerTurn(); }, Config.INVASION_PHASE_DURATION + 1000, this);
+
+        this.tempoInvasionPhaseInterval = setTimeout(function(that) { that.newPlayerTurn(); }, Config.INVASION_PHASE_DURATION + 1000, this);
     }
     
     this.playerFight = function() {
@@ -1027,5 +1029,17 @@ function Engine() {
     
     this.getCurrentPlayer = function() {
         return this.players[this.currentPlayer];
+    }
+    
+    this.isInvasionPhaseRunning = function() {
+        return this.tempoInvasionPhaseInterval != null;
+    }
+    
+    this.isPlayerTurnRunning = function() {
+        return this.playerTurnInterval != null;
+    }
+    
+    this.isPlayerPreTurnRunning = function() {
+        return this.tempoPlayerTurnInterval != null;
     }
 }
