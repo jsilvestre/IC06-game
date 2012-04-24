@@ -692,7 +692,7 @@ function Engine() {
                    }
                 }
                 
-                if(isProtected) {
+                if(!isProtected) {
                     attackedPlanet.threatLvl = attackedPlanet.threatLvl + 1;
                     attackedPlanet.isHovering = true;
                     attackedPlanets.push(attackedPlanetId);
@@ -798,6 +798,7 @@ function Engine() {
     }
     
     this.makePlanetsFlash = function(planets) {
+        
         for(var i = 0; i < planets.length; i++) {
             this.map.planets[planets[i]].isHovering = !this.map.planets[planets[i]].isHovering;
         }
