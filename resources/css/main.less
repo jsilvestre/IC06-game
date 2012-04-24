@@ -60,12 +60,15 @@ p {
     }
     
     #menu-content-presentation, #menu-content-rules, #menu-content-play, #menu-content-credits {
-        /*border-left: 1px solid #000;
-        border-right: 1px solid #000;*/
         border-bottom: 1px solid #000;
         display: none;
     }
     
+    #menu-content-play {
+        .button, .button-disable {
+            margin: 5px;
+        }
+    }
 }
 
 /* GAME STYLES */
@@ -386,4 +389,28 @@ p {
 
 .disable {
     opacity: 0.6;
+}
+
+.button {
+    background: -moz-linear-gradient(center top, #2C579C, #208090) repeat scroll 0 0 transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    color: #FAF7E9;
+    display: inline-block;
+    margin: 0;
+    padding: 3px 15px;
+    text-decoration: none;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.button-disable {
+    background: -moz-linear-gradient(center top, #555, #AAA) repeat scroll 0 0 transparent;
+    /*border: 1px solid transparent;*/
+    border-radius: 5px;
+    color: #FAF7E9;
+    display: inline-block;
+    margin: 0;
+    padding: 3px 15px;
+    text-decoration: none;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.1);
 }

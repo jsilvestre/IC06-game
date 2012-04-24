@@ -1,35 +1,3 @@
-var Config = {
-    
-    moveInterval : 25, // l'interval entre deux tick pour le déplacement en ms
-    moveTime : 1500, // le temps qu'un déplacement doit durer en ms
-    
-    LIMIT_DRAW_VERTICAL : 50, // le nombre de px minimum entre deux planètes liées (pour la liaison classique)
-    
-    PLANET_HITBOX : 30,
-    
-    CARD_TYPE_PLANET : "planet",
-    CARD_TYPE_SPECIAL_EVENT : "specialevent",
-    CARD_TYPE_MASSIVE_INVASION : "massiveincasion",
-    
-    NUM_ZONES : 4, // nombre de zones de jeu
-    
-    INVASION_SPEED_METER : [2, 2, 3, 3, 4, 4], // jauge de vitesse d'invasion
-    
-    SYSTEM_NAME : "Système",
-    
-    ROLE_BRUTE : "role_brute",
-    ROLE_PIRATE : "role_pirate",
-    ROLE_ARCHITECT : "role_architecte",
-    ROLE_EXPERT : "role_expert",
-    ROLE_SPY : "role_informateur",
-    ROLE_EXPLORER : "role_explorateur",
-    ROLE_SHIELD : "role_bouclier",
-};
-
-var SingletonEngine = {
-    engine : null,
-}
-
 function Engine() {
     
     this.logger = null;
@@ -122,6 +90,10 @@ function Engine() {
         this.render();
         
         this.log("Game is ready.", Config.SYSTEM_NAME);
+        
+        
+        // start all the game mechanics
+        SingletonEngine.engine.startGame();
     }
     
     this.loadConfiguration = function(jsonObject) {
@@ -136,7 +108,7 @@ function Engine() {
     }
     
     this.initializePlayers = function() {
-        var player = new Player();
+        /*var player = new Player();
         player.id = 0;
         player.name = "Joseph";
         player.planet = this.map.planets[1];
@@ -160,11 +132,27 @@ function Engine() {
         player.planet = this.map.planets[3];
         player.x = player.planet.x;
         player.y = player.planet.y;
-        this.players.push(player);
+        this.players.push(player);*/
         
         this.currentPlayer = 0;
         
+        for(var i = 0; i < this.players.length; i++) {
+            this.players[i].planet = this.map.planets[1];
+            this.players[i].x = this.map.planets[1].x;
+            this.players[i].y = this.map.planets[1].y;
+        }
+        
         this.log("Players have been created.", Config.SYSTEM_NAME);
+    }
+    
+    this.addPlayer = function(playerName, playerRole) {
+        
+        var player = new Player();
+        player.id = this.players.length;
+        player.name = playerName;
+        player.role = playerRole;
+
+        this.players.push(player);
     }
     
     this.initializeInventories = function() {

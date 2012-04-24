@@ -11,6 +11,8 @@
     <script type="text/javascript" src="resources/js/librairies/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="resources/js/librairies/jquery-ui-1.8.18.custom.min.js"></script>
 
+    <script type="text/javascript" src="resources/js/config.js"></script>
+    <script type="text/javascript" src="resources/js/menu-manager.js"></script>
     <script type="text/javascript" src="resources/js/engine.js"></script>
     <script type="text/javascript" src="resources/js/map.js"></script>
     <script type="text/javascript" src="resources/js/planet.js"></script>
@@ -21,41 +23,52 @@
     <script type="text/javascript">    
         $(document).ready(function () {
             
-            //SingletonEngine.engine = new Engine();
+            var menu = new MenuManager();
+            menu.disableStartGameButton();
+            
+            $('.playerName').keyup(function() {
+               menu.disableStartGameButton(); 
+            });
+            
+            $('.playerRole').change(function() {
+               menu.disableStartGameButton(); 
+            });
+            
+            /*SingletonEngine.engine = new Engine();
 
-            //SingletonEngine.engine.loadMap("test");
+            SingletonEngine.engine.loadMap("test");
             
             $('#map').click(function(event) { 
                 SingletonEngine.engine.selectPlanet(event);               
             });
             
             $('#startGame').click(function () {
-               SingletonEngine.engine.startGame(); 
+               SingletonEngine.engine.startGame();
                $('#startGame').unbind('click');
-            }); 
+            });*/
             
             $('#menu-presentation').click(function() {
                 $('#game-menu ul li').removeClass('active');
                 $(this).addClass('active');
-                $('#game-menu-content div').hide();
+                $('.menu-content').hide();
                 $('#menu-content-presentation').show();
             });
             $('#menu-rules').click(function() {
                 $('#game-menu ul li').removeClass('active');
                 $(this).addClass('active');
-                $('#game-menu-content div').hide();
+                $('.menu-content').hide();
                 $('#menu-content-rules').show();
             });
             $('#menu-play').click(function() {
                 $('#game-menu ul li').removeClass('active');
                 $(this).addClass('active');
-                $('#game-menu-content div').hide();
+                $('.menu-content').hide();
                 $('#menu-content-play').show();
             });
             $('#menu-credits').click(function() {
                 $('#game-menu ul li').removeClass('active');
                 $(this).addClass('active');
-                $('#game-menu-content div').hide();
+                $('.menu-content').hide();
                 $('#menu-content-credits').show();
             });
         });
@@ -76,7 +89,7 @@
         
         <div id="game-menu-content">
             
-            <div id="menu-content-presentation">
+            <div id="menu-content-presentation" class="menu-content">
                 
                 <p>Invaders Must Die est un jeu multi-joueur coopératif.</p>
                 <p>Incarnez un super-héro et combattez les forces du terrible Docteur Nefarious.</p>
@@ -89,7 +102,7 @@
                     <li></li>
                 </ul>
             </div>
-            <div id="menu-content-rules">
+            <div id="menu-content-rules" class="menu-content">
                 <h1>Principe de base</h1>
                 <p>Tour par tour, vous pourrez effectuer différentes actions. Chaque action coûte un point d'action (vous disposez de 4 points d'action non cumulables).</p>
                 <p>Le but est d'exterminer les envahisseurs qui attaquent à chaque tour des planètes aléatoirement</p>
@@ -119,9 +132,52 @@
                 <h2>Conditions de défaite</h2>
                 <p>10 colonisations forcées ont lieu</p>
             </div>
-            <div id="menu-content-play">play
+            <div id="menu-content-play" class="menu-content">
+                
+                <p>Choisissez vos noms et rôles</p>
+                
+                <div class="player">
+                    <input type="text" class="playerName" />
+                    <select class="playerRole">
+                        <option value="role_brute">Brute</option>
+                        <option value="role_pirate" disabled>Pirate</option>
+                        <option value="role_architecte">Architecte</option>
+                        <option value="role_expert">Expert en armement</option>
+                        <option value="role_informateur">Informateur</option>
+                        <option value="role_explorateur" disabled>Explorateur</option>
+                        <option value="role_bouclier">Bouclier</option>
+                    </select>
+                </div>
+                <div class="player">
+                    <input type="text" class="playerName" />
+                    <select class="playerRole">
+                        <option value="role_brute">Brute</option>
+                        <option value="role_pirate" disabled>Pirate</option>
+                        <option value="role_architecte">Architecte</option>
+                        <option value="role_expert">Expert en armement</option>
+                        <option value="role_informateur">Informateur</option>
+                        <option value="role_explorateur" disabled>Explorateur</option>
+                        <option value="role_bouclier">Bouclier</option>
+                    </select>
+                    
+                </div>
+                <div class="player">
+                    <input type="text" class="playerName" />
+                    <select class="playerRole">
+                        <option value="role_brute">Brute</option>
+                        <option value="role_pirate" disabled>Pirate</option>
+                        <option value="role_architecte">Architecte</option>
+                        <option value="role_expert">Expert en armement</option>
+                        <option value="role_informateur">Informateur</option>
+                        <option value="role_explorateur" disabled>Explorateur</option>
+                        <option value="role_bouclier">Bouclier</option>
+                    </select>
+                </div>
+                
+                <a id="start-game" class="button" href="#">Play !</a>
+                
             </div>
-            <div id="menu-content-credits">credits
+            <div id="menu-content-credits" class="menu-content">credits
             </div>
         </div>
     </div>
