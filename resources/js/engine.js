@@ -59,10 +59,10 @@ function Engine() {
         this.buildMapModel(jsonObject);
         this.buildDecks();
         
-        this.weaponsFound["a"] = true;
-        this.weaponsFound["b"] = true;
-        this.weaponsFound["c"] = true;
-        this.weaponsFound["d"] = true;                    
+        this.weaponsFound["a"] = false;
+        this.weaponsFound["b"] = false;
+        this.weaponsFound["c"] = false;
+        this.weaponsFound["d"] = false;                    
         
         this.log("Map has been loaded.");
         
