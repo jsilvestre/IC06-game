@@ -23,26 +23,19 @@
     <script type="text/javascript">    
         $(document).ready(function () {
             
+            var debug = true;
+            
             var menu = new MenuManager();
+            
+            if(debug == true)
+                menu.startGame(debug);
+            
             menu.addRoleOptions();            
             menu.disableStartGameButton();
             
             $('.playerName').keyup(function() {
                menu.disableStartGameButton(); 
             });
-            
-            /*SingletonEngine.engine = new Engine();
-
-            SingletonEngine.engine.loadMap("test");
-            
-            $('#map').click(function(event) { 
-                SingletonEngine.engine.selectPlanet(event);               
-            });
-            
-            $('#startGame').click(function () {
-               SingletonEngine.engine.startGame();
-               $('#startGame').unbind('click');
-            });*/
             
             $('#menu-presentation').click(function() {
                 $('#game-menu ul li').removeClass('active');

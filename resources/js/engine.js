@@ -93,7 +93,8 @@ function Engine() {
 
         
         // start all the game mechanics
-        SingletonEngine.engine.startGame();
+        if(this.debug != true)
+            SingletonEngine.engine.startGame();
     }
     
     this.loadConfiguration = function(jsonObject) {
@@ -603,8 +604,6 @@ function Engine() {
     }
     
     this.newPlayerTurn = function() {
-        
-        console.debug(this.tempoInvasionPhaseInterval);
         
         clearInterval(this.tempoFlashInvadedPlanets);
         clearInterval(this.tempoInvasionPhaseInterval);

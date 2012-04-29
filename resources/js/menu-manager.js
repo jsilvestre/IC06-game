@@ -59,7 +59,7 @@ function MenuManager() {
         });
     }
     
-    this.startGame = function() {
+    this.startGame = function(debug) {
 
         // we hide the menu and show the game UI
         $('#game-menu').hide();
@@ -67,11 +67,24 @@ function MenuManager() {
         
         // create the game engine
         SingletonEngine.engine = new Engine();
+        SingletonEngine.engine.debug = debug;
 
         // add all the players
-        $('#menu-content-play .player').each(function() {
-            SingletonEngine.engine.addPlayer($(this).children('.playerName').val(), $(this).children('.playerRole').val());
-        });
+        if(debug == true) {
+            SingletonEngine.engine.addPlayer("Player1", Config.ROLE_BRUTE);
+            SingletonEngine.engine.addPlayer("Player2", Config.ROLE_ARCHITECT);
+            SingletonEngine.engine.addPlayer("Player3", Config.ROLE_EXPLORER);
+            
+            $('#startGame').click(function () {
+               SingletonEngine.engine.startGame();
+               $('#startGame').unbind('click');
+            });
+        }
+        else {
+            $('#menu-content-play .player').each(function() {
+                SingletonEngine.engine.addPlayer($(this).children('.playerName').val(), $(this).children('.playerRole').val());
+            });
+        }
         
         // load the map
         SingletonEngine.engine.loadMap("test");
@@ -80,5 +93,13 @@ function MenuManager() {
         $('#map').click(function(event) { 
             SingletonEngine.engine.selectPlanet(event);               
         });
+    }
+    
+    this.enableDebugMode = function() {
+
+        SingletonEngine.engine.addPlayer("Player1", Config.ROLE_BRUTE);
+        SingletonEngine.engine.addPlayer("Player2", Config.ROLE_ARCHITECT);
+        SingletonEngine.engine.addPlayer("Player3", Config.ROLE_EXPLORER);
+
     }
 }
