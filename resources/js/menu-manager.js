@@ -38,6 +38,27 @@ function MenuManager() {
         }
     }
     
+    this.addRoleOptions = function() {
+        $('#menu-content-play .player').each(function() {
+            
+            var temp = $('<select class="playerRole"></select>');
+            
+            temp.append('<option value="'+Config.ROLE_BRUTE+'">Brute</option>');
+            temp.append('<option value="'+Config.ROLE_PIRATE+'" disabled>Pirate</option>');
+            temp.append('<option value="'+Config.ROLE_ARCHITECT+'">Architecte</option>');
+            temp.append('<option value="'+Config.ROLE_EXPERT+'">Expert en armement</option>');
+            temp.append('<option value="'+Config.ROLE_SPY+'">Informateur</option>');
+            temp.append('<option value="'+Config.ROLE_EXPLORER+'" disabled>Explorateur</option>');
+            temp.append('<option value="'+Config.ROLE_SHIELD+'">Bouclier</option>');
+            
+            $(this).append(temp);
+        });
+        
+        $('.playerRole').change({menu : this}, function(event) {
+           event.data.menu.disableStartGameButton(); 
+        });
+    }
+    
     this.startGame = function() {
 
         // we hide the menu and show the game UI

@@ -24,13 +24,10 @@
         $(document).ready(function () {
             
             var menu = new MenuManager();
+            menu.addRoleOptions();            
             menu.disableStartGameButton();
             
             $('.playerName').keyup(function() {
-               menu.disableStartGameButton(); 
-            });
-            
-            $('.playerRole').change(function() {
                menu.disableStartGameButton(); 
             });
             
@@ -139,41 +136,13 @@
                 <p>Choisissez vos noms et rôles</p>
                 
                 <div class="player">
-                    <input type="text" class="playerName" />
-                    <select class="playerRole">
-                        <option value="role_brute">Brute</option>
-                        <option value="role_pirate" disabled>Pirate</option>
-                        <option value="role_architecte">Architecte</option>
-                        <option value="role_expert">Expert en armement</option>
-                        <option value="role_informateur">Informateur</option>
-                        <option value="role_explorateur" disabled>Explorateur</option>
-                        <option value="role_bouclier">Bouclier</option>
-                    </select>
+                    <input type="text" class="playerName" value="Joseph" />
                 </div>
                 <div class="player">
-                    <input type="text" class="playerName" />
-                    <select class="playerRole">
-                        <option value="role_brute">Brute</option>
-                        <option value="role_pirate" disabled>Pirate</option>
-                        <option value="role_architecte">Architecte</option>
-                        <option value="role_expert">Expert en armement</option>
-                        <option value="role_informateur">Informateur</option>
-                        <option value="role_explorateur" disabled>Explorateur</option>
-                        <option value="role_bouclier">Bouclier</option>
-                    </select>
-                    
+                    <input type="text" class="playerName" value="Maximilien" />
                 </div>
                 <div class="player">
-                    <input type="text" class="playerName" />
-                    <select class="playerRole">
-                        <option value="role_brute">Brute</option>
-                        <option value="role_pirate" disabled>Pirate</option>
-                        <option value="role_architecte">Architecte</option>
-                        <option value="role_expert">Expert en armement</option>
-                        <option value="role_informateur">Informateur</option>
-                        <option value="role_explorateur" disabled>Explorateur</option>
-                        <option value="role_bouclier">Bouclier</option>
-                    </select>
+                    <input type="text" class="playerName" value="Samy" />
                 </div>
                 
                 <a id="start-game" class="button" href="#">Play !</a>
