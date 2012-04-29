@@ -14,8 +14,8 @@ function Player() {
     this.draw  = function(canvasContext) {
     
         canvasContext.beginPath();
-        canvasContext.fillStyle = "#d53ec4";
-        canvasContext.fillRect(this.x, this.y, 5, 5);
+        canvasContext.fillStyle = this.getColor();
+        canvasContext.fillRect(this.x, this.y, 10, 10);
         canvasContext.closePath();        
     }
     
@@ -103,5 +103,18 @@ function Player() {
     
     this.hasRole = function(roleName) {
         return this.role == roleName;
+    }
+    
+    this.getColor = function() {
+        switch(this.id) {
+            case 0:
+                return "#ff5588";
+            case 1:
+                return "#005588";
+            case 2:
+                return "#bbaa33";
+            default:
+                return "#000";
+        }
     }
 }
