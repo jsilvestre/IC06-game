@@ -701,7 +701,7 @@ function Engine() {
         }
         else { // if the turn is over, we start it again
             this.currentPlayer = 0;
-            this.nbTurn++;
+            this.nbTurns++;
         }
         this.players[this.currentPlayer].isPlaying = true;
         
@@ -1035,6 +1035,8 @@ function Engine() {
             clearTimeout(this.tempoFlashPlanets[i]);
             this.tempoFlashPlanets[i] = null;
         }
+        
+        console.debug(this.nbTurns);
         
         $('#game-over').show();
     }
