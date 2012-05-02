@@ -725,29 +725,6 @@ function Engine() {
 
         this.tempoPlayerInterval = null; // reset the timer
         
-        // if the player is a pirate, he can select a player
-        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE)) {
-            
-            /*$('#playerList li.player span').each(function() {
-
-                if($(this).html() != SingletonEngine.engine.getCurrentPlayer().name) {
-                    $(this).click(function() {
-                        var player = SingletonEngine.engine.getPlayerByName($(this).html());
-                        
-                         $('#playerList li.player').removeClass('selected');
-                        
-                        if(SingletonEngine.engine.pirateCurrentSelection == player) {
-                            SingletonEngine.engine.pirateCurrentSelection = null;
-                        }
-                        else {
-                            SingletonEngine.engine.pirateCurrentSelection = player;
-                            $(this).parent().addClass('selected');
-                        }
-                    });
-                }
-            });*/
-        }
-        
         this.log("Début du tour.");
         this.enableAllActions();
 
