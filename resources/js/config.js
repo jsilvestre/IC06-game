@@ -15,7 +15,9 @@ var Config = {
     
     INVASION_SPEED_METER : [2, 2, 3, 3, 4, 4], // jauge de vitesse d'invasion
     
-    FLASH_TYPE : { PLANET_UNDER_ATTACK : "planet_under_attack", PLANET_COLONIZED : "planet_colonized" },
+    FLASH_TYPE : { PLANET_UNDER_ATTACK : "planet_under_attack", 
+                   PLANET_COLONIZED : "planet_colonized",
+                   PLANET_MASSIVELY_INVADED : "planet_massively_invaded" },
     
     SYSTEM_NAME : "Système",
     

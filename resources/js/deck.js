@@ -10,6 +10,16 @@ function Deck() {
         }
     }
     
+    this.restore = function() {
+        
+        this.cards = [];
+        for(var i = 0; i < this.originalCards.length; i++) {
+            this.cards.push({"id" : this.originalCards[i].id, "value" : this.originalCards[i].value});
+        }
+        
+        this.shuffle(30);
+    }
+    
     this.addCard = function(card) {
         this.cards.push(card);
     }

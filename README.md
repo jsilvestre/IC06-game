@@ -10,7 +10,7 @@ Todo
 
 * Reworking card gift with drag'n'drop [done]
 * Adding forced colonization concept [done]
-* Adding the bonus/malus cards in the card pool
+* Adding the bonus/malus cards in the card pool [done for malus]
 * Adding roles concept and their features
 ** "Brute" [done]
 ** "Pirate" : [done]
@@ -23,6 +23,7 @@ Todo
 * Adding the following rule: if a player starts on a planet with a threat lvl > 0, the duration for his turn is reduced
 * Adding graphic elements
 * Adding the main menu
+* Adding a flash effect to the planet when a player is given cards.
 
 Reminder
 ========

@@ -12,7 +12,8 @@
         "NUM_MAX_LABORATORY" : 5,
         "NUM_PA_TURN" : 4,
         "NUM_PLANET_INITIAL_INVASION" : 3,
-        "NUM_FORCED_COLONIZATION_MAX" : 10
+        "NUM_FORCED_COLONIZATION_MAX" : 10,
+        "NUM_MASSIVE_INVASION_CARDS" : 4
     },
     
     "planets" : [

@@ -82,6 +82,7 @@ function Map() {
             this.planets[i].isHovering = false;
             this.planets[i].isUnderAttack = false;
             this.planets[i].isColonizedByForce = false;
+            this.planets[i].isMassivelyInvaded = false;
         }
     }
 }

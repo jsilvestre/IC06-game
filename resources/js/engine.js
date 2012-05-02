@@ -84,6 +84,7 @@ function Engine() {
         this.enableAllActions();
         this.initializePlayers();
         this.initializeInventories();
+        this.intializeMassiveInvasionCards(); // must be called after initializeInventories()
         this.updatePlayerList();
         
         this.initializeInvasion();
@@ -185,6 +186,18 @@ function Engine() {
                 this.map.planets[attackedPlanetId].threatLvl = i;
             }
         }
+    }
+    
+    this.intializeMassiveInvasionCards = function() {
+
+        var nextCardID = this.decks.information.cards.length;
+
+        for(var i = 0; i < Config.NUM_MASSIVE_INVASION_CARDS; i++) {    
+            this.decks.information.addCard({"id" : nextCardID, "type" : Config.CARD_TYPE_MASSIVE_INVASION, "value" : null});
+            nextCardID++;
+        }
+
+        this.decks.information.shuffle(100); // could be a bottleneck for performance...
     }
     
     // Exécute le rendu du jeu
@@ -677,10 +690,7 @@ function Engine() {
         if(this.isGameOver) return;
         
         // reset the timers
-        for(var i in this.tempoFlashPlanets) {
-            clearTimeout(this.tempoFlashPlanets[i]);
-            this.tempoFlashPlanets[i] = null;
-        }
+        this.resetPlanetFlashTimer();        
         this.tempoInvasionPhaseInterval = null;
         
         $('#playerList .inventory li').removeClass('selected'); // clear the inventory selection
@@ -711,7 +721,15 @@ function Engine() {
             giftCard = this.decks.information.removeCard("first");
 
             if(giftCard != false) {
-                this.players[this.currentPlayer].inventory.addCard(giftCard);
+                if(giftCard.type == Config.CARD_TYPE_PLANET) {
+                    this.players[this.currentPlayer].inventory.addCard(giftCard);
+                }
+                else if(giftCard.type == Config.CARD_TYPE_MASSIVE_INVASION) {
+                    this.triggerMassiveInvasion();
+                }
+                else if(giftCard.type == Config.CARD_TYPE_SPECIAL_EVENT) {
+                    
+                }
             }
             else {
                 this.triggerGameOver(); // game over, you loser
@@ -731,11 +749,32 @@ function Engine() {
         this.tempoPlayerTurnInterval = setTimeout(function(that) { that.runPlayerTurn(); }, Config.TIME_BETWEEN_TURN + 1000, this);
     }
     
+    this.triggerMassiveInvasion = function() {
+        if(this.currentInvasionSpeedIndex + 1 < Config.INVASION_SPEED_METER.length) {
+            this.currentInvasionSpeedIndex++;
+            
+            var planetID = this.decks.invaders.removeCard("first").value;
+            this.map.planets[planetID].threatLvl = 3;
+            
+            this.makePlanetsFlash([planetID], Config.FLASH_TYPE.PLANET_MASSIVELY_INVADED);
+            
+            this.decks.invaders.restore();
+        }
+        
+        this.updateInvasionSpeedMeterView();
+        this.render();
+    }
+    
     this.runPlayerTurn = function() {
         
         if(this.isGameOver) return;
 
-        this.tempoPlayerInterval = null; // reset the timer
+        // reset the timers
+        this.resetPlanetFlashTimer();
+        this.tempoPlayerInterval = null;
+        
+        this.map.removePlanetHighlights();
+        this.render();
         
         this.log("Début du tour.");
         this.enableAllActions();
@@ -929,11 +968,14 @@ function Engine() {
             else if(type == Config.FLASH_TYPE.PLANET_COLONIZED) {
                 this.map.planets[planets[i]].isColonizedByForce = !this.map.planets[planets[i]].isColonizedByForce;
             }
+            else if(type == Config.FLASH_TYPE.PLANET_MASSIVELY_INVADED) {
+                this.map.planets[planets[i]].isMassivelyInvaded = !this.map.planets[planets[i]].isMassivelyInvaded;
+            }
         }
         
         this.render();
         
-        this.tempoFlashPlanets[type] = setTimeout(function(that, planets, type) { that.makePlanetsFlash(planets, type); }, 250,
+        this.tempoFlashPlanets[type+Math.random()] = setTimeout(function(that, planets, type) { that.makePlanetsFlash(planets, type); }, 250,
                                                     this, planets, type);
     }
     
@@ -1008,10 +1050,8 @@ function Engine() {
         clearTimeout(this.tempoPlayerTurnInterval); this.tempoPlayerTurnInterval = null;
         clearTimeout(this.tempoInvasionPhaseInterval); this.tempoInvasionPhaseInterval = null;
         
-        for(var i in this.tempoFlashPlanets) {
-            clearTimeout(this.tempoFlashPlanets[i]);
-            this.tempoFlashPlanets[i] = null;
-        }
+        this.resetPlanetFlashTimer();
+
         $('#win').show();
     }
     
@@ -1031,13 +1071,10 @@ function Engine() {
         clearTimeout(this.tempoPlayerTurnInterval); this.tempoPlayerTurnInterval = null;
         clearTimeout(this.tempoInvasionPhaseInterval); this.tempoInvasionPhaseInterval = null;
         
-        for(var i in this.tempoFlashPlanets) {
-            clearTimeout(this.tempoFlashPlanets[i]);
-            this.tempoFlashPlanets[i] = null;
-        }
-        
+        this.resetPlanetFlashTimer();
+
         console.debug(this.nbTurns);
-        
+
         $('#game-over').show();
     }
     
@@ -1210,5 +1247,13 @@ function Engine() {
     
     this.isPlayerPreTurnRunning = function() {
         return this.tempoPlayerTurnInterval != null;
+    }
+    
+    this.resetPlanetFlashTimer = function() {
+        // reset the timers
+        for(var i in this.tempoFlashPlanets) {
+            clearTimeout(this.tempoFlashPlanets[i]);
+            this.tempoFlashPlanets[i] = null;
+        }
     }
 }
