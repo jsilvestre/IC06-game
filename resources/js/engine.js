@@ -741,8 +741,12 @@ function Engine() {
         
         this.makePlanetsFlash(cardsGiven, Config.FLASH_TYPE.INFORMATION_GIVEN);
         
-        /* DEBUG */
-        this.players[this.currentPlayer].pa = 99; //Config.NUM_PA_TURN;
+        if(this.debug) {
+            this.players[this.currentPlayer].pa = 99;
+        }
+        else {
+            this.players[this.currentPlayer].pa = Config.NUM_PA_TURN;
+        }
         
         this.updatePlayerList();
         this.updatePaView();
