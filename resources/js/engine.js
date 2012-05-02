@@ -512,7 +512,7 @@ function Engine() {
     }
 
     this.checkClassicMoveOk = function() {
-        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
+        if(!this.isPlayerTurnRunning() || this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
         
         var player;
         if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
@@ -528,7 +528,7 @@ function Engine() {
     }
     
     this.checkTargetMoveOk = function() {
-        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return;
+        if(!this.isPlayerTurnRunning() || this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
         
         var player;
         if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
@@ -544,7 +544,7 @@ function Engine() {
     }
     
     this.checkCurrentMoveOk = function() {
-        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return;
+        if(!this.isPlayerTurnRunning() || this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
 
         var player; 
         if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
@@ -560,7 +560,7 @@ function Engine() {
     }
     
     this.checkLaboMoveOk = function() {
-        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return;
+        if(!this.isPlayerTurnRunning() || this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
 
         var player;
         if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
@@ -575,7 +575,7 @@ function Engine() {
     }
     
     this.checkFightActionOk = function() {
-        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
+        if(!this.isPlayerTurnRunning() || this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
         
         var player = this.getCurrentPlayer();
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
@@ -585,7 +585,7 @@ function Engine() {
     }
     
     this.checkBuildActionOk = function() {
-        if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
+        if(!this.isPlayerTurnRunning() || this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
         
         var player = this.getCurrentPlayer();
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
@@ -606,12 +606,12 @@ function Engine() {
         }
         
         return (selectedCards.length == 5 || (this.getCurrentPlayer().hasRole(Config.ROLE_EXPERT) && selectedCards.length == 4)) 
-                && this.getCurrentPlayer().pa > 0;
+                && this.getCurrentPlayer().pa > 0 && this.isPlayerTurnRunning();
     }
     
     this.checkGiveActiontOk = function(planetID) {
         
-        if(this.getCurrentPlayer() == null || this.getCurrentPlayer().planet.id == planetID) return false;
+        if(!this.isPlayerTurnRunning() || this.getCurrentPlayer() == null || this.getCurrentPlayer().planet.id == planetID) return false;
         
         var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);
         
@@ -670,8 +670,9 @@ function Engine() {
     
     this.newPlayerTurn = function() {
         
-        clearInterval(this.tempoFlashInvadedPlanets);
-        clearInterval(this.tempoInvasionPhaseInterval);
+        // reset the timers
+        this.tempoFlashInvadedPlanets = null;
+        this.tempoInvasionPhaseInterval = null;
         
         $('#playerList .inventory li').removeClass('selected'); // clear the inventory selection
         
@@ -721,7 +722,8 @@ function Engine() {
     }
     
     this.runPlayerTurn = function() {
-        clearInterval(this.tempoPlayerInterval);
+
+        this.tempoPlayerInterval = null; // reset the timer
         
         // if the player is a pirate, he can select a player
         if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE)) {
@@ -758,7 +760,10 @@ function Engine() {
     }
     
     this.runInvasionPhase = function() {
-        clearInterval(this.playerTurnInterval);
+
+        this.playerTurnInterval = null; // reset the timer
+        
+        this.updateCurrentPlanetInfo(); // to keep players from doing anything
         
         // we clear the player selection handler if the current plauyer is a pirate
         if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE)) {
@@ -969,12 +974,11 @@ function Engine() {
     
     this.triggerWin = function()  {
         clearInterval(this.timerIntervalId);
-        clearInterval(this.playerMoveIntervalId);
-        clearInterval(this.playerTurnInterval);
-        clearInterval(this.timerIntervalId);
-        clearInterval(this.tempoPlayerTurnInterval);
-        clearInterval(this.tempoInvasionPhaseInterval);
-        clearInterval(this.tempoFlashInvadedPlanets);
+        clearInterval(this.playerMoveIntervalId) = null;
+        this.playerTurnInterval = null;
+        this.tempoPlayerTurnInterval = null;
+        this.tempoInvasionPhaseInterval = null;
+        this.tempoFlashInvadedPlanets = null;
         
         $('#win').show();
     }
@@ -987,12 +991,11 @@ function Engine() {
     
     this.triggerGameOver = function() {
         clearInterval(this.timerIntervalId);
-        clearInterval(this.playerMoveIntervalId);
-        clearInterval(this.playerTurnInterval);
-        clearInterval(this.timerIntervalId);
-        clearInterval(this.tempoPlayerTurnInterval);
-        clearInterval(this.tempoInvasionPhaseInterval);
-        clearInterval(this.tempoFlashInvadedPlanets);
+        clearInterval(this.playerMoveIntervalId) = null;
+        this.playerTurnInterval = null;
+        this.tempoPlayerTurnInterval = null;
+        this.tempoInvasionPhaseInterval = null;
+        this.tempoFlashInvadedPlanets = null;
         
         $('#game-over').show();
     }
