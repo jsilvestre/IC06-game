@@ -17,7 +17,8 @@ var Config = {
     
     FLASH_TYPE : { PLANET_UNDER_ATTACK : "planet_under_attack", 
                    PLANET_COLONIZED : "planet_colonized",
-                   PLANET_MASSIVELY_INVADED : "planet_massively_invaded" },
+                   PLANET_MASSIVELY_INVADED : "planet_massively_invaded",
+                   INFORMATION_GIVEN : "information_given" },
     
     SYSTEM_NAME : "Système",
     

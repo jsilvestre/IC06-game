@@ -717,12 +717,14 @@ function Engine() {
         
         // Give some cards to the player
         var giftCard;
+        var cardsGiven = [];
         for(j = 0; j < Config.NUM_CARD_BY_TURN; j++) {
             giftCard = this.decks.information.removeCard("first");
 
             if(giftCard != false) {
                 if(giftCard.type == Config.CARD_TYPE_PLANET) {
                     this.players[this.currentPlayer].inventory.addCard(giftCard);
+                    cardsGiven.push(giftCard.value);
                 }
                 else if(giftCard.type == Config.CARD_TYPE_MASSIVE_INVASION) {
                     this.triggerMassiveInvasion();
@@ -736,6 +738,8 @@ function Engine() {
                 return;
             }
         }
+        
+        this.makePlanetsFlash(cardsGiven, Config.FLASH_TYPE.INFORMATION_GIVEN);
         
         /* DEBUG */
         this.players[this.currentPlayer].pa = 99; //Config.NUM_PA_TURN;
@@ -970,6 +974,9 @@ function Engine() {
             }
             else if(type == Config.FLASH_TYPE.PLANET_MASSIVELY_INVADED) {
                 this.map.planets[planets[i]].isMassivelyInvaded = !this.map.planets[planets[i]].isMassivelyInvaded;
+            }
+            else if(type == Config.FLASH_TYPE.INFORMATION_GIVEN) {
+                this.map.planets[planets[i]].isGivenToPlayer = !this.map.planets[planets[i]].isGivenToPlayer;
             }
         }
         

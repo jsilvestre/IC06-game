@@ -12,6 +12,7 @@ function Planet() {
     this.isUnderAttack = false;
     this.isColonizedByForce = false;
     this.isMassivelyInvaded = false;
+    this.isGivenToPlayer = false;
     
     this.threatLvl = 0;
     this.hasLaboratory = false;
@@ -66,8 +67,19 @@ function Planet() {
             canvasContext.stroke();
             canvasContext.lineWidth = 1;            
             canvasContext.closePath();
-        }        
+        }
         
+        if(this.isGivenToPlayer) {
+            canvasContext.beginPath();
+            canvasContext.lineWidth = 5;
+            canvasContext.strokeStyle = "#AA55FF";
+            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
+                              Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
+            canvasContext.stroke();
+            canvasContext.lineWidth = 1;            
+            canvasContext.closePath();
+        }
+
         if(this.hasLaboratory) {
             canvasContext.beginPath();
             canvasContext.strokeStyle = "#FF0088";

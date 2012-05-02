@@ -23,7 +23,7 @@ Todo
 * Adding the following rule: if a player starts on a planet with a threat lvl > 0, the duration for his turn is reduced
 * Adding graphic elements
 * Adding the main menu
-* Adding a flash effect to the planet when a player is given cards.
+* Adding a flash effect to the planet when a player is given cards [done]
 
 Reminder
 ========
