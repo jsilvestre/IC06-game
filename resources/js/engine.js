@@ -9,6 +9,8 @@ function Engine() {
     this.players = [];
     this.currentPlayer = 0;
     
+    this.pirateCurrentSelection = null;
+    
     this.nbTurns = 0;
     this.currentNumLaboratory = 0;
     
@@ -206,76 +208,111 @@ function Engine() {
     }
     
     this.movePlayer = function() {
-        if(this.selectedPlanet != null && this.selectedPlanet != this.players[this.currentPlayer].planet) {
+        
+        var player;
+        
+        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
+            player = this.pirateCurrentSelection;
+        }
+        else {
+            player = this.getCurrentPlayer();
+        }
+        
+        if(this.selectedPlanet != null && this.selectedPlanet != player.planet) {
             
-            if(this.players[this.currentPlayer].planet.isBoundTo(this.selectedPlanet)) {            
-                this.startMoveTo(this.players[this.currentPlayer], this.selectedPlanet);
+            if(player.planet.isBoundTo(this.selectedPlanet)) {            
+                this.startMoveTo(player, this.selectedPlanet);
                 this.getCurrentPlayer().pa--;                
             }
             else {   
                 // look if the user can go recursively to the planet
-                var result = this.determinePathRecursivelyTo(this.players[this.currentPlayer].planet, this.selectedPlanet, new Array());
+                var result = this.determinePathRecursivelyTo(player.planet, this.selectedPlanet, new Array());
                 if(result != null) {
-                    this.startMoveTo(this.players[this.currentPlayer], result);
+                    this.startMoveTo(player, result);
                     this.getCurrentPlayer().pa = this.getCurrentPlayer().pa - (result.length - 1);
                 }
             }
 
             this.updatePaView();
-            this.log("Déplacement vers " + this.selectedPlanet.name);
+            this.log("Déplacement de " + player.name + " vers " + this.selectedPlanet.name);
         }
     }
     
     this.movePlayerWithTargetResource = function() {
 
-        var player = this.getCurrentPlayer();
-        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
+        var currentPlayer = this.getCurrentPlayer();
+        var card = currentPlayer.inventory.getCardByValue(this.selectedPlanet.id);
 
         if(this.checkTargetMoveOk()) {
 
-            player.inventory.removeCard(card.id);
-            player.pa--;
+            currentPlayer.inventory.removeCard(card.id);
+            currentPlayer.pa--;
             this.updatePaView();
             this.updatePlayerList();
+
+            if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
+                player = this.pirateCurrentSelection;
+            }
+            else {
+                player = this.getCurrentPlayer();
+            }
             
-            this.startMoveTo(this.getCurrentPlayer(), this.selectedPlanet);
+            this.startMoveTo(player, this.selectedPlanet);
         }
         
     }
     
     this.movePlayerWithCurrentResource = function() {
 
-        var player = this.getCurrentPlayer();
-        var card = player.inventory.getCardByValue(player.planet.id);
+        var currentPlayer = this.getCurrentPlayer();
+        
+        var player;
+        
+        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
+            player = this.pirateCurrentSelection;
+        }
+        else {
+            player = this.getCurrentPlayer();
+        }        
+        
+        var card = currentPlayer.inventory.getCardByValue(player.planet.id);
 
         if(this.checkCurrentMoveOk()) {
-            player.inventory.removeCard(card.id);
-            player.pa--;
+            currentPlayer.inventory.removeCard(card.id);
+            currentPlayer.pa--;
             this.updatePaView();
             this.updatePlayerList();
             
-            this.startMoveTo(this.getCurrentPlayer(), this.selectedPlanet);
+            this.startMoveTo(player, this.selectedPlanet);
         }        
     }
     
     this.movePlayerByLabo = function() {
         
-        var player = this.getCurrentPlayer();
-        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
+        var currentPlayer = this.getCurrentPlayer();
+        var card = currentPlayer.inventory.getCardByValue(this.selectedPlanet.id);
         
         if(this.checkLaboMoveOk()) {
-            player.pa--;
+            currentPlayer.pa--;
             this.updatePaView();
             this.updatePlayerList();
             
-            this.startMoveTo(this.getCurrentPlayer(), this.selectedPlanet);
+            if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
+                player = this.pirateCurrentSelection;
+            }
+            else {
+                player = this.getCurrentPlayer();
+            }
+            
+            this.startMoveTo(player, this.selectedPlanet);
         }        
     }
     
     this.startMoveTo = function(player, planet) {
-        this.playerMoveIntervalId = setInterval(function(that, dest) { that.executeMove(dest); }, 
+        this.playerMoveIntervalId = setInterval(function(that, player, dest) { that.executeMove(player, dest); }, 
                                     Config.moveInterval, 
-                                    this, 
+                                    this,
+                                    player,
                                     planet);
     }
     
@@ -330,7 +367,7 @@ function Engine() {
         
     }
     
-    this.executeMove = function(planetDest) {
+    this.executeMove = function(player, planetDest) {
     
         if(planetDest instanceof Array) {
             if(this.currentDestination == null) {
@@ -341,7 +378,7 @@ function Engine() {
             this.currentDestination = planetDest;
         }
         
-        var isPlayerAtDestination = this.players[this.currentPlayer].move(this.currentDestination, this.playerMoveIntervalId);
+        var isPlayerAtDestination = player.move(this.currentDestination, this.playerMoveIntervalId);
         
         if(isPlayerAtDestination instanceof Planet) {
             
@@ -476,36 +513,64 @@ function Engine() {
 
     this.checkClassicMoveOk = function() {
         if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return false;
+        
+        var player;
+        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
+            player = this.pirateCurrentSelection;
+        }
+        else {
+            player = this.getCurrentPlayer();
+        }
 
-        var result = this.determinePathRecursivelyTo(this.getCurrentPlayer().planet, this.selectedPlanet, new Array());
+        var result = this.determinePathRecursivelyTo(player.planet, this.selectedPlanet, new Array());
 
-        return this.getCurrentPlayer().planet.id != this.selectedPlanet.id && this.getCurrentPlayer().pa >= result.length - 1;
+        return player.planet.id != this.selectedPlanet.id && this.getCurrentPlayer().pa >= result.length - 1;
     }
     
     this.checkTargetMoveOk = function() {
         if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return;
         
-        var player = this.getCurrentPlayer();
-        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
+        var player;
+        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
+            player = this.pirateCurrentSelection;
+        }
+        else {
+            player = this.getCurrentPlayer();
+        }
+                
+        var card = this.getCurrentPlayer().inventory.getCardByValue(this.selectedPlanet.id);
         
-        return player.planet.id != this.selectedPlanet.id && player.pa > 0 && card != null;
+        return player.planet.id != this.selectedPlanet.id && this.getCurrentPlayer().pa > 0 && card != null;
     }
     
     this.checkCurrentMoveOk = function() {
         if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return;
 
-        var player = this.getCurrentPlayer();
-        var card = player.inventory.getCardByValue(player.planet.id);
+        var player; 
+        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
+            player = this.pirateCurrentSelection;
+        }
+        else {
+            player = this.getCurrentPlayer();
+        }
+        
+        var card = this.getCurrentPlayer().inventory.getCardByValue(player.planet.id);
 
-        return player.planet.id != this.selectedPlanet.id && player.pa > 0 && card != null;
+        return player.planet.id != this.selectedPlanet.id && this.getCurrentPlayer().pa > 0 && card != null;
     }
     
     this.checkLaboMoveOk = function() {
         if(this.selectedPlanet == null || this.getCurrentPlayer() == null) return;
 
-        var player = this.getCurrentPlayer();
+        var player;
+        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE) && this.pirateCurrentSelection != null) {
+            player = this.pirateCurrentSelection;
+        }
+        else {
+            player = this.getCurrentPlayer();
+        }
 
-        return player.planet.id != this.selectedPlanet.id && player.pa > 0 
+        return player.planet.id != this.selectedPlanet.id && this.getCurrentPlayer().pa > 0 
             && player.planet.hasLaboratory && this.selectedPlanet.hasLaboratory        
     }
     
@@ -643,7 +708,8 @@ function Engine() {
             }
         }
         
-        this.players[this.currentPlayer].pa = Config.NUM_PA_TURN;
+        /* DEBUG */
+        this.players[this.currentPlayer].pa = 99; //Config.NUM_PA_TURN;
         
         this.updatePlayerList();
         this.updatePaView();
@@ -656,6 +722,29 @@ function Engine() {
     
     this.runPlayerTurn = function() {
         clearInterval(this.tempoPlayerInterval);
+        
+        // if the player is a pirate, he can select a player
+        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE)) {
+            
+            /*$('#playerList li.player span').each(function() {
+
+                if($(this).html() != SingletonEngine.engine.getCurrentPlayer().name) {
+                    $(this).click(function() {
+                        var player = SingletonEngine.engine.getPlayerByName($(this).html());
+                        
+                         $('#playerList li.player').removeClass('selected');
+                        
+                        if(SingletonEngine.engine.pirateCurrentSelection == player) {
+                            SingletonEngine.engine.pirateCurrentSelection = null;
+                        }
+                        else {
+                            SingletonEngine.engine.pirateCurrentSelection = player;
+                            $(this).parent().addClass('selected');
+                        }
+                    });
+                }
+            });*/
+        }
         
         this.log("Début du tour.");
         this.enableAllActions();
@@ -670,6 +759,13 @@ function Engine() {
     
     this.runInvasionPhase = function() {
         clearInterval(this.playerTurnInterval);
+        
+        // we clear the player selection handler if the current plauyer is a pirate
+        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE)) {
+            $('#playerList li.player span').unbind('click');
+            this.pirateCurrentSelection = null;
+             $('#playerList li.player').removeClass('selected');
+        }
         
         this.stopTimer();
         this.updateTimerWrapper("PHASE D'INVASION");
@@ -918,6 +1014,10 @@ function Engine() {
                 tmpAdded.addClass('isPlaying');
             }
             
+            if(this.pirateCurrentSelection == this.players[i]) {
+                tmpAdded.addClass('selected');
+            }
+            
             tmpAdded.append(this.getPlayerInventoryView(this.players[i]));
             
             div.append(tmpAdded) ;
@@ -960,6 +1060,27 @@ function Engine() {
                                         SingletonEngine.engine.playerGiftAction(playerTarget, planetID);
                         			}
                             });
+                            
+        if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE)) {
+            // add the click handler
+            $('#playerList li.player span').each(function() {
+                if($(this).html() != SingletonEngine.engine.getCurrentPlayer().name) {
+                    $(this).click(function() {
+                        var player = SingletonEngine.engine.getPlayerByName($(this).html());
+
+                         $('#playerList li.player').removeClass('selected');
+
+                        if(SingletonEngine.engine.pirateCurrentSelection == player) {
+                            SingletonEngine.engine.pirateCurrentSelection = null;
+                        }
+                        else {
+                            SingletonEngine.engine.pirateCurrentSelection = player;
+                            $(this).parent().addClass('selected');
+                        }
+                    });
+                }
+            });
+        }
     }
     
     this.getPlayerInventoryView = function(player) {

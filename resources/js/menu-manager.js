@@ -44,7 +44,7 @@ function MenuManager() {
             var temp = $('<select class="playerRole"></select>');
             
             temp.append('<option value="'+Config.ROLE_BRUTE+'">Brute</option>');
-            temp.append('<option value="'+Config.ROLE_PIRATE+'" disabled>Pirate</option>');
+            temp.append('<option value="'+Config.ROLE_PIRATE+'">Pirate</option>');
             temp.append('<option value="'+Config.ROLE_ARCHITECT+'">Architecte</option>');
             temp.append('<option value="'+Config.ROLE_EXPERT+'">Expert en armement</option>');
             temp.append('<option value="'+Config.ROLE_SPY+'">Informateur</option>');
@@ -71,7 +71,7 @@ function MenuManager() {
 
         // add all the players
         if(debug == true) {
-            SingletonEngine.engine.addPlayer("Player1", Config.ROLE_BRUTE);
+            SingletonEngine.engine.addPlayer("Player1", Config.ROLE_PIRATE);
             SingletonEngine.engine.addPlayer("Player2", Config.ROLE_ARCHITECT);
             SingletonEngine.engine.addPlayer("Player3", Config.ROLE_EXPLORER);
             

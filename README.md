@@ -13,7 +13,7 @@ Todo
 * Adding the bonus/malus cards in the card pool
 * Adding roles concept and their features
 ** "Brute" [done]
-** "Pirate" : [hard]
+** "Pirate" : [done]
 ** "Architect" [done]
 ** "Weapon Expert" [done]
 ** "Spy" [done]
