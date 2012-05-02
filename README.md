@@ -9,7 +9,7 @@ Todo
 * Tons of stuff I haven't time to list :D
 
 * Reworking card gift with drag'n'drop [done]
-* Adding forced colonization concept
+* Adding forced colonization concept [done]
 * Adding the bonus/malus cards in the card pool
 * Adding roles concept and their features
 ** "Brute" [done]

@@ -77,9 +77,11 @@ function Map() {
         return null;
     }
     
-    this.unHoverPlanets = function() {
+    this.removePlanetHighlights = function() {
         for(var i in this.planets) {
             this.planets[i].isHovering = false;
+            this.planets[i].isUnderAttack = false;
+            this.planets[i].isColonizedByForce = false;
         }
     }
 }

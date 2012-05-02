@@ -8,6 +8,10 @@ function Planet() {
     this.boundPlanets = [];
     this.isSelected = false;
     this.isHovering = false;
+    
+    this.isUnderAttack = false;
+    this.isColonizedByForce = false;
+    
     this.threatLvl = 0;
     this.hasLaboratory = false;
     
@@ -20,13 +24,35 @@ function Planet() {
             canvasContext.fillRect(this.x - 5, this.y - 5, Config.PLANET_HITBOX + 10, Config.PLANET_HITBOX + 10);
             canvasContext.closePath();
         }
-        
+
         if(this.isHovering) {
             canvasContext.beginPath();
             canvasContext.strokeStyle = "#0088FF";
             canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
                               Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
             canvasContext.stroke();
+            canvasContext.closePath();
+        }
+        
+        if(this.isUnderAttack) {
+            canvasContext.beginPath();
+            canvasContext.lineWidth = 5;
+            canvasContext.strokeStyle = "#0088FF";
+            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
+                              Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
+            canvasContext.stroke();
+            canvasContext.lineWidth = 1;
+            canvasContext.closePath();
+        }        
+        
+        if(this.isColonizedByForce) {
+            canvasContext.beginPath();
+            canvasContext.lineWidth = 5;
+            canvasContext.strokeStyle = "#FF0000";
+            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
+                              Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
+            canvasContext.stroke();
+            canvasContext.lineWidth = 1;            
             canvasContext.closePath();
         }
         

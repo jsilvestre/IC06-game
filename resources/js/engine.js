@@ -13,6 +13,9 @@ function Engine() {
     
     this.nbTurns = 0;
     this.currentNumLaboratory = 0;
+    this.numForcedColonization = 0;
+    
+    this.isGameOver = false;
     
     this.canvas = null;
     this.canvasContext = null;
@@ -24,7 +27,7 @@ function Engine() {
     this.timerIntervalId = null;
     this.tempoPlayerTurnInterval = null;
     this.tempoInvasionPhaseInterval = null;
-    this.tempoFlashInvadedPlanets = null;
+    this.tempoFlashPlanets = [];
     
     this.newTurnDate = null;
     
@@ -88,6 +91,7 @@ function Engine() {
         this.initializeInvasionSpeedMeterView();
         this.updateInvasionSpeedMeterView();
         this.updateWeaponsListView();
+        this.updateNumForcedColonizationView();
         
         this.render();
         
@@ -670,13 +674,19 @@ function Engine() {
     
     this.newPlayerTurn = function() {
         
+        if(this.isGameOver) return;
+        
         // reset the timers
-        this.tempoFlashInvadedPlanets = null;
+        for(var i in this.tempoFlashPlanets) {
+            clearTimeout(this.tempoFlashPlanets[i]);
+            this.tempoFlashPlanets[i] = null;
+        }
         this.tempoInvasionPhaseInterval = null;
         
         $('#playerList .inventory li').removeClass('selected'); // clear the inventory selection
         
-        this.map.unHoverPlanets();
+        this.map.removePlanetHighlights();
+        
         this.render();
         
         this.disableAllActions();
@@ -722,6 +732,8 @@ function Engine() {
     }
     
     this.runPlayerTurn = function() {
+        
+        if(this.isGameOver) return;
 
         this.tempoPlayerInterval = null; // reset the timer
         
@@ -737,6 +749,8 @@ function Engine() {
     }
     
     this.runInvasionPhase = function() {
+        
+        if(this.isGameOver) return;
 
         this.playerTurnInterval = null; // reset the timer
         
@@ -755,36 +769,66 @@ function Engine() {
 
         var attackedPlanetId, attackedPlanet;
         var attackedPlanets =  [];
+        var colonizedPlanets = [];
+        var temp;
         // increase the threat lvl
         for(var i = 0; i < Config.INVASION_SPEED_METER[this.currentInvasionSpeedIndex]; i++) {
 
-            attackedPlanetId = this.decks.invaders.removeCard("first").value;
-            attackedPlanet = this.map.planets[attackedPlanetId];
-            if(attackedPlanet.threatLvl == 3) {
-                // trigger a forced colonization
-            }
-            else {
-                var isProtected = false;
-                for(var p in this.players && !isProtected) {
-                   if(this.players[p].hasRole(Config.ROLE_SHIELD)) {
-                       isProtected = true;
-                   }
-                }
-                
-                if(!isProtected) {
-                    attackedPlanet.threatLvl = attackedPlanet.threatLvl + 1;
-                    attackedPlanet.isHovering = true;
-                    attackedPlanets.push(attackedPlanetId);
-                }
-                else {
-                    this.log('Planète attaquée mais protégée par le bouclier');
-                }
-            }
+            temp = this.decks.invaders.removeCard("first");
+            attackedPlanetId = temp.value;
+            this.decks.invaders.addCard({"id" : temp.id, "value" : attackedPlanetId});
+            this.decks.invaders.shuffle(10);
+            this.doAttackPlanet(attackedPlanetId, colonizedPlanets, attackedPlanets);
         }
 
-        this.makePlanetsFlash(attackedPlanets);
+        this.makePlanetsFlash(attackedPlanets, Config.FLASH_TYPE.PLANET_UNDER_ATTACK);
+        this.makePlanetsFlash(colonizedPlanets, Config.FLASH_TYPE.PLANET_COLONIZED);        
 
         this.tempoInvasionPhaseInterval = setTimeout(function(that) { that.newPlayerTurn(); }, Config.INVASION_PHASE_DURATION + 1000, this);
+    }
+    
+    this.forcedColonization = function(rootPlanet, colonizedPlanets, attackedPlanets) {
+        
+        this.numForcedColonization++;
+        colonizedPlanets.push(rootPlanet.id);
+        this.updateNumForcedColonizationView();
+
+        if(this.numForcedColonization >= Config.NUM_FORCED_COLONIZATION_MAX) {
+            this.triggerGameOver();
+            return;
+        }
+        
+        for(var i = 0; i < rootPlanet.boundPlanets.length; i++) {
+            this.doAttackPlanet(rootPlanet.boundPlanets[i], colonizedPlanets, attackedPlanets);
+        }
+    }
+    
+    this.doAttackPlanet = function(attackedPlanetId, colonizedPlanets, attackedPlanets) {
+        attackedPlanet = this.map.planets[attackedPlanetId];
+        
+        var isProtected = false;
+        for(var p in this.players && !isProtected) {
+           if(this.players[p].planet.id == attackedPlanetId && this.players[p].hasRole(Config.ROLE_SHIELD)) {
+               isProtected = true;
+           }
+        }
+        
+        if(!isProtected) {
+            if(attackedPlanet.threatLvl == 3) {
+                // trigger a forced colonization
+                var parsedPlanets = [];
+                if(colonizedPlanets.indexOf(attackedPlanet.id) == -1) {
+                    this.forcedColonization(attackedPlanet, colonizedPlanets, attackedPlanets);
+                }
+            }
+            else {                
+                attackedPlanet.threatLvl = attackedPlanet.threatLvl + 1;
+                attackedPlanets.push(attackedPlanetId);
+            }
+        }
+        else {
+            this.log(attackedPlanet.name + ' attaquée mais protégée par le bouclier');
+        }
     }
     
     this.playerFight = function() {
@@ -876,16 +920,21 @@ function Engine() {
         setTimeout("SingletonEngine.engine.updatePlayerList()", 1); // mandatory to avoid bug
     }
     
-    this.makePlanetsFlash = function(planets) {
-        
+    this.makePlanetsFlash = function(planets, type) {
+
         for(var i = 0; i < planets.length; i++) {
-            this.map.planets[planets[i]].isHovering = !this.map.planets[planets[i]].isHovering;
+            if(type == Config.FLASH_TYPE.PLANET_UNDER_ATTACK) {
+                this.map.planets[planets[i]].isUnderAttack = !this.map.planets[planets[i]].isUnderAttack;
+            }
+            else if(type == Config.FLASH_TYPE.PLANET_COLONIZED) {
+                this.map.planets[planets[i]].isColonizedByForce = !this.map.planets[planets[i]].isColonizedByForce;
+            }
         }
         
         this.render();
         
-        this.tempoFlashInvadedPlanets = setTimeout(function(that, planets) { that.makePlanetsFlash(planets); }, 250,
-                                                    this, planets);
+        this.tempoFlashPlanets[type] = setTimeout(function(that, planets, type) { that.makePlanetsFlash(planets, type); }, 250,
+                                                    this, planets, type);
     }
     
     this.startTimer = function(startDate, duration) {
@@ -950,13 +999,19 @@ function Engine() {
     }
     
     this.triggerWin = function()  {
-        clearInterval(this.timerIntervalId);
-        clearInterval(this.playerMoveIntervalId) = null;
-        this.playerTurnInterval = null;
-        this.tempoPlayerTurnInterval = null;
-        this.tempoInvasionPhaseInterval = null;
-        this.tempoFlashInvadedPlanets = null;
+        this.isGameOver = true;
         
+        clearInterval(this.playerMoveIntervalId); this.playerMoveIntervalId = null;
+        clearInterval(this.timerIntervalId); this.timerIntervalId = null;
+        
+        clearTimeout(this.playerTurnInterval); this.playerTurnInterval = null;
+        clearTimeout(this.tempoPlayerTurnInterval); this.tempoPlayerTurnInterval = null;
+        clearTimeout(this.tempoInvasionPhaseInterval); this.tempoInvasionPhaseInterval = null;
+        
+        for(var i in this.tempoFlashPlanets) {
+            clearTimeout(this.tempoFlashPlanets[i]);
+            this.tempoFlashPlanets[i] = null;
+        }
         $('#win').show();
     }
     
@@ -967,12 +1022,19 @@ function Engine() {
     }
     
     this.triggerGameOver = function() {
-        clearInterval(this.timerIntervalId);
-        clearInterval(this.playerMoveIntervalId) = null;
-        this.playerTurnInterval = null;
-        this.tempoPlayerTurnInterval = null;
-        this.tempoInvasionPhaseInterval = null;
-        this.tempoFlashInvadedPlanets = null;
+        this.isGameOver = true;
+        
+        clearInterval(this.playerMoveIntervalId); this.playerMoveIntervalId = null;
+        clearInterval(this.timerIntervalId); this.timerIntervalId = null;
+        
+        clearTimeout(this.playerTurnInterval); this.playerTurnInterval = null;
+        clearTimeout(this.tempoPlayerTurnInterval); this.tempoPlayerTurnInterval = null;
+        clearTimeout(this.tempoInvasionPhaseInterval); this.tempoInvasionPhaseInterval = null;
+        
+        for(var i in this.tempoFlashPlanets) {
+            clearTimeout(this.tempoFlashPlanets[i]);
+            this.tempoFlashPlanets[i] = null;
+        }
         
         $('#game-over').show();
     }
@@ -1094,6 +1156,11 @@ function Engine() {
     
     this.updatePaView = function() {
         $('#paCounter span.currentValue').html(this.players[this.currentPlayer].pa);
+    }
+    
+    this.updateNumForcedColonizationView = function() {
+        $('#forcedColonization span.currentValue').html(this.numForcedColonization);
+        $('#forcedColonization span.maxValue').html(Config.NUM_FORCED_COLONIZATION_MAX);
     }
     
     this.updateInvasionSpeedMeterView = function() {
