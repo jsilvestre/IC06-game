@@ -785,7 +785,6 @@ function Engine() {
         this.render();
         
         this.log("Début du tour.");
-        this.enableAllActions();
 
         var realTurnDuration = Config.TURN_DURATION;
         if(this.getCurrentPlayer().planet.threatLvl > 0) {
@@ -798,6 +797,8 @@ function Engine() {
         this.startTimer(this.newTurnDate, realTurnDuration / 1000);
         
         this.playerTurnInterval = setTimeout(function(that) { that.runInvasionPhase(); }, realTurnDuration + 1000, this);
+        
+        this.updateCurrentPlanetInfo(); // to enable available actions
     }
     
     this.runInvasionPhase = function() {
