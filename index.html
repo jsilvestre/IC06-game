@@ -23,7 +23,7 @@
     <script type="text/javascript">    
         $(document).ready(function () {
             
-            var debug = true;
+            var debug = false;
             
             var menu = new MenuManager();
             
@@ -83,46 +83,77 @@
             
             <div id="menu-content-presentation" class="menu-content">
                 
-                <p>Invaders Must Die est un jeu multi-joueur coopératif.</p>
-                <p>Incarnez un super-héro et combattez les forces du terrible Docteur Nefarious.</p>
+                <p>L'univers est menacé par 4 races aliens contrôlées par un fou revenchard, le Docteur Machiavelous.</p>
+                <p>Le plan du docteur "M" est de lancer l'armée de chacun de ses larbins sur une zone différente de la galaxie.</p>
+                <p>Incarnez un super héro au service de l'humanité et cherchez à assembler les armes qui permettront de repousser l'envahisseur.</p>
+                <p>Coopérez avec 2 alliés et développez une stratégie pour obtenir la victoire.</p>
+                <p>Kick asses, save the world, or die !</p>
                 
                 <h1>Change log</h1>
-                <h2>21/04/2012</h2>
+                <h2>03/05/2012</h2>
                 <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
+                    <li>Le jeu est fonctionnel et nécessite des tests pour l'équilibrage.</li>
+                    <li>Ajout du portail du jeu.</li>
+                    <li>La section règles a été complétée.</a>
                 </ul>
             </div>
             <div id="menu-content-rules" class="menu-content">
                 <h1>Principe de base</h1>
-                <p>Tour par tour, vous pourrez effectuer différentes actions. Chaque action coûte un point d'action (vous disposez de 4 points d'action non cumulables).</p>
-                <p>Le but est d'exterminer les envahisseurs qui attaquent à chaque tour des planètes aléatoirement</p>
+                <p>Tour par tour, vous effectuez des actions en collaboration avec vos alliés pour obtenir la victoire.</p>
+                <p>Le but est d'exterminer les envahisseurs qui attaquent à chaque tour des planètes aléatoirement.</p>
+                <p>Chaque joueur incarne un super-héro doté de capacités uniques (détaillé à la sélection).</p>
+                
+                <h1>Ressources</h1>
+                <p>Vous disposez de 4 points d'action (PA) par tour, non cumulable.</p>
+                <p>Vous disposez de "Guide Touristique" qui vous sont attribués aléatoirement au début de la partie et à chaque tour.</p>
                 
                 <h1>Les actions</h1>
                 <dl>
                     <dt>Déplacement classique</dt>
-                    <dd>Un déplacement classique coûte un point d'action. Il n'est réalisable qu'entre des planètes reliées par un trait.</dd>
+                    <dd>Coût : 1 PA. Il n'est réalisable qu'entre des planètes reliées par un trait.</dd>
                     <dt>Déplacement hyper-espace</dt>
-                    <dd></dd>
+                    <dd>Coût : 1 PA + le guide touristique de la planète cible.</dd>
                     <dt>Déplacement sub-spatial</dt>
-                    <dd></dd>
+                    <dd>Coût : 1 PA + le guide touristique de la planète sur laquelle vous vous trouvez.</dd>
                     <dt>Déplacement par laboratoire secret</dt>
-                    <dd></dd>
+                    <dd>Coût : 1 PA. Nécessite que la planète sur laquelle vous vous trouvez et que la planète cible possèdent un laboratoire secret.</dd>
                     <dt>Combat</dt>
-                    <dd></dd>
+                    <dd>Coût : 1 PA + le guide touristique de la planète sur laquelle vous vous trouvez. Permet de diminuer de 1 le niveau de menace de la planète. N'est utilisable que sur la planète sur laquelle vous vous trouvez.</dd>
                     <dt>Donner un guide touristique</dt>
-                    <dd></dd>
+                    <dd>Coût : 1 PA + le guide touristique de la planète sur laquelle vous vous trouvez. Donne un guide touristique à un allié. N'est utilisable que sur la planète sur laquelle vous vous trouvez.</dd>
+                    <dt>Construire un laboratoire secret</dt>
+                    <dd>Coût : 1 PA + le guide touristique de la planète sur laquelle vous vous trouvez. Construit un laboratoire secret sur la planète. 5 laboratoires secrets maximum par partie.</dd>
                     <dt>Assembler une arme</dt>
-                    <dd></dd>
+                    <dd>Coût : 1 PA + 5 guides touristiques de la même zone</dd>
                 </dl>
+                
+                <h1>Evénements spéciaux</h1>
+                <p>Il peut arriver que des événements spéciaux soient déclenchés avant le tour d'un joueur.</p>
+                <p>Mélanger au milieu des informations envoyées par le QG (les guides touristiques) peuvent se trouver de mauvaises nouvelles comme l'invasion massive d'une planète qui augmente la vitesse d'invasion !</p>
+                <p>Il peut aussi y avoir des événements comme le contre espionnage ou la trêve du confiseur.</p>
+                
+                <h1>Colonisation forcée</h1>
+                <p>Si une planète dont le niveau de menace est à 3 est envahie, une colonisation forcée est déclenchée : le niveau de menace des planètes adjacentes augmente de 1 ce qui peut déclencher de nouvelles colonisations forcées. Si trop de colonisations forcées ont lieu, la partie est perdue !</p>
                 
                 <h1>Victoire / défaite</h1>
                 <h2>Conditions de victoire</h2>
                 <p>Vous découvrez l'arme de chaque zone grâce à l'action "Assembler une arme"</p>
 
                 <h2>Conditions de défaite</h2>
-                <p>10 colonisations forcées ont lieu</p>
+                <p>Le nombre maximum de "colonisations forcées" est atteint.</p>
+                <p>Tous les guides touristiques ont été distribués (1 par planète)</p>
+                
+                <h1>Indicateurs visuels</h1>
+                <h2>Pendant la phase qui précède le tour</h2>
+                <ul>
+                    <li>Les cercles violets indiquent les planètes dont le joueur a reçu le guide touristique.</li>
+                    <li>Les cercles oranges indiquent les planètes qui subissent une invasion massive.</li>
+                </ul>
+                <h2>Pendant la phase d'invasion</h2>
+                <ul>
+                    <li>Les cercles bleus représentent les planètes attaquées</li>
+                    <li>Les cercles rouges représentent les planètes qui subissent une "colonisation forcée"</li>
+                </ul>
             </div>
             <div id="menu-content-play" class="menu-content">
                 
@@ -139,6 +170,24 @@
                 </div>
                 
                 <a id="start-game" class="button" href="#">Play !</a>
+                
+                <h2>Les rôles</h2>
+                <dl>
+                    <dt>Brute</dt>
+                    <dd>Lorqu'il combat, fait chuter le niveau de menace à 0.</dd>
+                    <dt>Pirate</dt>
+                    <dd>Peut déplacer les autres joueurs selon les mêmes modalités, en utilisant ses propres ressources.</dd>
+                    <dt>Architecte</dt>
+                    <dd>Peut construire un laboratoire de recherche sans utiliser de guide touristique.</dd>
+                    <dt>Expert en armement</dt>
+                    <dd>N'a besoin que de 4 guides touristiques de la même zone au lieu de 5</dd>
+                    <dt>Informateur</dt>
+                    <dd>Peut donner une carte sans utiliser de guide touristique.</dd>
+                    <dt>Explorateur</dt>
+                    <dd>Non implémenté. A plus de chance d'obtenir des guides touristiques de la zone dans laquelle il se trouve.</dd>
+                    <dt>Bouclier</dt>
+                    <dd>Le niveau de menace de la planète sur laquelle il se trouve ne peut pas augmenter</dd>
+                </dl>
                 
             </div>
             <div id="menu-content-credits" class="menu-content">credits
