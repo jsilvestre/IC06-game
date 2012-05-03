@@ -152,6 +152,18 @@ p {
                     span {
                         display: none;
                     }
+                    
+                    .colorZone {
+                        width: 15px;
+                        height: 15px;
+                        display: inline-block;
+                        margin-left: 5px;
+                        
+                        &.a { background: red; }
+                        &.b { background: blue; }
+                        &.c { background: green; }
+                        &.d { background: yellow; }
+                    }
 
                     &:hover { background: #222; }
                     &.selected { background: #000 }

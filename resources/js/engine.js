@@ -1185,10 +1185,13 @@ function Engine() {
         var view = $('<div class="inventory"></div');
         var listView = $('<ul></ul>');
         var card;
+        var color;
         for(var i = 0; i < player.inventory.cards.length; i++) {
             card = player.inventory.cards[i];
+            
+            color = this.map.planets[card.value].zone;
 
-            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span></li>'));
+            listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span><div class="colorZone ' + this.map.planets[card.value].zone + '"></div</li>'));
         }
         
         if(player.inventory.cards.length == 0) {
