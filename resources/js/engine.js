@@ -784,6 +784,10 @@ function Engine() {
         this.map.removePlanetHighlights();
         this.render();
         
+        $('#passTurn').click(function() {
+            SingletonEngine.engine.runInvasionPhase();
+        });
+        
         this.log("Début du tour.");
 
         var realTurnDuration = Config.TURN_DURATION;
@@ -808,6 +812,8 @@ function Engine() {
         this.playerTurnInterval = null; // reset the timer
         
         this.updateCurrentPlanetInfo(); // to keep players from doing anything
+        
+        $('#passTurn').unbind('click'); // prevent player from passing a turn here
         
         // we clear the player selection handler if the current plauyer is a pirate
         if(this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE)) {

@@ -79,10 +79,6 @@ function MenuManager() {
                SingletonEngine.engine.startGame();
                $('#startGame').unbind('click');
             });
-            
-            $('#passTurn').click(function() {
-                SingletonEngine.engine.newPlayerTurn();
-            });
         }
         else {
             $('#menu-content-play .player').each(function() {
