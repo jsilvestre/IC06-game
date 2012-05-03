@@ -197,7 +197,18 @@ function Engine() {
             nextCardID++;
         }
 
-        this.decks.information.shuffle(100); // could be a bottleneck for performance...
+        // massive invasion cannot occured in the first turn # could be a bottleneck for performance...
+        var condition = false;        
+        while(!condition) {
+            
+            this.decks.information.shuffle(10);
+            
+            condition = true;
+            for(i = 0; i < this.players.length*2; i+=2) {
+                condition = condition && (this.decks.information.cards[i].type == Config.CARD_TYPE_PLANET
+                                      && this.decks.information.cards[i+1].type == Config.CARD_TYPE_PLANET);
+            }
+        }
     }
     
     // Exécute le rendu du jeu
