@@ -833,10 +833,7 @@ function Engine() {
         // increase the threat lvl
         for(var i = 0; i < Config.INVASION_SPEED_METER[this.currentInvasionSpeedIndex]; i++) {
 
-            temp = this.decks.invaders.removeCard("first");
-            attackedPlanetId = temp.value;
-            this.decks.invaders.addCard({"id" : temp.id, "value" : attackedPlanetId});
-            this.decks.invaders.shuffle(10);
+            attackedPlanetId = this.decks.invaders.removeCard("first").value;
             this.doAttackPlanet(attackedPlanetId, colonizedPlanets, attackedPlanets);
         }
 
