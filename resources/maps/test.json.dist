@@ -7,6 +7,7 @@
         "TURN_DURATION" : 5000,
         "TIME_BETWEEN_TURN" : 5000,
         "INVASION_PHASE_DURATION" : 5000,
+        "TIME_REDUCTION_BY_THREAT_LVL" : 1500,
         "NUM_CARD_START" : 3,
         "NUM_CARD_BY_TURN" : 2,
         "NUM_MAX_LABORATORY" : 5,

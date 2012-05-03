@@ -787,12 +787,17 @@ function Engine() {
         this.log("Début du tour.");
         this.enableAllActions();
 
+        var realTurnDuration = Config.TURN_DURATION;
+        if(this.getCurrentPlayer().planet.threatLvl > 0) {
+            realTurnDuration = realTurnDuration - Config.TIME_REDUCTION_BY_THREAT_LVL * this.getCurrentPlayer().planet.threatLvl;
+        }
+
         // start the timer for the turn
         this.updateTimerWrapper("Fin du tour dans");
         this.newTurnDate = Math.round(new Date().getTime() / 1000);
-        this.startTimer(this.newTurnDate, Config.TURN_DURATION / 1000);
+        this.startTimer(this.newTurnDate, realTurnDuration / 1000);
         
-        this.playerTurnInterval = setTimeout(function(that) { that.runInvasionPhase(); }, Config.TURN_DURATION + 1000, this);
+        this.playerTurnInterval = setTimeout(function(that) { that.runInvasionPhase(); }, realTurnDuration + 1000, this);
     }
     
     this.runInvasionPhase = function() {

@@ -20,7 +20,7 @@ Todo
 ** "Explorer" [hard or impossible?]
 ** "Shield" [done]
 * Preventing players from doing action they can't do (due to a lack of resources or wrong timing) [done, must be tested more]
-* Adding the following rule: if a player starts on a planet with a threat lvl > 0, the duration for his turn is reduced
+* Adding the following rule: if a player starts on a planet with a threat lvl > 0, the duration for his turn is reduced [done]
 * Adding graphic elements
 * Adding the main menu
 * Adding a flash effect to the planet when a player is given cards [done]
