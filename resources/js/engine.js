@@ -970,7 +970,7 @@ function Engine() {
             }
         
             this.getCurrentPlayer().createWeapon(selectedCards);
-            this.weaponsFound[this.getCurrentPlayer().planet.zone] = true;
+            this.weaponsFound[this.selectedPlanet.zone] = true;
             this.updateWeaponsListView();
             this.updatePlayerList();
             this.updatePaView();
@@ -1170,7 +1170,8 @@ function Engine() {
     }
     
     this.checkForVictory = function() {
-        if(this.zones['a'] == true && this.zones['b'] == true && this.zones['c'] == true && this.zones['d'] == true) {
+        if(this.weaponsFound['a'] == true && this.weaponsFound['b'] == true && 
+           this.weaponsFound['c'] == true && this.weaponsFound['d'] == true) {
             this.triggerWin();
         }
     }
@@ -1231,6 +1232,7 @@ function Engine() {
             var playerName = $(this).parent().parent().parent().find('span').html();
             if(playerName == engine.getCurrentPlayer().name) {
                 $(this).toggleClass('selected');
+                engine.updateCurrentPlanetInfo();
             }
         });
 
