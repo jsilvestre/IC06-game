@@ -118,39 +118,39 @@ function Engine() {
     }
     
     this.initializePlayers = function() {
-        /*var player = new Player();
-        player.id = 0;
-        player.name = "Joseph";
-        player.planet = this.map.planets[1];
-        player.x = player.planet.x;
-        player.y = player.planet.y;
-        player.role = Config.ROLE_BRUTE;
-        this.players.push(player);
-    
-        player = new Player();
-        player.id = 1;
-        player.name = "Player2";
-        player.planet = this.map.planets[1];
-        player.x = player.planet.x;
-        player.y = player.planet.y;
-        this.players.push(player);
         
-        
-        player = new Player();
-        player.id = 2;
-        player.name = "Player3";
-        player.planet = this.map.planets[3];
-        player.x = player.planet.x;
-        player.y = player.planet.y;
-        this.players.push(player);*/
-        
+        /* for debug DEBUG only */
         this.currentPlayer = 0;
         
-        for(var i = 0; i < this.players.length; i++) {
-            this.players[i].planet = this.map.planets[1];
-            this.players[i].x = this.map.planets[1].x;
-            this.players[i].y = this.map.planets[1].y;
+        var mapID = 1, mapLaboID;
+        
+        if(!isNaN(parseInt(Config.START_MODE)) && Config.START_MODE > 0 && Config.START_MODE <= this.map.planets.length) {
+            mapID = Config.START_MODE;
         }
+        
+        if(Config.START_MODE == "random") {
+            mapID = Math.max(1,  Math.round(Math.random() * 1000) % this.map.planets.length);
+        }
+        
+        mapLaboID = mapID; // if all the players start on the same planet, a  laboratory is built on this planet
+        
+        for(var i = 0; i < this.players.length; i++) {
+            
+            if(Config.START_MODE == "all_random") {
+                mapID = Math.max(1,  Math.round(Math.random() * 1000) % this.map.planets.length);
+            }
+            
+            this.players[i].planet = this.map.planets[mapID];
+            this.players[i].x = this.map.planets[mapID].x;
+            this.players[i].y = this.map.planets[mapID].y;
+        }
+        
+        if(Config.START_MODE == "all_random") {
+            mapLaboID = Math.max(1,  Math.round(Math.random() * 1000) % this.map.planets.length);
+        }
+        
+        this.map.planets[mapLaboID].hasLaboratory = true;
+        this.currentNumLaboratory++;
         
         this.log("Players have been created.", Config.SYSTEM_NAME);
     }
