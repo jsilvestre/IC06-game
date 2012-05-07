@@ -994,6 +994,7 @@ function Engine() {
             this.currentNumLaboratory++;
             this.updatePaView();
             this.updatePlayerList();
+            this.updateCurrentPlanetInfo();
             this.render();
         }
     }
