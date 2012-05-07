@@ -10,7 +10,7 @@ Todo
 
 * Reworking card gift with drag'n'drop [done]
 * Adding forced colonization concept [done]
-* Adding the bonus/malus cards in the card pool [done for malus]
+* Adding the bonus/malus cards in the card pool [done]
 * Adding roles concept and their features
 ** "Brute" [done]
 ** "Pirate" : [done]
@@ -19,7 +19,7 @@ Todo
 ** "Spy" [done]
 ** "Explorer" [hard or impossible?]
 ** "Shield" [done]
-* Preventing players from doing action they can't do (due to a lack of resources or wrong timing) [done, must be tested more]
+* Preventing players from doing action they can't do (due to a lack of resources or wrong timing) [done]
 * Adding the following rule: if a player starts on a planet with a threat lvl > 0, the duration for his turn is reduced [done]
 * Adding graphic elements
 * Adding the main menu

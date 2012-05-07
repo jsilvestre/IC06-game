@@ -15,6 +15,8 @@ function Engine() {
     this.currentNumLaboratory = 0;
     this.numForcedColonization = 0;
     
+    this.treveMode = false;
+    
     this.isGameOver = false;
     
     this.canvas = null;
@@ -84,7 +86,7 @@ function Engine() {
         this.enableAllActions();
         this.initializePlayers();
         this.initializeInventories();
-        this.intializeMassiveInvasionCards(); // must be called after initializeInventories()
+        this.initializeBonusMalusCards(); // must be called after initializeInventories()
         this.updatePlayerList();
         
         this.initializeInvasion();
@@ -188,16 +190,11 @@ function Engine() {
         }
     }
     
-    this.intializeMassiveInvasionCards = function() {
+    this.initializeBonusMalusCards = function() {
+        this.intializeMassiveInvasionCards();
+        this.initializeBonusCards();
 
-        var nextCardID = this.decks.information.cards.length;
-
-        for(var i = 0; i < Config.NUM_MASSIVE_INVASION_CARDS; i++) {    
-            this.decks.information.addCard({"id" : nextCardID, "type" : Config.CARD_TYPE_MASSIVE_INVASION, "value" : null});
-            nextCardID++;
-        }
-
-        // massive invasion cannot occured in the first turn # could be a bottleneck for performance...
+        // special events cannot occured in the first turn # could be a bottleneck for performance...
         var condition = false;        
         while(!condition) {
             
@@ -209,6 +206,26 @@ function Engine() {
                                       && this.decks.information.cards[i+1].type == Config.CARD_TYPE_PLANET);
             }
         }
+    }
+    
+    this.intializeMassiveInvasionCards = function() {
+
+        var nextCardID = this.decks.information.cards.length;
+
+        for(var i = 0; i < Config.NUM_MASSIVE_INVASION_CARDS; i++) {    
+            this.decks.information.addCard({"id" : nextCardID, "type" : Config.CARD_TYPE_MASSIVE_INVASION, "value" : null});
+            nextCardID++;
+        }
+    }
+    
+    this.initializeBonusCards = function() {
+        
+        var nextCardID = this.decks.information.cards.length;
+
+        for(var key in Config.SPECIAL_EVENT) {
+            this.decks.information.addCard({"id" : nextCardID, "type" : Config.CARD_TYPE_SPECIAL_EVENT, "value" : Config.SPECIAL_EVENT[key]});
+            nextCardID++;
+        }        
     }
     
     // Exécute le rendu du jeu
@@ -697,7 +714,7 @@ function Engine() {
     }
     
     this.newPlayerTurn = function() {
-        
+
         if(this.isGameOver) return;
         
         // reset the timers
@@ -707,7 +724,7 @@ function Engine() {
         $('#playerList .inventory li').removeClass('selected'); // clear the inventory selection
         
         this.map.removePlanetHighlights();
-        
+
         this.render();
         
         this.disableAllActions();
@@ -725,7 +742,7 @@ function Engine() {
             this.nbTurns++;
         }
         this.players[this.currentPlayer].isPlaying = true;
-        
+
         // Give some cards to the player
         var giftCard;
         var cardsGiven = [];
@@ -741,7 +758,18 @@ function Engine() {
                     this.triggerMassiveInvasion();
                 }
                 else if(giftCard.type == Config.CARD_TYPE_SPECIAL_EVENT) {
-                    
+
+                    switch(giftCard.value) {
+                        case Config.SPECIAL_EVENT.FRIENDLY_FIRE:
+                            this.runSpecialEventFriendlyFire();
+                            break;
+                        case Config.SPECIAL_EVENT.TREVE:
+                            this.runSpecialEventTreve();
+                            break;
+                        case Config.SPECIAL_EVENT.COUNTER_SPY:
+                            this.runSpecialEventCounterSpy();
+                            break;
+                    }
                 }
             }
             else {
@@ -749,7 +777,7 @@ function Engine() {
                 return;
             }
         }
-        
+
         this.makePlanetsFlash(cardsGiven, Config.FLASH_TYPE.INFORMATION_GIVEN);
         
         if(this.debug) {
@@ -837,19 +865,24 @@ function Engine() {
         this.updateTimerWrapper("PHASE D'INVASION");
         $('#timer span').html("");
 
-        var attackedPlanetId, attackedPlanet;
-        var attackedPlanets =  [];
-        var colonizedPlanets = [];
-        var temp;
-        // increase the threat lvl
-        for(var i = 0; i < Config.INVASION_SPEED_METER[this.currentInvasionSpeedIndex]; i++) {
+        if(!this.treveMode) {
+            var attackedPlanetId, attackedPlanet;
+            var attackedPlanets =  [];
+            var colonizedPlanets = [];
+            var temp;
+            // increase the threat lvl
+            for(var i = 0; i < Config.INVASION_SPEED_METER[this.currentInvasionSpeedIndex]; i++) {
 
-            attackedPlanetId = this.decks.invaders.removeCard("first").value;
-            this.doAttackPlanet(attackedPlanetId, colonizedPlanets, attackedPlanets);
+                attackedPlanetId = this.decks.invaders.removeCard("first").value;
+                this.doAttackPlanet(attackedPlanetId, colonizedPlanets, attackedPlanets);
+            }
+
+            this.makePlanetsFlash(attackedPlanets, Config.FLASH_TYPE.PLANET_UNDER_ATTACK);
+            this.makePlanetsFlash(colonizedPlanets, Config.FLASH_TYPE.PLANET_COLONIZED);
         }
-
-        this.makePlanetsFlash(attackedPlanets, Config.FLASH_TYPE.PLANET_UNDER_ATTACK);
-        this.makePlanetsFlash(colonizedPlanets, Config.FLASH_TYPE.PLANET_COLONIZED);        
+        else {
+            this.treveMode = false;
+        }
 
         this.tempoInvasionPhaseInterval = setTimeout(function(that) { that.newPlayerTurn(); }, Config.INVASION_PHASE_DURATION + 1000, this);
     }
@@ -985,6 +1018,55 @@ function Engine() {
         
         this.updatePaView();
         setTimeout("SingletonEngine.engine.updatePlayerList()", 1); // mandatory to avoid bug
+    }
+    
+    this.runSpecialEventCounterSpy = function() {
+        var planetList = "";
+        var z = 0;
+        var planetID;
+        while(z < Config.COUNTER_SPY_NUM_CARDS) {
+            planetID = this.decks.invaders.cards[z].value;
+            planetList = planetList + this.map.planets[planetID].name  + ", ";
+            z++;
+        }
+        
+        planetList = planetList.substr(0, planetList.length - 2);
+        this.log("Evénement spécial : contre-espagionage. Les " + Config.COUNTER_SPY_NUM_CARDS + " prochaines cibles sont : " + planetList + ".");
+    }
+    
+    this.runSpecialEventTreve = function() {
+        this.treveMode = true;
+        
+        this.log("Evénement spécial : trêve du confiseur. Pas de phase d'invasion à la fin du tour.")
+    }
+    
+    this.runSpecialEventFriendlyFire = function() {
+        
+        var parsedPlanets = [];
+        var boundPlanetID;
+        
+        for(var i = 1; i < this.map.planets.length; i++) {
+            for(var j = 1; j < this.map.planets[i].boundPlanets.length; j++) {
+
+                if(this.map.planets[i].zone != this.map.planets[this.map.planets[i].boundPlanets[j]].zone) {
+                    if(parsedPlanets.indexOf(this.map.planets[i].id) == -1) {
+                        this.map.planets[i].threatLvl = Math.max(0, this.map.planets[i].threatLvl - 1);
+                        parsedPlanets.push(this.map.planets[i].id);
+                    }
+                    
+                    boundPlanetID = this.map.planets[i].boundPlanets[j];
+                    
+                    if(parsedPlanets.indexOf(boundPlanetID) == -1) {
+                        this.map.planets[boundPlanetID].threatLvl = Math.max(0, this.map.planets[boundPlanetID].threatLvl - 1);
+                        parsedPlanets.push(boundPlanetID);
+                    }
+                }
+            }
+        }
+
+        this.makePlanetsFlash(parsedPlanets, Config.FLASH_TYPE.PLANET_UNDER_ATTACK);
+        
+        this.log("Evénement spécial : feu allié. Les planètes adjacentes de zones différentes voient leur niveau de menace baisser.");
     }
     
     this.makePlanetsFlash = function(planets, type) {

@@ -11,6 +11,14 @@ var Config = {
     CARD_TYPE_SPECIAL_EVENT : "specialevent",
     CARD_TYPE_MASSIVE_INVASION : "massiveincasion",
     
+    SPECIAL_EVENT : {
+        FRIENDLY_FIRE : 1,
+        TREVE : 2,
+        COUNTER_SPY : 3
+    },
+    
+    COUNTER_SPY_NUM_CARDS : 6,
+    
     NUM_ZONES : 4, // nombre de zones de jeu
     
     INVASION_SPEED_METER : [2, 2, 3, 3, 4, 4], // jauge de vitesse d'invasion
