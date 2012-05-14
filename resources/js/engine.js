@@ -848,6 +848,7 @@ function Engine() {
         
         if(this.isGameOver) return;
 
+        clearTimeout(this.playerTurnInterval);
         this.playerTurnInterval = null; // reset the timer
         
         this.updateCurrentPlanetInfo(); // to keep players from doing anything
