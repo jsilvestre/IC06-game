@@ -780,11 +780,11 @@ function Engine() {
 
         this.makePlanetsFlash(cardsGiven, Config.FLASH_TYPE.INFORMATION_GIVEN);
         
-        if(this.debug) {
-            this.players[this.currentPlayer].pa = 99;
+        if(this.debug != true) {
+            this.players[this.currentPlayer].pa = Config.NUM_PA_TURN;
         }
         else {
-            this.players[this.currentPlayer].pa = Config.NUM_PA_TURN;
+            this.players[this.currentPlayer].pa = 99;
         }
         
         this.updatePlayerList();
