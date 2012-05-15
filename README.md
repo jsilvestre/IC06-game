@@ -6,14 +6,11 @@ We decided to make our own version of the physic game "Pandemic" where humanity 
 
 Known issues
 ============
-- the players can't be recognized easily
-- the players can't know their role in the game
 - the players can't easily know what zone is what color
 - there is not tooltip to help players with the rules
 - there is no graphics yet
 
 - the invasion speed meter bugs when a massive invasion occurred
-- give action: the PA can go under 0
 
 Probable issues
 ===============
