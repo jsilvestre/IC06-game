@@ -818,7 +818,7 @@ function Engine() {
 
         // reset the timers
         this.resetPlanetFlashTimer();
-        this.tempoPlayerInterval = null;
+        this.tempoPlayerTurnInterval = null;
         
         this.map.removePlanetHighlights();
         this.render();
@@ -1206,7 +1206,9 @@ function Engine() {
         var tmpAdded;
         
         for(var i = 0; i < this.players.length; i++) {
-            tmpAdded = $('<li class="player"><span>' + this.players[i].name + '</span></li>');
+            tmpAdded = $('<li class="player"><span>' + this.players[i].name + '</span> <div class="color-role"></div></li>');
+            
+            tmpAdded.children('.color-role').css('background-color', this.players[i].getColor());
             
             if(this.players[i].isPlaying) {
                 tmpAdded.addClass('isPlaying');

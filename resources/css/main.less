@@ -106,16 +106,25 @@ p {
         li {         
             .align-vertically(@headerHeight);
             
-            width: 80px;
+            width: 100px;
             display: inline-block;
             border-right: 1px solid #000;
-            text-align: center;
             position: relative;
             
              span {
-                display: block;
                 height: 100%;
-                width: 100%;
+                width: 80px;
+                display: inline-block;
+                text-align: center;
+            }
+            
+            .color-role {
+                width: 15px;
+                height: 100%;
+                display: inline-block;
+                position: absolute;
+                top:  0;
+                right: 0px;
             }
             
             &.isPlaying {
@@ -132,6 +141,7 @@ p {
             }
             
             .inventory {
+                clear: left;
                 display: none;
                 width: 300px;
                 position: absolute;
