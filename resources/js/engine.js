@@ -1005,21 +1005,22 @@ function Engine() {
 
         var playerTarget = this.getPlayerByName(playerTargetName);
 
-        if(this.getCurrentPlayer().planet.id == planetID || this.getCurrentPlayer().planet.id != playerTarget.planet.id) return;
+        if(this.checkGiveActiontOk(planetID)) {
 
-        if(!this.getCurrentPlayer().hasRole(Config.ROLE_SPY)) {
-            var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);        
-            if(!cardCurrentPlanet) return;
-            this.getCurrentPlayer().inventory.removeCard(cardCurrentPlanet.id);
+            if(!this.getCurrentPlayer().hasRole(Config.ROLE_SPY)) {
+                var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);
+                if(!cardCurrentPlanet) return;
+                this.getCurrentPlayer().inventory.removeCard(cardCurrentPlanet.id);
+            }
+        
+            var cardGiven = this.getCurrentPlayer().inventory.getCardByValue(planetID);
+            this.getCurrentPlayer().inventory.removeCard(cardGiven.id);
+            this.getCurrentPlayer().pa--;
+            playerTarget.inventory.addCard(cardGiven);
+        
+            this.updatePaView();
+            setTimeout("SingletonEngine.engine.updatePlayerList()", 1); // mandatory to avoid bug
         }
-        
-        var cardGiven = this.getCurrentPlayer().inventory.getCardByValue(planetID);
-        this.getCurrentPlayer().inventory.removeCard(cardGiven.id);
-        this.getCurrentPlayer().pa--;
-        playerTarget.inventory.addCard(cardGiven);
-        
-        this.updatePaView();
-        setTimeout("SingletonEngine.engine.updatePlayerList()", 1); // mandatory to avoid bug
     }
     
     this.runSpecialEventCounterSpy = function() {
