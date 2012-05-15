@@ -43,13 +43,12 @@ function MenuManager() {
             
             var temp = $('<select class="playerRole"></select>');
             
-            temp.append('<option value="'+Config.ROLE_BRUTE+'">Brute</option>');
-            temp.append('<option value="'+Config.ROLE_PIRATE+'">Pirate</option>');
-            temp.append('<option value="'+Config.ROLE_ARCHITECT+'">Architecte</option>');
-            temp.append('<option value="'+Config.ROLE_EXPERT+'">Expert en armement</option>');
-            temp.append('<option value="'+Config.ROLE_SPY+'">Informateur</option>');
-            temp.append('<option value="'+Config.ROLE_EXPLORER+'" disabled>Explorateur</option>');
-            temp.append('<option value="'+Config.ROLE_SHIELD+'">Bouclier</option>');
+            temp.append('<option value="'+Config.ROLE_BRUTE.id+'">Brute</option>');
+            temp.append('<option value="'+Config.ROLE_PIRATE.id+'">Pirate</option>');
+            temp.append('<option value="'+Config.ROLE_ARCHITECT.id+'">Architecte</option>');
+            temp.append('<option value="'+Config.ROLE_EXPERT.id+'">Expert en armement</option>');
+            temp.append('<option value="'+Config.ROLE_SPY.id+'">Informateur</option>');
+            temp.append('<option value="'+Config.ROLE_SHIELD.id+'">Bouclier</option>');
             
             $(this).append(temp);
         });
@@ -82,7 +81,14 @@ function MenuManager() {
         }
         else {
             $('#menu-content-play .player').each(function() {
-                SingletonEngine.engine.addPlayer($(this).children('.playerName').val(), $(this).children('.playerRole').val());
+                var roleList = [Config.ROLE_BRUTE, Config.ROLE_ARCHITECT, Config.ROLE_PIRATE, Config.ROLE_SPY, Config.ROLE_EXPERT, Config.ROLE_SHIELD];
+                for(var i in roleList) {
+
+                    if(roleList[i].id == $(this).children('.playerRole').val()) {
+                        SingletonEngine.engine.addPlayer($(this).children('.playerName').val(), roleList[i]);
+                        break;
+                    }
+                }
             });
         }
         
