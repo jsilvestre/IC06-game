@@ -30,13 +30,13 @@ var Config = {
     
     SYSTEM_NAME : "Système",
     
-    ROLE_BRUTE : "role_brute",
-    ROLE_PIRATE : "role_pirate",
-    ROLE_ARCHITECT : "role_architecte",
-    ROLE_EXPERT : "role_expert",
-    ROLE_SPY : "role_informateur",
-    ROLE_EXPLORER : "role_explorateur",
-    ROLE_SHIELD : "role_bouclier",
+    ROLE_BRUTE : { label : "Brute", id : "role_brute" },
+    ROLE_PIRATE : { label : "Pirate", id : "role_pirate" },
+    ROLE_ARCHITECT : { label : "Architecte", id : "role_architect" },
+    ROLE_EXPERT : { label : "Expert en armement", id : "role_expert" },
+    ROLE_SPY : { label : "Informateur", id : "role_spy" },
+    ROLE_EXPLORER : { label : "Explorateur", id : "role_explorer" },
+    ROLE_SHIELD : { label : "Bouclier", id : "role_shield" },
 };
 
 var SingletonEngine = {

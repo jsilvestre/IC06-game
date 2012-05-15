@@ -1218,9 +1218,11 @@ function Engine() {
                 tmpAdded.addClass('selected');
             }
             
-            tmpAdded.append(this.getPlayerInventoryView(this.players[i]));
-            
-            div.append(tmpAdded) ;
+            tmpAdded.append('<div class="inventory"></div');
+            tmpAdded.children('.inventory').append('<p class="role">'+this.players[i].role.label+'</p>');
+            tmpAdded.children('.inventory').append(this.getPlayerInventoryView(this.players[i]));
+
+            div.append(tmpAdded);
         }
         
         var engine = this;
@@ -1286,7 +1288,6 @@ function Engine() {
     
     this.getPlayerInventoryView = function(player) {
 
-        var view = $('<div class="inventory"></div');
         var listView = $('<ul></ul>');
         var card;
         var color;
@@ -1301,10 +1302,8 @@ function Engine() {
         if(player.inventory.cards.length == 0) {
             view.append($("<p>Aucun guides touristique dans l'inventaire</p>"));
         }
-        
-        view.append(listView);        
 
-        return view;
+        return listView;
     }
     
     this.initializeInvasionSpeedMeterView = function() {

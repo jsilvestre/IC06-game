@@ -102,7 +102,7 @@ function Player() {
     }
     
     this.hasRole = function(roleName) {
-        return this.role == roleName;
+        return this.role == roleName.id;
     }
     
     this.getColor = function() {
