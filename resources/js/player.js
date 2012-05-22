@@ -11,8 +11,7 @@ function Player() {
     this.role = null;
     
     // Dessine la vue du joueur
-    this.draw  = function(canvasContext) {
-    
+    this.draw  = function(canvasContext) {    
         canvasContext.beginPath();
         canvasContext.fillStyle = this.getColor();
         canvasContext.fillRect(this.x, this.y, 10, 10);

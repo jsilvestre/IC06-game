@@ -6,6 +6,9 @@ function Planet() {
     this.x = 0;
     this.y = 0;
     this.boundPlanets = [];
+    
+    this.resource = null;
+    
     this.isSelected = false;
     this.isHovering = false;
     
@@ -22,15 +25,15 @@ function Planet() {
         
         if(this.isSelected) {
             canvasContext.beginPath();
-            canvasContext.fillStyle = "#000";
-            canvasContext.fillRect(this.x - 5, this.y - 5, Config.PLANET_HITBOX + 10, Config.PLANET_HITBOX + 10);
+            canvasContext.fillStyle = "#FFF";
+            canvasContext.fillRect(this.x, this.y, Config.PLANET_IMG, Config.PLANET_IMG);
             canvasContext.closePath();
         }
 
         if(this.isHovering) {
             canvasContext.beginPath();
             canvasContext.strokeStyle = "#0088FF";
-            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
+            canvasContext.arc(this.x + Config.PLANET_IMG / 2, this.y + Config.PLANET_IMG / 2, 
                               Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
             canvasContext.stroke();
             canvasContext.closePath();
@@ -40,7 +43,7 @@ function Planet() {
             canvasContext.beginPath();
             canvasContext.lineWidth = 5;
             canvasContext.strokeStyle = "#0088FF";
-            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
+            canvasContext.arc(this.x + Config.PLANET_IMG / 2, this.y + Config.PLANET_IMG / 2, 
                               Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
             canvasContext.stroke();
             canvasContext.lineWidth = 1;
@@ -51,7 +54,7 @@ function Planet() {
             canvasContext.beginPath();
             canvasContext.lineWidth = 5;
             canvasContext.strokeStyle = "#FF0000";
-            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
+            canvasContext.arc(this.x + Config.PLANET_IMG / 2, this.y + Config.PLANET_IMG / 2, 
                               Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
             canvasContext.stroke();
             canvasContext.lineWidth = 1;            
@@ -62,7 +65,7 @@ function Planet() {
             canvasContext.beginPath();
             canvasContext.lineWidth = 5;
             canvasContext.strokeStyle = "#FFAA55";
-            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
+            canvasContext.arc(this.x + Config.PLANET_IMG / 2, this.y + Config.PLANET_IMG / 2, 
                               Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
             canvasContext.stroke();
             canvasContext.lineWidth = 1;            
@@ -73,7 +76,7 @@ function Planet() {
             canvasContext.beginPath();
             canvasContext.lineWidth = 5;
             canvasContext.strokeStyle = "#AA55FF";
-            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2, 
+            canvasContext.arc(this.x + Config.PLANET_IMG / 2, this.y + Config.PLANET_IMG / 2, 
                               Config.PLANET_HITBOX / 1.2, 0, Math.PI*2, true);
             canvasContext.stroke();
             canvasContext.lineWidth = 1;            
@@ -83,20 +86,56 @@ function Planet() {
         if(this.hasLaboratory) {
             canvasContext.beginPath();
             canvasContext.strokeStyle = "#FF0088";
-            canvasContext.arc(this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2,
-                              Config.PLANET_HITBOX / 1.7, 0, Math.PI*2, true);
+            canvasContext.arc(this.x + Config.PLANET_IMG / 2, this.y + Config.PLANET_IMG / 2,
+                              Config.PLANET_IMG / 1.7, 0, Math.PI*2, true);
             canvasContext.stroke();
             canvasContext.closePath();
         }
         
         canvasContext.beginPath();
-        canvasContext.fillStyle = this.getColorZone();
-        canvasContext.fillRect(this.x, this.y, Config.PLANET_HITBOX, Config.PLANET_HITBOX);
+        canvasContext.drawImage(this.resource, this.x, this.y);
         
-        canvasContext.fillStyle = "#000";
+        canvasContext.fillStyle = "#FFF";
         canvasContext.textAlign = "center";
-        canvasContext.fillText(this.name, this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX + 15);
-        canvasContext.fillText(this.threatLvl, this.x + Config.PLANET_HITBOX / 2, this.y + Config.PLANET_HITBOX / 2);        
+        canvasContext.font = "9pt Verdana";
+        canvasContext.fillText(this.name, this.x + Config.PLANET_IMG / 2, this.y + Config.PLANET_IMG + 15);
+        canvasContext.closePath();
+        
+        this.drawThreatLvlMeter(canvasContext);
+    }
+    
+    this.drawThreatLvlMeter = function(canvasContext) {
+        
+        var meterWidth = 6;
+        var xMeterL = this.x + Config.PLANET_IMG + 3;
+        var xMeterR = this.x + Config.PLANET_IMG + 3 + meterWidth;
+        
+        canvasContext.beginPath();
+        canvasContext.lineWidth = 1;
+        canvasContext.strokeStyle = "#FFF";
+        canvasContext.moveTo(xMeterL, this.y);
+        canvasContext.lineTo(xMeterR, this.y);
+        canvasContext.lineTo(xMeterR, this.y + Config.PLANET_IMG);
+        canvasContext.lineTo(xMeterL, this.y + Config.PLANET_IMG);
+        canvasContext.lineTo(xMeterL, this.y);
+        canvasContext.stroke();
+
+        
+        if(this.threatLvl >= 1) {
+            canvasContext.fillStyle = "yellow";
+            canvasContext.fillRect(xMeterL, this.y + 20, meterWidth, 10);
+        }
+        
+        if(this.threatLvl >= 2) {
+            canvasContext.fillStyle = "orange";
+            canvasContext.fillRect(xMeterL, this.y + 10, meterWidth, 10);
+        }
+        
+        if(this.threatLvl >= 3) {
+            canvasContext.fillStyle = "red";
+            canvasContext.fillRect(xMeterL, this.y, meterWidth, 10);
+        }
+
         canvasContext.closePath();
     }
     

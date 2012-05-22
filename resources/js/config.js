@@ -3,9 +3,10 @@ var Config = {
     moveInterval : 25, // l'interval entre deux tick pour le déplacement en ms
     moveTime : 1500, // le temps qu'un déplacement doit durer en ms
     
-    LIMIT_DRAW_VERTICAL : 50, // le nombre de px minimum entre deux planètes liées (pour la liaison classique)
+    LIMIT_DRAW_VERTICAL : 75, // le nombre de px minimum entre deux planètes liées (pour la liaison classique)
     
-    PLANET_HITBOX : 30,
+    PLANET_IMG : 30, // le côté de l'image planète en px
+    PLANET_HITBOX : 40, // le côté de la hitbox de la planète en px
     
     CARD_TYPE_PLANET : "planet",
     CARD_TYPE_SPECIAL_EVENT : "specialevent",

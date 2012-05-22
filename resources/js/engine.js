@@ -44,20 +44,29 @@ function Engine() {
     
     // Charge le fichier représentant la map
     this.loadMap = function(mapName) {
+        
         $.ajax({
             type: "GET",
             url: "resources/maps/" + mapName + ".json",
             dataType: "json",
             success: function(data) {
-                this.initializeGame(data);
+                this.loadResources(data);
             },
             context: this
         });
     }
     
+    this.loadResources = function(data) {
+        var resourceManager = new ResourceManager();
+        resourceManager.loadImages(function(images) {
+            SingletonEngine.engine.resources = images;
+            SingletonEngine.engine.initializeGame(data);
+        });
+    }
+    
     // Initialise la partie
     this.initializeGame = function(jsonObject) {
-        
+
         this.logger = new Logger();
         this.logger.engine = this;
         this.logger.view = $('#chat-log ul');
@@ -667,8 +676,9 @@ function Engine() {
     this.buildMapModel = function(map) {
         
         this.map = new Map();
+        this.map.resource = this.resources.map;
         
-        var planet;
+        var planet, random, t;
         
         for(var i = 0; i < map.planets.length; i++) {
             planet = new Planet();
@@ -677,6 +687,15 @@ function Engine() {
             planet.zone = map.planets[i].zone;
             planet.x = map.planets[i].pos.x;
             planet.y = map.planets[i].pos.y;
+
+            random = Math.max(1, Math.round(Math.random() * 1000) % 10);
+
+            t = this.resources.planets[random+'-'+planet.zone];
+            if(t == null) {
+                console.debug(random+'-'+planet.zone);
+            }
+            //console.debug(t);
+            planet.resource = t;
             
             for(var j = 0; j < map.relations.length; j++) {
                 if(map.relations[j][0] == planet.id) {

@@ -2,9 +2,12 @@ function Map() {
     
     this.canvas = null;
     this.planets = new Array();
+    this.resource = null;
     
     // Dessine la vue de la map
     this.draw = function(canvasContext) {
+
+        canvasContext.drawImage(this.resource, 0, 0, 1280, 800);
         
         var splitTmp1, splitTmp2;
         
@@ -28,7 +31,7 @@ function Map() {
         
         var additionner = [0, 0];
         
-        canvasContext.strokeStyle = "#000";
+        canvasContext.strokeStyle = "#FFF";
         
         // si la distance entre les deux planètes est trop petite, on dessine le trait verticalement
         if(Math.abs(planetSource.x - planetDest.x) < Config.LIMIT_DRAW_VERTICAL) {
