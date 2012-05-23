@@ -148,20 +148,4 @@ function Planet() {
         
         return false;
     }
-    
-    // Donne la couleur en fonction de la zone de la planète
-    this.getColorZone = function() {
-        switch(this.zone) {
-            case "a" :
-                return "red";
-            case "b":
-                return "blue";
-            case "c":
-                return "green";
-            case "d":
-                return "yellow";
-            default:
-                return "black";
-        }
-    }
 }
