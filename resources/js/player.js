@@ -12,10 +12,26 @@ function Player() {
     this.resource = null;
     
     // Dessine la vue du joueur
-    this.draw  = function(canvasContext) {    
+    this.draw  = function(canvasContext, position) {
+        
+        var x = this.x;
+        var y = this.y;
+        if(position == 1) {
+            x = this.x - 4;
+            y = this.y - 4;
+        }
+        if(position == 2) {
+            x = this.x - 4 + 18;
+            y = this.y - 4;
+        }
+        else if(position == 3) {
+            x = this.x + 6;
+            y = this.y + 16;
+        }
+        
         canvasContext.beginPath();
-        canvasContext.drawImage(this.resource, this.x, this.y);
-        canvasContext.closePath();        
+        canvasContext.drawImage(this.resource, x, y);
+        canvasContext.closePath();
     }
     
     // Déplace le joueur sur une aurte planète

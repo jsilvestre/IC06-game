@@ -258,9 +258,19 @@ function Engine() {
     
     // Exécute le rendu de la vue des joueurs
     this.renderPlayers = function() {
+        
+        var position = [];
+        
         for(var i = 0; i < this.players.length; i++) {
-            this.players[i].draw(this.canvasBufferContext);
-        }        
+
+            if(position[this.players[i].planet.id] == null) {
+                position[this.players[i].planet.id] = 0;
+            }
+            
+            position[this.players[i].planet.id]++;
+            
+            this.players[i].draw(this.canvasBufferContext, position[this.players[i].planet.id]);
+        }
     }
     
     this.movePlayer = function() {
