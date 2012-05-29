@@ -85,7 +85,8 @@ function Planet() {
 
         if(this.hasLaboratory) {
             canvasContext.beginPath();
-            canvasContext.strokeStyle = "#FF0088";
+            canvasContext.lineWidth = 3;
+            canvasContext.strokeStyle = "#E2E2E2";
             canvasContext.arc(this.x + Config.PLANET_IMG / 2, this.y + Config.PLANET_IMG / 2,
                               Config.PLANET_IMG / 1.7, 0, Math.PI*2, true);
             canvasContext.stroke();
