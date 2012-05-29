@@ -152,6 +152,8 @@ function Engine() {
             this.players[i].planet = this.map.planets[mapID];
             this.players[i].x = this.map.planets[mapID].x;
             this.players[i].y = this.map.planets[mapID].y;
+
+            this.players[i].resource = this.resources.roles[this.players[i].role.id];
         }
         
         if(Config.START_MODE == "all_random") {
@@ -690,12 +692,7 @@ function Engine() {
 
             random = Math.max(1, Math.round(Math.random() * 1000) % 10);
 
-            t = this.resources.planets[random+'-'+planet.zone];
-            if(t == null) {
-                console.debug(random+'-'+planet.zone);
-            }
-            //console.debug(t);
-            planet.resource = t;
+            planet.resource = this.resources.planets[random+'-'+planet.zone];
             
             for(var j = 0; j < map.relations.length; j++) {
                 if(map.relations[j][0] == planet.id) {
@@ -1312,7 +1309,7 @@ function Engine() {
         var color;
         for(var i = 0; i < player.inventory.cards.length; i++) {
             card = player.inventory.cards[i];
-            
+
             color = this.map.planets[card.value].zone;
 
             listView.append($('<li>Guide touristique de ' + this.map.planets[card.value].name + '<span>' + this.map.planets[card.value].id + '</span><div class="colorZone ' + this.map.planets[card.value].zone + '"></div</li>'));
