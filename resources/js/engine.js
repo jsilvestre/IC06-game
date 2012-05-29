@@ -1222,9 +1222,9 @@ function Engine() {
         var tmpAdded;
         
         for(var i = 0; i < this.players.length; i++) {
-            tmpAdded = $('<li class="player"><span>' + this.players[i].name + '</span> <div class="color-role"></div></li>');
-            
-            tmpAdded.children('.color-role').css('background-color', this.players[i].getColor());
+            tmpAdded = $('<li class="player"><span>' + this.players[i].name + '</span> <div class="player-role"></div></li>');
+
+            tmpAdded.children('.player-role').append(this.players[i].resource);
             
             if(this.players[i].isPlaying) {
                 tmpAdded.addClass('isPlaying');
