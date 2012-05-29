@@ -8,10 +8,11 @@ function ResourceManager() {
         
         var images = {
             "map" : null,
-            "planets" : []
+            "planets" : [],
+            "roles" : []
         };
 
-        numImages = Resources.planets.names.length + 1;
+        numImages = Resources.planets.names.length + Resources.roles.names.length + 1;
         
         // We load the background
         images.map = new Image();
@@ -35,6 +36,20 @@ function ResourceManager() {
 
             images.planets[id].src = Resources.planets.prefix+"P"+id+".png";
         }
+        
+        // We load the roles' pictures
+        var id;
+        for(var i = 0; i < Resources.roles.names.length; i++) {
+            id = Resources.roles.names[i];
+            images.roles[id] = new Image();
+            images.roles[id].onload = function() {
+                if(++loadedImages >= numImages) {
+                    callback(images);
+                }
+            };
+
+            images.roles[id].src = Resources.roles.prefix+id+".png";
+        }
     }
     
     
@@ -45,6 +60,15 @@ var Resources = {
     map : {
         "prefix" : "resources/maps/",
         "background" : "resources/images/map-background-4.png"
+    },
+    
+    roles : {
+        "prefix" : "resources/images/roles/",
+        "names" :
+            [
+                "role_brute", "role_architect", "role_pirate", "role_spy", "role_shield", "role_expert"
+            ]
+        
     },
 
     planets : {
