@@ -15,6 +15,7 @@ function Engine() {
     this.currentNumLaboratory = 0;
     this.numForcedColonization = 0;
     
+    this.tutorialMode = false;
     this.treveMode = false;
     
     this.isGameOver = false;
@@ -760,13 +761,15 @@ function Engine() {
             this.players[this.currentPlayer].isPlaying = false;
         }
         
+        this.nbTurns++;
+
         if(this.currentPlayer < this.players.length - 1) {
             this.currentPlayer++;
         }
         else { // if the turn is over, we start it again
             this.currentPlayer = 0;
-            this.nbTurns++;
         }
+
         this.players[this.currentPlayer].isPlaying = true;
 
         // Give some cards to the player
@@ -816,10 +819,17 @@ function Engine() {
         this.updatePlayerList();
         this.updatePaView();
         
+        var durationBetweenTurn = Config.TIME_BETWEEN_TURN;
+        console.debug(this.tutorialMode);
+        // for the first turn, the times are increased
+        if(this.tutorialMode == true && this.nbTurns == 1) {
+            durationBetweenTurn += Config.TUTORIAL.TIME.TIMER_BETWEEN_TURN;
+        }
+
         // timer between two turns
         this.updateTimerWrapper("Début du tour dans");
-        this.startTimer(Math.round(new Date().getTime() / 1000), Config.TIME_BETWEEN_TURN / 1000);
-        this.tempoPlayerTurnInterval = setTimeout(function(that) { that.runPlayerTurn(); }, Config.TIME_BETWEEN_TURN + 1000, this);
+        this.startTimer(Math.round(new Date().getTime() / 1000), durationBetweenTurn / 1000);
+        this.tempoPlayerTurnInterval = setTimeout(function(that) { that.runPlayerTurn(); }, durationBetweenTurn + 1000, this);
     }
     
     this.triggerMassiveInvasion = function() {
@@ -859,13 +869,23 @@ function Engine() {
         if(this.getCurrentPlayer().planet.threatLvl > 0) {
             realTurnDuration = realTurnDuration - Config.TIME_REDUCTION_BY_THREAT_LVL * this.getCurrentPlayer().planet.threatLvl;
         }
+        
+        var turnDuration = realTurnDuration;
+        // for the first turn, the times are increased
+        if(this.nbTurns == 1 || this.nbTurns == 2 || this.nbTurns == 3) {
+            // if it is the first turn of each player, the turn duration is not decreased by the threat lvl
+            turnDuration = Config.TURN_DURATION;
+            if(this.tutorialMode == true && this.nbTurns == 1) {
+                turnDuration += Config.TUTORIAL.TIME.TURN_DURATION;
+            }
+        }
 
         // start the timer for the turn
         this.updateTimerWrapper("Fin du tour dans");
         this.newTurnDate = Math.round(new Date().getTime() / 1000);
-        this.startTimer(this.newTurnDate, realTurnDuration / 1000);
+        this.startTimer(this.newTurnDate, turnDuration / 1000);
         
-        this.playerTurnInterval = setTimeout(function(that) { that.runInvasionPhase(); }, realTurnDuration + 1000, this);
+        this.playerTurnInterval = setTimeout(function(that) { that.runInvasionPhase(); }, turnDuration + 1000, this);
         
         this.updateCurrentPlanetInfo(); // to enable available actions
     }
@@ -910,8 +930,14 @@ function Engine() {
         else {
             this.treveMode = false;
         }
+        
+        var invasionPhaseDuration = Config.INVASION_PHASE_DURATION;
+        // for the first turn, the times are increased
+        if(this.tutorialMode == true && this.nbTurns == 1) {
+            invasionPhaseDuration+= Config.TUTORIAL.TIME.INVASION_PHASE_DURATION;
+        }
 
-        this.tempoInvasionPhaseInterval = setTimeout(function(that) { that.newPlayerTurn(); }, Config.INVASION_PHASE_DURATION + 1000, this);
+        this.tempoInvasionPhaseInterval = setTimeout(function(that) { that.newPlayerTurn(); }, invasionPhaseDuration + 1000, this);
     }
     
     this.forcedColonization = function(rootPlanet, colonizedPlanets, attackedPlanets) {

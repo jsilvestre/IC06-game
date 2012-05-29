@@ -67,6 +67,8 @@ function MenuManager() {
         // create the game engine
         SingletonEngine.engine = new Engine();
         SingletonEngine.engine.debug = debug;
+        
+        SingletonEngine.engine.tutorialMode = $('input[name="tutorialMode"]').is(':checked');
 
         // add all the players
         if(debug == true) {

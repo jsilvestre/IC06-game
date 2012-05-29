@@ -18,6 +18,15 @@ var Config = {
         COUNTER_SPY : 3
     },
     
+    // le temps ajouté à chaque phase lors du premier tour d'une partie "tutoriel"
+    TUTORIAL : {
+        TIME : {
+            "TURN_DURATION" : 60000,
+            "TIMER_BETWEEN_TURN" : 60000,
+            "INVASION_PHASE_DURATION" : 10000 
+        }
+    },
+    
     COUNTER_SPY_NUM_CARDS : 6,
     
     NUM_ZONES : 4, // nombre de zones de jeu
