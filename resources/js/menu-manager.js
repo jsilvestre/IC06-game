@@ -72,7 +72,7 @@ function MenuManager() {
         if(debug == true) {
             SingletonEngine.engine.addPlayer("Player1", Config.ROLE_PIRATE);
             SingletonEngine.engine.addPlayer("Player2", Config.ROLE_ARCHITECT);
-            SingletonEngine.engine.addPlayer("Player3", Config.ROLE_EXPLORER);
+            SingletonEngine.engine.addPlayer("Player3", Config.ROLE_EXPERT);
             
             $('#startGame').click(function () {
                SingletonEngine.engine.startGame();
@@ -99,13 +99,5 @@ function MenuManager() {
         $('#map').click(function(event) { 
             SingletonEngine.engine.selectPlanet(event);               
         });
-    }
-    
-    this.enableDebugMode = function() {
-
-        SingletonEngine.engine.addPlayer("Player1", Config.ROLE_BRUTE);
-        SingletonEngine.engine.addPlayer("Player2", Config.ROLE_ARCHITECT);
-        SingletonEngine.engine.addPlayer("Player3", Config.ROLE_EXPLORER);
-
     }
 }

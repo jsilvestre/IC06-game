@@ -36,7 +36,6 @@ var Config = {
     ROLE_ARCHITECT : { label : "Architecte", id : "role_architect" },
     ROLE_EXPERT : { label : "Expert en armement", id : "role_expert" },
     ROLE_SPY : { label : "Informateur", id : "role_spy" },
-    ROLE_EXPLORER : { label : "Explorateur", id : "role_explorer" },
     ROLE_SHIELD : { label : "Bouclier", id : "role_shield" },
 };
 
