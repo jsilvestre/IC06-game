@@ -2,9 +2,12 @@ function Logger() {
     
     this.view = null;
     this.logs = new Array();
+    this.queue = new Array();
     this.engine = null;
     
-    this.logAction = function(string, actorName) {
+    this.queueTimer = null;
+    
+    this.logAction = function(string, actorName, duration, sticky) {
         
         if(actorName == null) {
             
@@ -18,10 +21,42 @@ function Logger() {
             }
         }
         
-        var loggedAction = { 'date' : new Date(), 'content' : string, 'author' : actorName };
+        if(duration == null) duration = 3000;
+        if(sticky == null) sticky = true;
+        
+        var loggedAction = { 'id' : this.logs.length, 'date' : new Date(), 'content' : string, 'author' : actorName, 
+                                'duration' : duration, 'sticky' : sticky };
         
         this.logs.push(loggedAction);
+
+        this.queue.push(loggedAction);
         this.addToView(loggedAction);
+    }
+    
+    this.startGrowlNotification = function() {
+        
+        this.queueTimer = setInterval(function(that) { that.growlNotification();}, 1000, this);
+    }
+    
+    this.growlNotification = function() {
+        
+        if(this.queue.length > 0) {
+            var loggedAction = this.queue.pop();
+            var message = loggedAction.author + ' : ' + loggedAction.content;
+        
+            var options = {
+                'life' : loggedAction.duration,
+                'sticky' : loggedAction.sticky,
+                'position' : 'bottom-right'
+            };
+        
+            $.jGrowl(message, options);
+        }
+    }
+    
+    this.stopGrowlNotification = function() {
+        clearInterval(this.queueTimer);
+        this.queueTimer = null;
     }
     
     this.addToView = function(loggedAction) {

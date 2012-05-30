@@ -71,6 +71,7 @@ function Engine() {
         this.logger = new Logger();
         this.logger.engine = this;
         this.logger.view = $('#chat-log ul');
+        this.logger.startGrowlNotification();
         
         this.loadConfiguration(jsonObject);
         this.buildMapModel(jsonObject);
