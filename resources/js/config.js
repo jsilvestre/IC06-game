@@ -22,10 +22,12 @@ var Config = {
     TUTORIAL : {
         TIME : {
             "TURN_DURATION" : 60000,
-            "TIMER_BETWEEN_TURN" : 60000,
+            "TIMER_BETWEEN_TURN" : 30000,
             "INVASION_PHASE_DURATION" : 10000 
         }
     },
+    
+    FIRST_TURN_PREPARATION_DURATION : 60000,
     
     COUNTER_SPY_NUM_CARDS : 6,
     

@@ -80,9 +80,7 @@ function Engine() {
         this.weaponsFound["a"] = false;
         this.weaponsFound["b"] = false;
         this.weaponsFound["c"] = false;
-        this.weaponsFound["d"] = false;                    
-        
-        this.log("Map has been loaded.");
+        this.weaponsFound["d"] = false;
         
         this.canvas = $('#map');
         this.canvasContext = this.canvas[0].getContext('2d');
@@ -108,9 +106,6 @@ function Engine() {
         this.updateNumForcedColonizationView();
         
         this.render();
-        
-        this.log("Game is ready.", Config.SYSTEM_NAME);
-
         
         // start all the game mechanics
         if(this.debug != true)
@@ -164,8 +159,6 @@ function Engine() {
         
         this.map.planets[mapLaboID].hasLaboratory = true;
         this.currentNumLaboratory++;
-        
-        this.log("Players have been created.", Config.SYSTEM_NAME);
     }
     
     this.addPlayer = function(playerName, playerRole) {
@@ -187,8 +180,6 @@ function Engine() {
                 this.players[i].inventory.addCard(this.decks.information.removeCard("first"));
             }
         }
-        
-        this.log("Cards have been distributed.", Config.SYSTEM_NAME);
     }
     
     this.initializeInvasion = function() {
@@ -302,7 +293,6 @@ function Engine() {
             }
 
             this.updatePaView();
-            this.log("Déplacement de " + player.name + " vers " + this.selectedPlanet.name);
         }
     }
     
@@ -739,6 +729,8 @@ function Engine() {
     this.startGame = function() {
         this.currentPlayer = -1; // so the first player plays the first.
         this.newPlayerTurn();
+        
+        this.log("La partie va débuter", "QG");
     }
     
     this.newPlayerTurn = function() {
@@ -821,10 +813,14 @@ function Engine() {
         this.updatePaView();
         
         var durationBetweenTurn = Config.TIME_BETWEEN_TURN;
-        console.debug(this.tutorialMode);
         // for the first turn, the times are increased
-        if(this.tutorialMode == true && this.nbTurns == 1) {
-            durationBetweenTurn += Config.TUTORIAL.TIME.TIMER_BETWEEN_TURN;
+        if(this.nbTurns == 1) {
+            durationBetweenTurn += Config.FIRST_TURN_PREPARATION_DURATION;
+            
+            // if the tutorial mode is enable, we also add time
+            if(this.tutorialMode == true) {
+                durationBetweenTurn += Config.TUTORIAL.TIME.TIMER_BETWEEN_TURN;
+            }
         }
 
         // timer between two turns
@@ -863,8 +859,6 @@ function Engine() {
         $('#passTurn').click(function() {
             SingletonEngine.engine.runInvasionPhase();
         });
-        
-        this.log("Début du tour.");
 
         var realTurnDuration = Config.TURN_DURATION;
         if(this.getCurrentPlayer().planet.threatLvl > 0) {
@@ -961,9 +955,11 @@ function Engine() {
         attackedPlanet = this.map.planets[attackedPlanetId];
         
         var isProtected = false;
+        var protectorName = null;
         for(var p in this.players && !isProtected) {
            if(this.players[p].planet.id == attackedPlanetId && this.players[p].hasRole(Config.ROLE_SHIELD)) {
                isProtected = true;
+               protectorName = this.players[p].name;
            }
         }
         
@@ -981,7 +977,7 @@ function Engine() {
             }
         }
         else {
-            this.log(attackedPlanet.name + ' attaquée mais protégée par le bouclier');
+            this.log(attackedPlanet.name + ' attaquée mais protégée par la présence de ' + protectorName + ' (rôle Bouclier)');
         }
     }
     
@@ -1030,10 +1026,10 @@ function Engine() {
             this.updatePaView();
             this.checkForVictory();
             
-            this.log("arme créée avec succès !");
+            this.log("L'arme de la zone " + this.selectedPlanet.zone + "a été créée avec succès !", "QG");
         }
         else {
-            this.log("Erreur - selectionner 5 GT de la même zone.");
+            this.log("Vous devez sélectionner 5 (ou 4 si vous êtes un expert en armement) guides touristiques de la même zone.");
             return false;
         }
     }
@@ -1087,13 +1083,13 @@ function Engine() {
         }
         
         planetList = planetList.substr(0, planetList.length - 2);
-        this.log("Evénement spécial : contre-espagionage. Les " + Config.COUNTER_SPY_NUM_CARDS + " prochaines cibles sont : " + planetList + ".");
+        this.log("Contre-espagionage. Les " + Config.COUNTER_SPY_NUM_CARDS + " prochaines cibles sont : " + planetList + ".", "Evénement spécial");
     }
     
     this.runSpecialEventTreve = function() {
         this.treveMode = true;
         
-        this.log("Evénement spécial : trêve du confiseur. Pas de phase d'invasion à la fin du tour.")
+        this.log("Trêve du confiseur. Pas de phase d'invasion à la fin du tour.", "Evénement spécial");
     }
     
     this.runSpecialEventFriendlyFire = function() {
