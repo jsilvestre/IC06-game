@@ -4,7 +4,7 @@
     "description" : "description of test map",
 
     "config" : {
-        "TURN_DURATION" : 5000,
+        "TURN_DURATION" : 60000,
         "TIME_BETWEEN_TURN" : 5000,
         "INVASION_PHASE_DURATION" : 5000,
         "TIME_REDUCTION_BY_THREAT_LVL" : 1500,
