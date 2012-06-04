@@ -829,7 +829,6 @@ function Engine() {
             
             // if the tutorial mode is enable, we also add time
             if(this.tutorialMode == true) {
-                this.log(Config.MESS.TUTO_EXPL_G);
                 durationBetweenTurn += Config.TUTORIAL.TIME.TIMER_BETWEEN_TURN;
             }
         }
@@ -878,6 +877,9 @@ function Engine() {
         
         var turnDuration = realTurnDuration;
         // for the first turn, the times are increased
+        if(this.nbTurns == 1) {
+            this.log(Config.MESS.TUTO_EXPL_G);
+        }
         if(this.nbTurns == 1 || this.nbTurns == 2 || this.nbTurns == 3) {
             // if it is the first turn of each player, the turn duration is not decreased by the threat lvl
             turnDuration = Config.TURN_DURATION;
