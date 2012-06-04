@@ -280,17 +280,28 @@ p {
         #chat-log {
             display: none;
             position: absolute;
-            left: -1px;
+            right: 0px;
                         
-            width: 450px;
-            max-height: 580px;
+            width: 400px;
+            max-height: 500px;
             overflow: auto;
 
             background: #444;
             color: #FFF;
             opacity: 0.8;
+            border-left: 2px solid #AAA;
+            border-right: 2px solid #AAA;
+            border-bottom: 2px solid #AAA;
+            
+            ul {
+                margin: 5px;
+            }
 
             ul > li {
+                
+                font-size: 13px;
+                line-height: 20px;
+                margin: 5px 0;
           
                 p {
                     display: inline;

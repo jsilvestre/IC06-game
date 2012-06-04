@@ -71,7 +71,6 @@ function Engine() {
         this.logger = new Logger();
         this.logger.engine = this;
         this.logger.view = $('#chat-log ul');
-        this.logger.startGrowlNotification();
         
         this.loadConfiguration(jsonObject);
         this.buildMapModel(jsonObject);
@@ -119,10 +118,10 @@ function Engine() {
         }
     }
     
-    this.log = function(string, actorName) {
-        this.logger.logAction(string, actorName);
+    this.log = function(log) {
+        this.logger.logAction(log.value, log.author, log.timeBeforeLog, log.duration, log.sticky);
     }
-    
+
     this.initializePlayers = function() {
         
         /* for debug DEBUG only */
@@ -729,8 +728,19 @@ function Engine() {
     this.startGame = function() {
         this.currentPlayer = -1; // so the first player plays the first.
         this.newPlayerTurn();
+        this.modeTutorial = true;
         
-        this.log("La partie va débuter", "QG");
+        if(this.modeTutorial == true) {
+            this.log(Config.MESS.TUTO_START);
+            this.log(Config.MESS.TUTO_EXPL_A);
+            this.log(Config.MESS.TUTO_EXPL_B);
+            this.log(Config.MESS.TUTO_EXPL_C);
+            this.log(Config.MESS.TUTO_EXPL_D);
+            this.log(Config.MESS.TUTO_EXPL_E);
+        }
+        else {
+            this.log(Config.MESS.START);
+        }
     }
     
     this.newPlayerTurn = function() {
@@ -819,6 +829,7 @@ function Engine() {
             
             // if the tutorial mode is enable, we also add time
             if(this.tutorialMode == true) {
+                this.log(Config.MESS.TUTO_EXPL_G);
                 durationBetweenTurn += Config.TUTORIAL.TIME.TIMER_BETWEEN_TURN;
             }
         }
@@ -928,6 +939,10 @@ function Engine() {
         
         var invasionPhaseDuration = Config.INVASION_PHASE_DURATION;
         // for the first turn, the times are increased
+        if(this.nbTurns == 1) {
+            this.log(Config.MESS.TUTO_EXPL_F);
+        }
+
         if(this.tutorialMode == true && this.nbTurns == 1) {
             invasionPhaseDuration+= Config.TUTORIAL.TIME.INVASION_PHASE_DURATION;
         }
@@ -977,7 +992,8 @@ function Engine() {
             }
         }
         else {
-            this.log(attackedPlanet.name + ' attaquée mais protégée par la présence de ' + protectorName + ' (rôle Bouclier)');
+            var message = { value : attackedPlanet.name + ' attaquée mais protégée par la présence de ' + protectorName + ' (rôle Bouclier)' };
+            this.log(message);
         }
     }
     
@@ -1026,10 +1042,12 @@ function Engine() {
             this.updatePaView();
             this.checkForVictory();
             
-            this.log("L'arme de la zone " + this.selectedPlanet.zone + "a été créée avec succès !", "QG");
+            var message = { value : "L'arme de la zone " + this.selectedPlanet.zone + "a été créée avec succès !" };
+            this.log(message);
         }
         else {
-            this.log("Vous devez sélectionner 5 (ou 4 si vous êtes un expert en armement) guides touristiques de la même zone.");
+            var message = { value : "Vous devez sélectionner 5 (ou 4 si vous êtes un expert en armement) guides touristiques de la même zone." };
+            this.log(message);
             return false;
         }
     }
@@ -1083,13 +1101,15 @@ function Engine() {
         }
         
         planetList = planetList.substr(0, planetList.length - 2);
-        this.log("Contre-espagionage. Les " + Config.COUNTER_SPY_NUM_CARDS + " prochaines cibles sont : " + planetList + ".", "Evénement spécial");
+        var message = { value : "Contre-espagionage. Les " + Config.COUNTER_SPY_NUM_CARDS + " prochaines cibles sont : " + planetList + "." };
+        this.log(message);
     }
     
     this.runSpecialEventTreve = function() {
         this.treveMode = true;
         
-        this.log("Trêve du confiseur. Pas de phase d'invasion à la fin du tour.", "Evénement spécial");
+        var message = { value : "Trêve du confiseur. Pas de phase d'invasion à la fin du tour." };
+        this.log(message);
     }
     
     this.runSpecialEventFriendlyFire = function() {
@@ -1118,7 +1138,8 @@ function Engine() {
 
         this.makePlanetsFlash(parsedPlanets, Config.FLASH_TYPE.PLANET_UNDER_ATTACK);
         
-        this.log("Evénement spécial : feu allié. Les planètes adjacentes de zones différentes voient leur niveau de menace baisser.");
+        var message = { value : "Evénement spécial : feu allié. Les planètes adjacentes de zones différentes voient leur niveau de menace baisser." };
+        this.log(message);
     }
     
     this.makePlanetsFlash = function(planets, type) {

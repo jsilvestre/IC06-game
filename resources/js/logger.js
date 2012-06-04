@@ -7,51 +7,45 @@ function Logger() {
     
     this.queueTimer = null;
     
-    this.logAction = function(string, actorName, duration, sticky) {
+    this.logAction = function(string, actorName, timeBeforeLog, duration, sticky) {
         
         if(actorName == null) {
-            
-            var actor = this.engine.getCurrentPlayer();
-            
-            if(actor == null) {
-                actorName = "Système";
-            }
-            else {
-                actorName = actor.name;
-            }
+            actorName = Config.SYSTEM_NAME;
         }
         
         if(duration == null) duration = 3000;
-        if(sticky == null) sticky = true;
+        if(sticky == null) sticky = false;
         
         var loggedAction = { 'id' : this.logs.length, 'date' : new Date(), 'content' : string, 'author' : actorName, 
                                 'duration' : duration, 'sticky' : sticky };
         
+        
+        if(timeBeforeLog == false) {
+            this.executeLog(loggedAction);
+        }
+        else {
+            setTimeout(function(that, loggedAction) { that.executeLog(loggedAction) }, timeBeforeLog, this, loggedAction);
+        }
+    }
+    
+    this.executeLog = function(loggedAction) {
         this.logs.push(loggedAction);
 
-        this.queue.push(loggedAction);
+        this.growlNotification(loggedAction);
         this.addToView(loggedAction);
     }
+
+    this.growlNotification = function(loggedAction) {
+
+        var message = loggedAction.author + ' : ' + loggedAction.content;
     
-    this.startGrowlNotification = function() {
-        
-        this.queueTimer = setInterval(function(that) { that.growlNotification();}, 1000, this);
-    }
+        var options = {
+            'life' : loggedAction.duration,
+            'sticky' : loggedAction.sticky,
+            'position' : 'bottom-right'
+        };
     
-    this.growlNotification = function() {
-        
-        if(this.queue.length > 0) {
-            var loggedAction = this.queue.pop();
-            var message = loggedAction.author + ' : ' + loggedAction.content;
-        
-            var options = {
-                'life' : loggedAction.duration,
-                'sticky' : loggedAction.sticky,
-                'position' : 'bottom-right'
-            };
-        
-            $.jGrowl(message, options);
-        }
+        $.jGrowl(message, options);
     }
     
     this.stopGrowlNotification = function() {
