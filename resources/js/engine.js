@@ -636,8 +636,7 @@ function Engine() {
         var player = this.getCurrentPlayer();
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
-        return player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0 
-               && (card != null || player.hasRole(Config.ROLE_BRUTE));
+        return player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0);
     }
     
     this.checkBuildActionOk = function() {
@@ -1000,10 +999,9 @@ function Engine() {
     this.playerFight = function() {
         
         var player = this.players[this.currentPlayer];
-        var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
         if(this.checkFightActionOk()) {
-            player.fight(this.selectedPlanet, card);
+            player.fight(this.selectedPlanet);
             this.updatePaView();
             this.updatePlayerList();
             this.updateCurrentPlanetInfo();

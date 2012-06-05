@@ -43,12 +43,12 @@ var Config = {
     
     SYSTEM_NAME : "QG",
     
-    ROLE_BRUTE : { label : "Brute", id : "role_brute" },
-    ROLE_PIRATE : { label : "Pirate", id : "role_pirate" },
-    ROLE_ARCHITECT : { label : "Architecte", id : "role_architect" },
-    ROLE_EXPERT : { label : "Expert en armement", id : "role_expert" },
-    ROLE_SPY : { label : "Informateur", id : "role_spy" },
-    ROLE_SHIELD : { label : "Bouclier", id : "role_shield" },
+    ROLE_BRUTE : { label : "Brute", id : "role_brute", desc : "Lorqu'il combat, fait chuter le niveau de menace à 0. De plus, si la brute se déplace sur une planète dont l'arme a été découverte, le niveau de menace tombe automatiquement à 0." },
+    ROLE_PIRATE : { label : "Pirate", id : "role_pirate", desc : "Peut déplacer les autres joueurs selon les mêmes modalités, en utilisant ses propres ressources." },
+    ROLE_ARCHITECT : { label : "Architecte", id : "role_architect", desc : "Peut construire un laboratoire de recherche sans utiliser de guide touristique." },
+    ROLE_EXPERT : { label : "Expert en armement", id : "role_expert", desc : "N'a besoin que de 4 guides touristiques de la même zone au lieu de 5." },
+    ROLE_SPY : { label : "Informateur", id : "role_spy", desc : "Peut donner une carte sans utiliser de guide touristique." },
+    ROLE_SHIELD : { label : "Bouclier", id : "role_shield", desc : "Le niveau de menace de la planète sur laquelle il se trouve ne peut pas augmenter." },
     
     MESS : {
         

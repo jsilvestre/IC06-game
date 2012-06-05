@@ -90,12 +90,15 @@ function Player() {
         this.planet = planetDest;        
     }
     
-    this.fight = function(planet, card) {
-        planet.threatLvl = planet.threatLvl - 1;
+    this.fight = function(planet) {
+
         this.pa = this.pa - 1;
         
-        if(!this.hasRole(Config.ROLE_BRUTE)) {
-            this.inventory.removeCard(card.id);
+        if(this.hasRole(Config.ROLE_BRUTE)) {
+            planet.threatLvl = 0;
+        }
+        else {
+            planet.threatLvl = planet.threatLvl - 1;
         }
     }
     
