@@ -8,8 +8,6 @@ Known issues
 ============
 - the players can't easily know what zone is what color
 - there is not tooltip to help players with the rules
-- there is no graphics yet
-
 - the invasion speed meter bugs when a massive invasion occurred
 
 Probable issues
@@ -19,21 +17,4 @@ Probable issues
 
 Todo
 ====
-* Tons of stuff I haven't time to list :D
-
-* Reworking card gift with drag'n'drop [done]
-* Adding forced colonization concept [done]
-* Adding the bonus/malus cards in the card pool [done]
-* Adding roles concept and their features
- * "Brute" [done]
- * "Pirate" : [done]
- * "Architect" [done]
- * "Weapon Expert" [done]
- * "Spy" [done]
- * "Explorer" [will not be done]
- * "Shield" [done]
-* Preventing players from doing action they can't do (due to a lack of resources or wrong timing) [done]
-* Adding the following rule: if a player starts on a planet with a threat lvl > 0, the duration for his turn is reduced [done]
-* Adding the main menu [done]
-* Adding a flash effect to the planet when a player is given cards [done]
-* Adding graphic elements
+- Fix the bugs
