@@ -1146,7 +1146,7 @@ function Engine() {
 
         for(var i = 0; i < planets.length; i++) {
             if(type == Config.FLASH_TYPE.PLANET_UNDER_ATTACK) {
-                this.map.planets[planets[i]].isUnderAttack = !this.map.planets[planets[i]].isUnderAttack;
+                this.map.planets[planets[i]].displayThreatMeter = !this.map.planets[planets[i]].displayThreatMeter;
             }
             else if(type == Config.FLASH_TYPE.PLANET_COLONIZED) {
                 this.map.planets[planets[i]].isColonizedByForce = !this.map.planets[planets[i]].isColonizedByForce;
