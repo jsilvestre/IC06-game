@@ -2,7 +2,7 @@ Presentation
 ============
 This is a school group project at the University of Technology of Compiègne.
 Students are asked to make up and realize a video game. Any kind, any style, it is up to us.
-We decided to make our own version of the physic game "Pandemic" where humanity faces terrible diseases.
+We decided to make our own version of the physical game "Pandemic" where humanity faces terrible diseases.
 
 Known issues
 ============
