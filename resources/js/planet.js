@@ -20,6 +20,8 @@ function Planet() {
     this.threatLvl = 0;
     this.hasLaboratory = false;
     
+    this.displayThreatMeter = true;
+    
     // Dessine la vue de la planète
     this.draw = function(canvasContext) {
         
@@ -102,7 +104,9 @@ function Planet() {
         canvasContext.fillText(this.name, this.x + Config.PLANET_IMG / 2, this.y + Config.PLANET_IMG + 15);
         canvasContext.closePath();
         
-        this.drawThreatLvlMeter(canvasContext);
+        if(this.displayThreatMeter) {
+            this.drawThreatLvlMeter(canvasContext);
+        }
     }
     
     this.drawThreatLvlMeter = function(canvasContext) {

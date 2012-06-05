@@ -87,6 +87,7 @@ function Map() {
             this.planets[i].isColonizedByForce = false;
             this.planets[i].isMassivelyInvaded = false;
             this.planets[i].isGivenToPlayer = false;
+            this.planets[i].displayThreatMeter = true;
         }
     }
 }

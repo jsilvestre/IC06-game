@@ -809,7 +809,7 @@ function Engine() {
         }
 
         this.makePlanetsFlash(cardsGiven, Config.FLASH_TYPE.INFORMATION_GIVEN);
-        
+
         if(this.debug != true) {
             this.players[this.currentPlayer].pa = Config.NUM_PA_TURN;
         }
@@ -830,7 +830,6 @@ function Engine() {
                 durationBetweenTurn += Config.TUTORIAL.TIME.TIMER_BETWEEN_TURN;
             }
         }
-
         // timer between two turns
         this.updateTimerWrapper("Début du tour dans");
         this.startTimer(Math.round(new Date().getTime() / 1000), durationBetweenTurn / 1000);
@@ -1136,7 +1135,7 @@ function Engine() {
             }
         }
 
-        //this.makePlanetsFlash(parsedPlanets, Config.FLASH_TYPE.PLANET_UNDER_ATTACK);
+        this.makePlanetsFlash(parsedPlanets, Config.FLASH_TYPE.THREAT_METER);
         
         var message = { value : "Evénement spécial : feu allié. Les planètes adjacentes de zones différentes voient leur niveau de menace baisser du à une mauvaise communication de vos ennemis.", duration : 5000 };
         this.log(message);
@@ -1156,6 +1155,9 @@ function Engine() {
             }
             else if(type == Config.FLASH_TYPE.INFORMATION_GIVEN) {
                 this.map.planets[planets[i]].isGivenToPlayer = !this.map.planets[planets[i]].isGivenToPlayer;
+            }
+            else if(type == Config.FLASH_TYPE.THREAT_METER) {
+                this.map.planets[planets[i]].displayThreatMeter = !this.map.planets[planets[i]].displayThreatMeter;
             }
         }
         
