@@ -75,11 +75,6 @@ function MenuManager() {
             SingletonEngine.engine.addPlayer("Player1", Config.ROLE_PIRATE);
             SingletonEngine.engine.addPlayer("Player2", Config.ROLE_ARCHITECT);
             SingletonEngine.engine.addPlayer("Player3", Config.ROLE_EXPERT);
-            
-            $('#startGame').click(function () {
-               SingletonEngine.engine.startGame();
-               $('#startGame').unbind('click');
-            });
         }
         else {
             $('#menu-content-play .player').each(function() {

@@ -107,8 +107,7 @@ function Engine() {
         this.render();
         
         // start all the game mechanics
-        if(this.debug != true)
-            SingletonEngine.engine.startGame();
+        SingletonEngine.engine.startGame();
     }
     
     this.loadConfiguration = function(jsonObject) {
@@ -728,7 +727,6 @@ function Engine() {
     this.startGame = function() {
         this.currentPlayer = -1; // so the first player plays the first.
         this.newPlayerTurn();
-        this.modeTutorial = true;
         
         if(this.modeTutorial == true) {
             this.log(Config.MESS.TUTO_START);

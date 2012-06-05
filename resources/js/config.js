@@ -22,7 +22,7 @@ var Config = {
     TUTORIAL : {
         TIME : {
             "TURN_DURATION" : 60000,
-            "TIMER_BETWEEN_TURN" : 30000,
+            "TIMER_BETWEEN_TURN" : 60000,
             "INVASION_PHASE_DURATION" : 10000 
         }
     },
@@ -53,31 +53,31 @@ var Config = {
         
         TUTO_START : {
             value : "Bienvenue dans le mode tutoriel. Vous aurez plus de temps pour développer votre stratégie lors du premier tour et vous bénéficierez de quelques explications.<br />Sachez tout d'abord que tous les messages peuvent être relus en passant la souris sur l'onglet 'événements' en haut à droite de l'écran.",
-            sticky : true
+            duration : 10000
         },
         
         TUTO_EXPL_A : {
             value : "Le but du jeu est de découvrir les armes des 4 zones : bleue, rouge, jaune et verte. Pour cela vous devrez rassembler 5 guides touristiques de planète de la même zone sur un seul personnage et utiliser l'action 'assembler une arme' sur une planète de cette zone.",
             timeBeforeLog : 8000,
-            sticky : true
+            duration : 20000
         },
         
         TUTO_EXPL_B : {
             value : "Commencez donc par consulter l'inventaire de chacun des joueurs en passant votre souris sur leur pseudo en haut à gauche de l'écran. C'est le premier geste à effectuer au début de chaque partie pour planifier vos premiers déplacements sur la carte et vous donner un premier objectif.",
             timeBeforeLog : 25000,
-            sticky : true
+            duration : 20000
         },
         
         TUTO_EXPL_C : {
             value : "Tour après tour, vos ennemis vont envahir des planètes. Chaque planète a un niveau de menace representé par une barre verticale à 3 niveaux à sa droite. Si une planète est attaquée alors que son niveau de menace est à 3, une colonisation forcée est déclenchée et les planètes adjacentes sont attaquées à leur tour. Au bout de 10 colonisations forcées, vous perdrez ! Alors surveillez le niveau de menace des planètes et faites attention aux réactions en chaînes !",
             timeBeforeLog : 40000,
-            sticky : true
+            duration : 25000
         },
         
         TUTO_EXPL_D : {
             value : "Il n'existe qu'un guide touristique par planète et lorsqu'ils sont tous distribués, vous perdez la partie ! Utilisez les avec parcimonie. Rappelez-vous que la majorité des actions utilisent des guides touristiques.",
             timeBeforeLog : 60000,
-            sticky : true
+            duration : 25000
         },
         
         TUTO_EXPL_E : {
@@ -97,7 +97,8 @@ var Config = {
         },
         
         START : {
-            value : "La partie va débuter. Préparez votre stratégie !"
+            value : "La partie va débuter. Vous bénéficiez d'un temps supplémentaire lors du premier tour pour préparer votre stratégie. Soyez prêt !",
+            duration : 5000
         }
     }
 };
