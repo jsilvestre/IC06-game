@@ -1136,7 +1136,7 @@ function Engine() {
             }
         }
 
-        this.makePlanetsFlash(parsedPlanets, Config.FLASH_TYPE.PLANET_UNDER_ATTACK);
+        //this.makePlanetsFlash(parsedPlanets, Config.FLASH_TYPE.PLANET_UNDER_ATTACK);
         
         var message = { value : "Evénement spécial : feu allié. Les planètes adjacentes de zones différentes voient leur niveau de menace baisser." };
         this.log(message);
