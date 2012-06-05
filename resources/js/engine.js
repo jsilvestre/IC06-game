@@ -636,7 +636,7 @@ function Engine() {
         var player = this.getCurrentPlayer();
         var card = player.inventory.getCardByValue(this.selectedPlanet.id);
         
-        return player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0);
+        return player.planet.id == this.selectedPlanet.id && player.pa > 0 && this.selectedPlanet.threatLvl > 0;
     }
     
     this.checkBuildActionOk = function() {
@@ -1290,7 +1290,7 @@ function Engine() {
             }
             
             tmpAdded.append('<div class="inventory"></div');
-            tmpAdded.children('.inventory').append('<p class="role">'+this.players[i].role.label+'</p>');
+            tmpAdded.children('.inventory').append('<p class="role">'+this.players[i].role.label+'<br />'+this.players[i].role.desc+'</p>');
             tmpAdded.children('.inventory').append(this.getPlayerInventoryView(this.players[i]));
 
             div.append(tmpAdded);
