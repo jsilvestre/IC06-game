@@ -84,12 +84,12 @@ var Config = {
         TUTO_EXPL_E : {
             value : "Vous voyez ces cercles violets ? Ils indiquent les planètes dont vous venez de recevoir le guide touristique.",
             timeBeforeLog : 75000,
-            duration : 5000
+            duration : 8000
         },
         
         TUTO_EXPL_F : {
             value : "Les cercles bleus correspondent aux planètes attaquées lors de la phase d'invasion. Si vous voyez un cercle rouge c'est qu'il y a une colonisation forcée !",
-            duration : 5000
+            duration : 10000
         },
         
         TUTO_EXPL_G : {
