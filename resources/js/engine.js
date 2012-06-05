@@ -866,6 +866,10 @@ function Engine() {
             console.debug('passturn clicked');
             SingletonEngine.engine.runInvasionPhase();
         });*/
+        
+        if(this.nbTurns == 1) {
+            this.log(Config.MESS.PIRATE_ROLE);
+        }
 
         var realTurnDuration = Config.TURN_DURATION;
         if(this.getCurrentPlayer().planet.threatLvl > 0) {

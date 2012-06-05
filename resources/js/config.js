@@ -100,6 +100,11 @@ var Config = {
         START : {
             value : "La partie va débuter. Vous bénéficiez d'un temps supplémentaire lors du premier tour pour préparer votre stratégie. Soyez prêt !",
             duration : 5000
+        },
+        
+        PIRATE_ROLE : {
+            value : "En tant que Pirate, vous pouvez déplacer les autres joueurs avec vos propres PA et guides touristiques. Pour cela, sélectionnez le joueur en cliquant sur son nom en haut à gauche puis effectuez les déplacements comme vous en avez l'habitude.",
+            duration : 15000
         }
     }
 };
