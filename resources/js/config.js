@@ -22,7 +22,7 @@ var Config = {
     TUTORIAL : {
         TIME : {
             "TURN_DURATION" : 60000,
-            "TIMER_BETWEEN_TURN" : 60000,
+            "TIMER_BETWEEN_TURN" : 90000,
             "INVASION_PHASE_DURATION" : 10000 
         }
     },
