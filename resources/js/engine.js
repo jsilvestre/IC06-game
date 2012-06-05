@@ -853,7 +853,7 @@ function Engine() {
     }
     
     this.runPlayerTurn = function() {
-        
+
         if(this.isGameOver) return;
 
         // reset the timers
@@ -863,9 +863,10 @@ function Engine() {
         this.map.removePlanetHighlights();
         this.render();
         
-        $('#passTurn').click(function() {
+        /*$('#passTurn').click(function() {
+            console.debug('passturn clicked');
             SingletonEngine.engine.runInvasionPhase();
-        });
+        });*/
 
         var realTurnDuration = Config.TURN_DURATION;
         if(this.getCurrentPlayer().planet.threatLvl > 0) {
