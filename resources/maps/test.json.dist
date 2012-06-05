@@ -4,10 +4,10 @@
     "description" : "description of test map",
 
     "config" : {
-        "TURN_DURATION" : 60000,
+        "TURN_DURATION" : 120000,
         "TIME_BETWEEN_TURN" : 5000,
         "INVASION_PHASE_DURATION" : 5000,
-        "TIME_REDUCTION_BY_THREAT_LVL" : 1500,
+        "TIME_REDUCTION_BY_THREAT_LVL" : 15000,
         "NUM_CARD_START" : 3,
         "NUM_CARD_BY_TURN" : 2,
         "NUM_MAX_LABORATORY" : 5,
