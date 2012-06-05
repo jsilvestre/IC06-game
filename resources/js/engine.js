@@ -874,7 +874,7 @@ function Engine() {
         
         var turnDuration = realTurnDuration;
         // for the first turn, the times are increased
-        if(this.nbTurns == 1) {
+        if(this.nbTurns == 1 && this.tutorialMode == true) {
             this.log(Config.MESS.TUTO_EXPL_G);
         }
         if(this.nbTurns == 1 || this.nbTurns == 2 || this.nbTurns == 3) {

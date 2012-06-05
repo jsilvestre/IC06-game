@@ -93,7 +93,7 @@ var Config = {
         },
         
         TUTO_EXPL_G : {
-            value : "A vous de jouer. Allez vous effectuer un don de carte ou plutôt un déplacement ?",
+            value : "A vous de jouer. Allez vous effectuer un don de carte ou plutôt un déplacement ? Ou peut-être comptez-vous engager le combat sur une planète ? A vous de décider !",
             duration : 5000
         },
         
