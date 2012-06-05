@@ -728,7 +728,7 @@ function Engine() {
         this.currentPlayer = -1; // so the first player plays the first.
         this.newPlayerTurn();
         
-        if(this.modeTutorial == true) {
+        if(this.tutorialMode == true) {
             this.log(Config.MESS.TUTO_START);
             this.log(Config.MESS.TUTO_EXPL_A);
             this.log(Config.MESS.TUTO_EXPL_B);
