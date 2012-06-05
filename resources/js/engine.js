@@ -938,7 +938,7 @@ function Engine() {
         
         var invasionPhaseDuration = Config.INVASION_PHASE_DURATION;
         // for the first turn, the times are increased
-        if(this.nbTurns == 1) {
+        if(this.nbTurns == 1 && this.tutorialMode == true) {
             this.log(Config.MESS.TUTO_EXPL_F);
         }
 
