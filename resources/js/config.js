@@ -88,7 +88,7 @@ var Config = {
         },
         
         TUTO_EXPL_F : {
-            value : "Les cercles bleus correspondent aux planètes attaquées lors de la phase d'invasion. Si vous voyez un cercle rouge c'est qu'il y a une colonisation forcée !",
+            value : "Lors de la phase d'invasion, les planètes attaquées ont leur jauge de menace qui clignote. Si vous voyez un cercle rouge c'est qu'il y a une colonisation forcée !",
             duration : 10000
         },
         
