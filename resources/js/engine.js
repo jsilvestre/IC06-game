@@ -1372,7 +1372,7 @@ function Engine() {
         }
         
         if(player.inventory.cards.length == 0) {
-            view.append($("<p>Aucun guides touristique dans l'inventaire</p>"));
+            listView.append($("<p>Aucun guides touristique dans l'inventaire</p>"));
         }
 
         return listView;
