@@ -863,7 +863,6 @@ function Engine() {
         this.render();
         
         $('#passTurn').unbind('click').click(function() {
-            console.debug('passturn clicked');
             SingletonEngine.engine.runInvasionPhase();
         });
         
@@ -1264,8 +1263,6 @@ function Engine() {
         clearTimeout(this.tempoInvasionPhaseInterval); this.tempoInvasionPhaseInterval = null;
         
         this.resetPlanetFlashTimer();
-
-        console.debug(this.nbTurns);
 
         $('#game-over').show();
     }

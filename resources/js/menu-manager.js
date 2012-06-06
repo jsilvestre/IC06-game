@@ -61,7 +61,6 @@ function MenuManager() {
     this.startGame = function(debug) {
 
         debug = debug == true;
-        console.debug(debug);
 
         // we hide the menu and show the game UI
         $('#game-menu').hide();
@@ -75,8 +74,8 @@ function MenuManager() {
 
         // add all the players
         if(debug == true) {
-            SingletonEngine.engine.addPlayer("Player1", Config.ROLE_PIRATE);
-            SingletonEngine.engine.addPlayer("Player2", Config.ROLE_SPY);
+            SingletonEngine.engine.addPlayer("Player1", Config.ROLE_SPY);
+            SingletonEngine.engine.addPlayer("Player2", Config.ROLE_PIRATE);
             SingletonEngine.engine.addPlayer("Player3", Config.ROLE_EXPERT);
         }
         else {
