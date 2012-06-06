@@ -866,7 +866,7 @@ function Engine() {
             SingletonEngine.engine.runInvasionPhase();
         });
         
-        if(this.nbTurns == 1) {
+        if((this.nbTurns == 1 || this.nbTurns == 2 || this.nbTurns == 3) && this.getCurrentPlayer().hasRole(Config.ROLE_PIRATE)) {
             this.log(Config.MESS.PIRATE_ROLE);
         }
 
