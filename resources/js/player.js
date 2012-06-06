@@ -120,6 +120,6 @@ function Player() {
     }
     
     this.hasRole = function(roleName) {
-        return this.role == roleName.id;
+        return this.role.id == roleName.id;
     }
 }
