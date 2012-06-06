@@ -31,7 +31,7 @@ function MenuManager() {
     this.disableStartGameButton = function() {
         
         if(this.checkGameReadyToStart()) {
-            $('#start-game').removeClass('button-disable').addClass('button').click(this.startGame);
+            $('#start-game').removeClass('button-disable').addClass('button').unbind('click').click(this.startGame);
         }
         else {
             $('#start-game').removeClass('button').addClass('button-disable').unbind('click');
@@ -60,6 +60,9 @@ function MenuManager() {
     
     this.startGame = function(debug) {
 
+        debug = debug == true;
+        console.debug(debug);
+
         // we hide the menu and show the game UI
         $('#game-menu').hide();
         $('#game').show();
@@ -73,12 +76,14 @@ function MenuManager() {
         // add all the players
         if(debug == true) {
             SingletonEngine.engine.addPlayer("Player1", Config.ROLE_PIRATE);
-            SingletonEngine.engine.addPlayer("Player2", Config.ROLE_ARCHITECT);
+            SingletonEngine.engine.addPlayer("Player2", Config.ROLE_SPY);
             SingletonEngine.engine.addPlayer("Player3", Config.ROLE_EXPERT);
         }
         else {
+
             $('#menu-content-play .player').each(function() {
                 var roleList = [Config.ROLE_BRUTE, Config.ROLE_ARCHITECT, Config.ROLE_PIRATE, Config.ROLE_SPY, Config.ROLE_EXPERT, Config.ROLE_SHIELD];
+                
                 for(var i in roleList) {
 
                     if(roleList[i].id == $(this).children('.playerRole').val()) {
