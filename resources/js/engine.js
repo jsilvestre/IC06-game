@@ -862,10 +862,10 @@ function Engine() {
         this.map.removePlanetHighlights();
         this.render();
         
-        /*$('#passTurn').click(function() {
+        $('#passTurn').unbind('click').click(function() {
             console.debug('passturn clicked');
             SingletonEngine.engine.runInvasionPhase();
-        });*/
+        });
         
         if(this.nbTurns == 1) {
             this.log(Config.MESS.PIRATE_ROLE);
