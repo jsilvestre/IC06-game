@@ -27,7 +27,7 @@ var Config = {
         }
     },
     
-    FIRST_TURN_PREPARATION_DURATION : 60000,
+    FIRST_TURN_PREPARATION_DURATION : 85000,
     
     COUNTER_SPY_NUM_CARDS : 6,
     
