@@ -664,13 +664,13 @@ function Engine() {
                 && this.getCurrentPlayer().pa > 0 && this.isPlayerTurnRunning();
     }
     
-    this.checkGiveActiontOk = function(planetID) {
+    this.checkGiveActiontOk = function(planetID, playerTarget) {
         
         if(!this.isPlayerTurnRunning() || this.getCurrentPlayer() == null || this.getCurrentPlayer().planet.id == planetID) return false;
         
         var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);
         
-        return cardCurrentPlanet != false && this.getCurrentPlayer().pa > 0;
+        return cardCurrentPlanet != false && this.getCurrentPlayer().pa > 0 && playerTarget.planet.id == this.getCurrentPlayer().planet.id;
     }
     
     // Construit le modèle de la map grâce au JSON
@@ -1073,7 +1073,7 @@ function Engine() {
 
         var playerTarget = this.getPlayerByName(playerTargetName);
 
-        if(this.checkGiveActiontOk(planetID)) {
+        if(this.checkGiveActiontOk(planetID, playerTarget)) {
 
             if(!this.getCurrentPlayer().hasRole(Config.ROLE_SPY)) {
                 var cardCurrentPlanet = this.getCurrentPlayer().inventory.getCardByValue(this.getCurrentPlayer().planet.id);
