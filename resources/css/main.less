@@ -32,10 +32,16 @@ p {
 
 #game-menu {
     width: 800px;
-    border-left: 1px solid #000;
-    border-right: 1px solid #000;
+    border-left: 5px solid #EEE;
+    border-right: 5px solid #EEE;
+    border-bottom: 5px solid #EEE;
     margin: auto;
-    background: #FFF;
+    color: #CCC;
+    background: #05375C;
+    
+    p, dl { margin: 0 25px; }
+    h1 { text-align: center; }
+    h2 { margin: 15px 35px}
     
     ul.menu {
 
@@ -46,9 +52,11 @@ p {
             display: inline-block;
             width: 199px;
             height: 40px;
-            border-left: 1px solid #000;
+            border-left: 1px solid #05375C;
             text-align: center;
-            border-bottom: 1px solid #000;
+            border-bottom: 1px solid #05375C;
+            background: #1A6BA8;
+            color: #CCC;
             
             &:first-child {
                 margin-left: 0;
@@ -57,6 +65,8 @@ p {
             
             &.active {
                 border-bottom: 0;
+                background: #05375C;
+                color: #FFF;
             }
         }
     }
@@ -64,12 +74,48 @@ p {
     #menu-content-presentation, #menu-content-rules, #menu-content-play, #menu-content-credits {
         border-bottom: 1px solid #000;
         display: none;
+
+        p, dl, ul { margin: 0 50px; }
+        ul { list-style-type: circle;}
+        
+        #change-log {
+            margin: 10px 50px;
+            
+            a {
+                color: #D46500;
+            }
+        }
+    }
+    
+    #menu-content-presentation {
+        p {
+            margin: 15px;
+        }
     }
     
     #menu-content-play {
         .button, .button-disable {
-            margin: 5px;
+            margin: 15px 309px;
+            width: 150px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
         }
+        
+        div.player { margin: 5px 50px; }
+        p { margin: 5px 25px; }
+        p.story { margin: 15px; }
+        
+        dl { 
+            margin: 0 20px; 
+            
+            dt {
+                margin-top: 5px;
+                text-decoration: underline;
+            }
+        }
+        
+        h2 { text-align: center; font-size: 32px; }
     }
 }
 
@@ -452,13 +498,12 @@ p {
 }
 
 .button {
-    background: #2C579C;
+    background: #D46500;
     background: -moz-linear-gradient(center top, #2C579C, #208090) repeat scroll 0 0 transparent;
     border: 1px solid transparent;
     border-radius: 5px;
     color: #FAF7E9;
     display: inline-block;
-    margin: 0;
     padding: 3px 15px;
     text-decoration: none;
     text-shadow: 0 1px rgba(0, 0, 0, 0.1);
@@ -470,7 +515,6 @@ p {
     border-radius: 5px;
     color: #FAF7E9;
     display: inline-block;
-    margin: 0;
     padding: 3px 15px;
     text-decoration: none;
     text-shadow: 0 1px rgba(0, 0, 0, 0.1);
